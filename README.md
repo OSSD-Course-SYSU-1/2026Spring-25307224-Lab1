@@ -5,9 +5,9 @@
 本示例使用Video组件展示了视频组件的基本功能，包括视频组件化，全屏化，窗口化，上下轮播视频等。
 
 ### 效果预览
-| 首页                                     |弹窗|视频|直播|
-|----------------------------------------|--------|-------|---------|
-| ![home](screenshots/devices/index.png) |![play1](screenshots/devices/small_video.png)|![play1](screenshots/devices/full.png)|![play1](screenshots/devices/live_video.png)|
+| 首页                                    | 弹窗                                            | 视频                                     | 直播                                           |
+|---------------------------------------|-----------------------------------------------|----------------------------------------|----------------------------------------------|
+| ![home](screenshots/devices/home.png) | ![play1](screenshots/devices/small_video.png) | ![play1](screenshots/devices/full.png) | ![play1](screenshots/devices/live_video.png) |
 
 使用说明：
 1. 进入首页点击播放按键；
