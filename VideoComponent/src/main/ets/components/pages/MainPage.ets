@@ -20,13 +20,12 @@ import { SmallVideo } from './SmallVideo';
 import { MyDataSource } from '../model/LiveDataModel';
 import { VideoPage } from './VideoPage';
 
-@Entry
 @Component
 export struct MainPage {
   private arrScroll: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   private arrSwiper: number[] = [0, 1, 2, 3];
   @State isHidden: boolean = false;
-  @State @Watch("onScrollUpdated") scrollSum: number = 0;
+  @State @Watch('onScrollUpdated') scrollSum: number = 0;
   @State isState: boolean = true;
   @State isCancel: boolean = true;
   @State activeVideo: number = 0;
@@ -118,7 +117,7 @@ export struct MainPage {
         .scrollable(ScrollDirection.Vertical)
         .scrollBarColor(Color.Gray)
         .scrollBarWidth(30)
-        .onWillScroll((xOffset: number, yOffset: number) => {
+        .onWillScroll((yOffset: number) => {
           this.scrollSum += yOffset;
         })
 

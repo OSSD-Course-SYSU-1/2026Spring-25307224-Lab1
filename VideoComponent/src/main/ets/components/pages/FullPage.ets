@@ -17,7 +17,6 @@ import { router } from '@kit.ArkUI';
 import { mediaquery } from '@kit.ArkUI';
 import { Callback } from '@kit.BasicServicesKit';
 
-@Entry
 @Component
 export struct FullPage {
   @State fullParams: routerParams | null = null;
@@ -149,7 +148,7 @@ export struct FullPage {
         }
         .padding({ top: 50 })
         .width('100%')
-        .position({ x: this.isPhone ? '3%' : '10%', y: '88%' })
+        .position({ x: this.isPhone ? 0 : '10%', y: '88%' })
       }
       .width('100%')
       .height('100%')

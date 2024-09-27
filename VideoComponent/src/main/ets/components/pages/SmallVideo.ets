@@ -16,7 +16,7 @@
 @Component
 export struct SmallVideo {
   @State smallVideoSrc: Resource = $rawfile('video1.mp4');
-  @Link @Watch("onChanged") isHidden: boolean;
+  @Link @Watch('onChanged') isHidden: boolean;
   @Link isCancel: boolean;
   @Consume('playTime') updateTime: number;
   smallVideoController: VideoController = new VideoController();

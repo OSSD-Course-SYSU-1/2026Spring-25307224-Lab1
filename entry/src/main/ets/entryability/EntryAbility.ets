@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { window } from '@kit.ArkUI';
 
@@ -51,4 +52,4 @@ export default class EntryAbility extends UIAbility {
     // Ability has back to background
     console.log("[Demo] MainAbility onBackground");
   }
-};
+}

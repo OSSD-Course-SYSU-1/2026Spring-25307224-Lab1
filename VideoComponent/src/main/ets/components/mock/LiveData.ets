@@ -24,12 +24,12 @@ export const LiveData: Array<ILiveInfoDataModel> = [
 
   {
     uri: $rawfile('video2.mp4'),
-    name: $r("app.string.two_author"),
-    peopleNum: "360"
+    name: $r('app.string.two_author'),
+    peopleNum: '360'
   },
   {
     uri: $rawfile('video3.mp4'),
-    name: $r("app.string.three_author"),
-    peopleNum: "777"
+    name: $r('app.string.three_author'),
+    peopleNum: '777'
   }
-]
+];

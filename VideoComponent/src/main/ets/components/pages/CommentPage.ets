@@ -12,10 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { mediaquery } from '@kit.ArkUI';
+import { Callback } from '@kit.BasicServicesKit';
 import { LiveInfoDataModel } from '../model/LiveDataModel';
 import { LiveData } from '../mock/LiveData';
-import { Callback } from '@kit.BasicServicesKit';
 
 @Preview
 @Component
@@ -55,7 +56,7 @@ export struct CommentPage {
         Image($r('app.media.live_shopping'))
           .width(52)
           .height(52)
-        TextInput({ placeholder: $r('app.string.talk_something'), text: this.text })
+        TextInput({ placeholder: $r('app.string.say_something'), text: this.text })
           .backgroundColor('rgba(0,0,0,0.20)')
           .placeholderColor("rgb(255,255,255)")
           .fontColor("rgb(255,255,255)")
