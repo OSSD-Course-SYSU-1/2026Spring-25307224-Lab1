@@ -5,9 +5,9 @@
 This sample demonstrates the basic features of the **Video** component, including video componentization, full-screen display, window display, and video rotation.
 
 ### Preview
-| Home page                                   | Small window                                           | Video                                    | Live                                          |
-|---------------------------------------|-----------------------------------------------|----------------------------------------|----------------------------------------------|
-| ![home](screenshots/devices/home_EN.png) | ![play1](screenshots/devices/small_video_EN.png) | ![play1](screenshots/devices/full.png) | ![play1](screenshots/devices/live_video_EN.png) |
+| Home page                                | Small window                                     | Video                                    | Live                                            |
+|------------------------------------------|--------------------------------------------------|----------------------------------------|-------------------------------------------------|
+| ![home](screenshots/devices/home.en.png) | ![play1](screenshots/devices/small_video.en.png) | ![play1](screenshots/devices/full.png) | ![play1](screenshots/devices/live_video.en.png) |
 
 ### How to Use
 1. On the home page, touch the play button.

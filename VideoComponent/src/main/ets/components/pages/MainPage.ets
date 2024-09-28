@@ -117,7 +117,7 @@ export struct MainPage {
         .scrollable(ScrollDirection.Vertical)
         .scrollBarColor(Color.Gray)
         .scrollBarWidth(30)
-        .onWillScroll((yOffset: number) => {
+        .onWillScroll((xOffset: number, yOffset: number) => {
           this.scrollSum += yOffset;
         })
 
