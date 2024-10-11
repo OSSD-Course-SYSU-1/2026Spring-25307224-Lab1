@@ -11,6 +11,10 @@
     {
       "name": "MainAbility_label",
       "value": "VideoShow"
+    },
+    {
+      "name": "reason_internet",
+      "value": "Used for video playback using the Internet network."
     }
   ]
 }
