@@ -12,13 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { http } from '@kit.NetworkKit';
 
 let httpRequest = http.createHttp();
 
 export function Live() {
   return httpRequest.request(
-    "http://123.60.114.86:8090/goods/liveInfo?id=2",
+    'http://123.60.114.86:8090/goods/liveInfo?id=2',
     {
       header: {
         'Content-Type': 'application/json'

@@ -15,11 +15,11 @@
 
 import { router } from '@kit.ArkUI';
 import { mediaquery } from '@kit.ArkUI';
+import { Callback } from '@kit.BasicServicesKit';
 import { LiveInfoDataModel } from '../model/LiveDataModel';
 import { LiveData } from '../mock/LiveData';
 import { Live } from '../net/Utils';
 import { CommentPage } from './CommentPage';
-import { Callback } from '@kit.BasicServicesKit';
 
 class LiveInfoResponse {
   code: number = 0;
@@ -32,7 +32,6 @@ class Info {
   peopleNum: string = '';
 }
 
-@Entry
 @Component
 export struct LivePage {
   @State active: number = 0;
@@ -104,12 +103,13 @@ export struct LivePage {
                       }
                     }
                     .alignItems(HorizontalAlign.Start)
-                    .padding({ left: '3%' })
+                    .padding({ left: '2%' })
                   }
 
-                  Image($r('app.media.live_attention'))
+                  Button($r('app.string.follow'))
+                    .backgroundColor(Color.Red)
                     .height(35)
-                    .width(59)
+                    .width(70)
                 }
                 .justifyContent(FlexAlign.SpaceBetween)
                 .padding({ left: this.isPhone ? '2%' : '1%', right: this.isPhone ? '2%' : '1%' })
@@ -136,12 +136,12 @@ export struct LivePage {
                 }
                 .margin({ left: '4%' })
               }
-              .position({ x: '4.4%', y: '5.1%' })
+              .position({ x: '2%', y: '5.1%' })
 
               Column() {
                 CommentPage()
               }
-              .position({ x: '4.4%', y: this.isPhone ? '72%' : '62%' })
+              .position({ x: '2%', y: this.isPhone ? '72%' : '62%' })
             }
             .backgroundColor('#D8D8D8')
             .width('100%')
