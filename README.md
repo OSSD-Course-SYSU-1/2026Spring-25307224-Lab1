@@ -2,7 +2,7 @@
 
 ### 介绍
 
-本示例通过系统原生组件Video，实现视频播放的功能，包含视频组件化、全屏播放视频、小窗口播放视频、上下轮播视频等。帮助有媒体播放业务的开发者掌握Video组件的相关接口和属性，开发自己的业务。
+本示例通过系统组件Video，实现视频播放的功能，包含视频组件化、全屏播放视频、小窗口播放视频、上下轮播视频等。帮助有媒体播放业务的开发者掌握Video组件的相关接口和属性，开发自己的业务。
 
 ### 效果预览
 | 首页                                    | 弹窗                                            | 视频                                     | 直播                                           |
@@ -61,9 +61,9 @@ ohos.permission.INTERNET
 
 1.本示例仅支持标准系统上运行，支持设备：华为手机。
 
-2.HarmonyOS系统：HarmonyOS NEXT Developer Beta1及以上。
+2.HarmonyOS系统：HarmonyOS 5.0.0 Release及以上。
 
-3.DevEco Studio版本：DevEco Studio NEXT Developer Beta1及以上。
+3.DevEco Studio版本：DevEco Studio 5.0.0 Release及以上。
 
-4.HarmonyOS SDK版本：HarmonyOS NEXT Developer Beta1 SDK及以上。
+4.HarmonyOS SDK版本：HarmonyOS 5.0.0 Release SDK及以上。
 
