@@ -28,7 +28,7 @@ export struct CommentPage {
   portraitFunc: Callback<mediaquery.MediaQueryResult> = (mediaQueryResult: mediaquery.MediaQueryResult): void => {
     this.onPortrait(mediaQueryResult);
   };
-  listenerIsPhone = mediaquery.matchMediaSync('(orientation:landscape)');
+  listenerIsPhone = this.getUIContext().getMediaQuery().matchMediaSync('(orientation:landscape)');
 
   onPortrait(mediaQueryResult: mediaquery.MediaQueryResult) {
     this.isPhone = !mediaQueryResult.matches;

@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import { router } from '@kit.ArkUI';
 import { mediaquery } from '@kit.ArkUI';
 import { Callback } from '@kit.BasicServicesKit';
 import { SmallVideo } from './SmallVideo';
@@ -35,7 +34,7 @@ export struct MainPage {
   portraitFunc: Callback<mediaquery.MediaQueryResult> = (mediaQueryResult: mediaquery.MediaQueryResult): void => {
     this.onPortrait(mediaQueryResult);
   };
-  listenerIsPhone = mediaquery.matchMediaSync('(orientation:landscape)');
+  listenerIsPhone = this.getUIContext().getMediaQuery().matchMediaSync('(orientation:landscape)');
 
   onPortrait(mediaQueryResult: mediaquery.MediaQueryResult) {
     this.isPhone = !mediaQueryResult.matches;
@@ -145,7 +144,7 @@ export struct MainPage {
       .borderWidth(1.3)
       .id('directVideo')
       .onClick(() => {
-        router.pushUrl({ url: 'pages/LivePage' });
+        this.getUIContext().getRouter().pushUrl({ url: 'pages/LivePage' });
       })
       .position({ x: '86%', y: '20%' })
     }.width('100%')

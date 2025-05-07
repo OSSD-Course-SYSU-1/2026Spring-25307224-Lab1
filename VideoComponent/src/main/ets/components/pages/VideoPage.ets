@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import { router } from '@kit.ArkUI';
-
 @Component
 export struct VideoPage {
   @State videoSrc: Resource = $rawfile('video1.mp4');
@@ -57,11 +55,11 @@ export struct VideoPage {
                 this.isStart = true;
                 this.firstClick = !this.firstClick;
               } else {
-                router.pushUrl({ url: 'pages/FullPage',
+                this.getUIContext().getRouter().pushUrl({ url: 'pages/FullPage',
                   params: { videoSrc: this.videoSrc, videoTime: this.updateTime } });
               }
             } else {
-              router.pushUrl({ url: 'pages/FullPage',
+              this.getUIContext().getRouter().pushUrl({ url: 'pages/FullPage',
                 params: { videoSrc: this.videoSrc, videoTime: this.updateTime } });
             }
           })

@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import { router } from '@kit.ArkUI';
 import { mediaquery } from '@kit.ArkUI';
 import { Callback } from '@kit.BasicServicesKit';
 
@@ -29,7 +28,7 @@ export struct FullPage {
   portraitFunc: Callback<mediaquery.MediaQueryResult> = (mediaQueryResult: mediaquery.MediaQueryResult): void => {
     this.onPortrait(mediaQueryResult);
   };
-  listenerIsPhone = mediaquery.matchMediaSync('(orientation:landscape)');
+  listenerIsPhone = this.getUIContext().getMediaQuery().matchMediaSync('(orientation:landscape)');
   fullVideoController: VideoController = new VideoController();
 
   onPortrait(mediaQueryResult: mediaquery.MediaQueryResult) {
@@ -37,7 +36,7 @@ export struct FullPage {
   }
 
   aboutToAppear() {
-    this.fullParams = router.getParams() as routerParams;
+    this.fullParams = this.getUIContext().getRouter().getParams() as routerParams;
     this.fullSrc = this.fullParams.videoSrc;
     this.playTime = this.fullParams.videoTime;
     this.listenerIsPhone.on('change', this.portraitFunc);
@@ -111,7 +110,7 @@ export struct FullPage {
             .width(42)
             .height(42)
             .onClick(() => {
-              router.back();
+              this.getUIContext().getRouter().back();
             })
         }
         .position({ x: '5%', y: '5%' })

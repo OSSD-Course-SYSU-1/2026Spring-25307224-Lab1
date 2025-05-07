@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import { router } from '@kit.ArkUI';
 import { mediaquery } from '@kit.ArkUI';
 import { Callback } from '@kit.BasicServicesKit';
 import { LiveInfoDataModel } from '../model/LiveDataModel';
@@ -44,7 +43,7 @@ export struct LivePage {
   portraitFunc: Callback<mediaquery.MediaQueryResult> = (mediaQueryResult: mediaquery.MediaQueryResult): void => {
     this.onPortrait(mediaQueryResult);
   };
-  listenerIsPhone = mediaquery.matchMediaSync('(orientation:landscape)');
+  listenerIsPhone = this.getUIContext().getMediaQuery().matchMediaSync('(orientation:landscape)');
 
   onPortrait(mediaQueryResult: mediaquery.MediaQueryResult) {
     this.isPhone = !mediaQueryResult.matches;
@@ -131,7 +130,7 @@ export struct LivePage {
                     .width(42)
                     .height(42)
                     .onClick(() => {
-                      router.back();
+                      this.getUIContext().getRouter().back();
                     })
                 }
                 .margin({ left: '4%' })
