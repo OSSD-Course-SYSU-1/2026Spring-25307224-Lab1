@@ -18,8 +18,7 @@
     "name": "VideoComponent",
     "type": "har",
     "deviceTypes": [
-      "phone",
-      "tablet"
+      "phone"
     ],
   }
 }
