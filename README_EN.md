@@ -17,31 +17,33 @@ This sample demonstrates the basic features of the **Video** component, includin
 
 ### Project Directory
 ```
-├──entry/src/main/ets                             // Core code
-│  ├──application
-│  │  └──MyAbilityStage.ets
-│  ├──entryability
-│  │  └──EntryAbility.ets 
-│  └──pages
-│     ├──FullPage.ets                            // Full-screen video playback page
-│     ├──Index.ets                               // Home page
-│     └──LivePage.ets                            // Live page
-├──entry/src/main/resources                      // Static resources
-├──VideoComponent/src/main/ets                   // Core code
-│  ├──mock
-│  │  └──LiveData.ets                            // Mock live data
-│  ├──model
-│  │  └──LiveDataModel.ets                       // Live data structure
-│  ├──net
-│  │  └──Utils.ets
-│  └──pages
-│     ├──CommentPage.ets                         // Comment page
-│     ├──FullPage.ets                            // Full-screen video playback page
-│     ├──LivePage.ets                            // Live page
-│     ├──MainPage.ets                            // Home page
-│     ├──SmallVideo.ets                          // Small window
-│     └──VideoPage.ets                           // Video playback page
-└──entry/src/main/resources                      // Static resources
+├──entry/src/main                                // Core code
+│  ├──ets
+│  │  ├──application
+│  │  │  └──MyAbilityStage.ets
+│  │  ├──entryability
+│  │  │  └──EntryAbility.ets 
+│  │  └──pages
+│  │     ├──FullPage.ets                         // Full-screen video playback page
+│  │     ├──Index.ets                            // Home page
+│  │     └──LivePage.ets                         // Live page
+│  └──resources                                  // Static resources
+└──VideoComponent/src/main                       // Core code
+   ├──ets
+   │  ├──mock
+   │  │  └──LiveData.ets                         // Mock live data
+   │  ├──model
+   │  │  └──LiveDataModel.ets                    // Live data structure
+   │  ├──net
+   │  │  └──Utils.ets
+   │  └──pages
+   │     ├──CommentPage.ets                      // Comment page
+   │     ├──FullPage.ets                         // Full-screen video playback page
+   │     ├──LivePage.ets                         // Live page
+   │     ├──MainPage.ets                         // Home page
+   │     ├──SmallVideo.ets                       // Small window
+   │     └──VideoPage.ets                        // Video playback page
+   └──resources                                  // Static resources
 ```
 ### How to Implement
   + Video playback: Use the **start** method to start video playback. For details about the source code, see [VideoPage.ets](VideoComponent/src/main/ets/components/pages/VideoPage.ets).

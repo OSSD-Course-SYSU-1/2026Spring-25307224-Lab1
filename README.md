@@ -17,31 +17,33 @@
 
 ### 目录结构
 ```
-├──entry/src/main/ets                            // 代码区
-│  ├──application
-│  │  └──MyAbilityStage.ets
-│  ├──entryability
-│  │  └──EntryAbility.ets 
-│  └──pages
-│     ├──FullPage.ets                            // 全屏播放视频页
-│     ├──Index.ets                               // 首页
-│     └──LivePage.ets                            // 直播页
-├──entry/src/main/resources                      // 应用资源目录
-├──VideoComponent/src/main/ets                   // 代码区
-│  ├──mock
-│  │  └──LiveData.ets                            // mock直播数据
-│  ├──model
-│  │  └──LiveDataModel.ets                       // 直播数据结构
-│  ├──net
-│  │  └──Utils.ets
-│  └──pages
-│     ├──CommentPage.ets                         // 评论页面
-│     ├──FullPage.ets                            // 全屏播放视频页
-│     ├──LivePage.ets                            // 直播页
-│     ├──MainPage.ets                            // 首页
-│     ├──SmallVideo.ets                          // 小窗口
-│     └──VideoPage.ets                           // 视频播放页
-└──entry/src/main/resources                      // 应用资源目录
+├──entry/src/main                                // 代码区
+│  ├──ets
+│  │  ├──application
+│  │  │  └──MyAbilityStage.ets
+│  │  ├──entryability
+│  │  │  └──EntryAbility.ets 
+│  │  └──pages
+│  │     ├──FullPage.ets                         // 全屏播放视频页
+│  │     ├──Index.ets                            // 首页
+│  │     └──LivePage.ets                         // 直播页
+│  └──resources                                  // 应用资源目录
+└──VideoComponent/src/main                       // 代码区
+   ├──ets
+   │  ├──mock
+   │  │  └──LiveData.ets                         // mock直播数据
+   │  ├──model
+   │  │  └──LiveDataModel.ets                    // 直播数据结构
+   │  ├──net
+   │  │  └──Utils.ets
+   │  └──pages
+   │     ├──CommentPage.ets                      // 评论页面
+   │     ├──FullPage.ets                         // 全屏播放视频页
+   │     ├──LivePage.ets                         // 直播页
+   │     ├──MainPage.ets                         // 首页
+   │     ├──SmallVideo.ets                       // 小窗口
+   │     └──VideoPage.ets                        // 视频播放页
+   └──resources                                  // 应用资源目录
 ```
 ### 具体实现
   + 视频播放：start方法视频开始播放，源码参考[VideoPage.ets](VideoComponent/src/main/ets/components/pages/VideoPage.ets)；
