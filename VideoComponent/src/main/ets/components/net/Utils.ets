@@ -21,7 +21,7 @@ export async function Live() {
   let response: http.HttpResponse | undefined;
   try {
     response = await httpRequest.request(
-      'http://123.60.114.86:8090/goods/liveInfo?id=2',
+      'http://xxx:xxxx/xxx',
       {
         header: {
           'Content-Type': 'application/json'
