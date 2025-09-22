@@ -57,10 +57,13 @@ export struct LivePage {
 
     try {
       let a = await Live();
+      if (!a) {
+        return;
+      }
       this.mData = JSON.parse(a.result.toString());
       this.liveInfoList = this.mData.data;
-    } catch (error) {
-      console.log('http resquest is fail:' + error);
+    } catch (err) {
+      console.error(`Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
     }
   }
 

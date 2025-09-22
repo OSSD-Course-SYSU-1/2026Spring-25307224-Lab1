@@ -17,14 +17,20 @@ import { http } from '@kit.NetworkKit';
 
 let httpRequest = http.createHttp();
 
-export function Live() {
-  return httpRequest.request(
-    'http://123.60.114.86:8090/goods/liveInfo?id=2',
-    {
-      header: {
-        'Content-Type': 'application/json'
-      },
-      readTimeout: 60000,
-      connectTimeout: 60000
-    });
+export async function Live() {
+  let response: http.HttpResponse | undefined;
+  try {
+    response = await httpRequest.request(
+      'http://xxx:xxxx/xxx',
+      {
+        header: {
+          'Content-Type': 'application/json'
+        },
+        readTimeout: 60000,
+        connectTimeout: 60000
+      });
+  } catch (err) {
+    console.error(`Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
+  }
+  return response;
 }

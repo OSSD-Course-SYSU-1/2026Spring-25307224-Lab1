@@ -9,7 +9,7 @@
 |---------------------------------------|-----------------------------------------------|----------------------------------------|----------------------------------------------|
 | ![home](screenshots/devices/home.png) | ![play1](screenshots/devices/small_video.png) | ![play1](screenshots/devices/full.png) | ![play1](screenshots/devices/live_video.png) |
 
-使用说明：
+### 使用说明：
 1. 进入首页点击播放按键；
 2. 点击视频播放按钮，视频开始播放,再次点击视频进入视频全屏页；
 3. 首页下滑500vp后，视频小窗口化；
@@ -17,37 +17,39 @@
 
 ### 目录结构
 ```
-├──entry/src/main/ets                            // 代码区
-│  ├──application
-│  │  └──MyAbilityStage.ets
-│  ├──entryability
-│  │  └──EntryAbility.ets 
-│  └──pages
-│     ├──FullPage.ets                            // 全屏播放视频页
-│     ├──Index.ets                               // 首页
-│     └──LivePage.ets                            // 直播页
-├──entry/src/main/resources                      // 应用资源目录
-├──VideoComponent/src/main/ets                   // 代码区
-│  ├──mock
-│  │  └──LiveData.ets                            // mock直播数据
-│  ├──model
-│  │  └──LiveDataModel.ets                       // 直播数据结构
-│  ├──net
-│  │  └──Utils.ets
-│  └──pages
-│     ├──CommentPage.ets                         // 评论页面
-│     ├──FullPage.ets                            // 全屏播放视频页
-│     ├──LivePage.ets                            // 直播页
-│     ├──MainPage.ets                            // 首页
-│     ├──SmallVideo.ets                          // 小窗口
-│     └──VideoPage.ets                           // 视频播放页
-└──entry/src/main/resources                      // 应用资源目录
+├──entry/src/main                                // 代码区
+│  ├──ets
+│  │  ├──application
+│  │  │  └──MyAbilityStage.ets
+│  │  ├──entryability
+│  │  │  └──EntryAbility.ets 
+│  │  └──pages
+│  │     ├──FullPage.ets                         // 全屏播放视频页
+│  │     ├──Index.ets                            // 首页
+│  │     └──LivePage.ets                         // 直播页
+│  └──resources                                  // 应用资源目录
+└──VideoComponent/src/main                       // 代码区
+   ├──ets
+   │  ├──mock
+   │  │  └──LiveData.ets                         // mock直播数据
+   │  ├──model
+   │  │  └──LiveDataModel.ets                    // 直播数据结构
+   │  ├──net
+   │  │  └──Utils.ets
+   │  └──pages
+   │     ├──CommentPage.ets                      // 评论页面
+   │     ├──FullPage.ets                         // 全屏播放视频页
+   │     ├──LivePage.ets                         // 直播页
+   │     ├──MainPage.ets                         // 首页
+   │     ├──SmallVideo.ets                       // 小窗口
+   │     └──VideoPage.ets                        // 视频播放页
+   └──resources                                  // 应用资源目录
 ```
 ### 具体实现
   + 视频播放：start方法视频开始播放，源码参考[VideoPage.ets](VideoComponent/src/main/ets/components/pages/VideoPage.ets)；
   + 全屏播放：再次点击视频进入全屏播放页面，使用setCurrentTime参数设定当前播放时间，pause方法停止播放，源码参考[FullPage.ets](VideoComponent/src/main/ets/components/pages/FullPage.ets);
   + 小窗口播放：记录当前播放时间，小窗口页面渲染之前设置视频当前播放时间，页面滚动到固定距离开始展示组件；
-  + 直播：使用http接口的request方法获取直播数据，代码参考[Utils.ets](VideoComponent/src/main/ets/components/net/Utils.ets);
+  + 直播：使用http接口的request方法获取直播数据，代码参考[Utils.ets](VideoComponent/src/main/ets/components/net/Utils.ets)，使用时请将虚拟网络地址替换为真实地址;
 
 ### 相关权限
 

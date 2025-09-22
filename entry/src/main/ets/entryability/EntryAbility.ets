@@ -18,7 +18,7 @@ import { window } from '@kit.ArkUI';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
-    console.log("[Demo] MainAbility onCreate");
+    console.log('[Demo] MainAbility onCreate');
   }
 
   onDestroy() {
@@ -27,7 +27,7 @@ export default class EntryAbility extends UIAbility {
 
   onWindowStageCreate(windowStage: window.WindowStage) {
     // Main window is created, set main page for this ability
-    console.log("[Demo] MainAbility onWindowStageCreate")
+    console.log('[Demo] MainAbility onWindowStageCreate');
 
     windowStage.loadContent("pages/Index", (err, data) => {
       if (err.code) {
@@ -40,16 +40,16 @@ export default class EntryAbility extends UIAbility {
 
   onWindowStageDestroy() {
     // Main window is destroyed, release UI related resources
-    console.log("[Demo] MainAbility onWindowStageDestroy");
+    console.log('[Demo] MainAbility onWindowStageDestroy');
   }
 
   onForeground() {
     // Ability has brought to foreground
-    console.log("[Demo] MainAbility onForeground");
+    console.log('[Demo] MainAbility onForeground');
   }
 
   onBackground() {
     // Ability has back to background
-    console.log("[Demo] MainAbility onBackground");
+    console.log('[Demo] MainAbility onBackground');
   }
 }
