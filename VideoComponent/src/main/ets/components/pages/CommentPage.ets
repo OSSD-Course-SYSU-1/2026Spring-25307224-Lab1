@@ -39,7 +39,7 @@ export struct CommentPage {
 
     LiveData.forEach((item) => {
       this.liveInfoData.push(new LiveInfoDataModel(item));
-    })
+    });
   }
 
   build() {
@@ -58,8 +58,8 @@ export struct CommentPage {
           .height(52)
         TextInput({ placeholder: $r('app.string.say_something'), text: this.text })
           .backgroundColor('rgba(0,0,0,0.20)')
-          .placeholderColor("rgb(255,255,255)")
-          .fontColor("rgb(255,255,255)")
+          .placeholderColor('rgb(255,255,255)')
+          .fontColor('rgb(255,255,255)')
           .enableKeyboardOnFocus(false)
           .padding({ left: 20 })
           .width('47.2%')

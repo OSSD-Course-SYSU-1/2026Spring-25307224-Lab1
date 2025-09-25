@@ -14,15 +14,15 @@
  */
 
 export interface ILiveInfoDataModel {
-  uri: string | Resource;
-  name: string | Resource;
-  peopleNum: string | Resource;
+  uri: ResourceStr;
+  name: ResourceStr;
+  peopleNum: ResourceStr;
 }
 
 export class LiveInfoDataModel {
-  public uri: string | Resource;
-  public name: string | Resource;
-  public peopleNum: string | Resource;
+  public uri: ResourceStr;
+  public name: ResourceStr;
+  public peopleNum: ResourceStr;
 
   constructor(item: ILiveInfoDataModel) {
     this.uri = item.uri;

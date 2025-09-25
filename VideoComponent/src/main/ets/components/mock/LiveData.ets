@@ -21,7 +21,6 @@ export const LiveData: Array<ILiveInfoDataModel> = [
     name: $r('app.string.first_author'),
     peopleNum: '520'
   },
-
   {
     uri: $rawfile('video2.mp4'),
     name: $r('app.string.two_author'),

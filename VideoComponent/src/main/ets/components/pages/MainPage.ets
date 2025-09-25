@@ -14,7 +14,7 @@
  */
 
 import { mediaquery } from '@kit.ArkUI';
-import { Callback } from '@kit.BasicServicesKit';
+import { BusinessError, Callback } from '@kit.BasicServicesKit';
 import { SmallVideo } from './SmallVideo';
 import { MyDataSource } from '../model/LiveDataModel';
 import { VideoPage } from './VideoPage';
@@ -116,7 +116,7 @@ export struct MainPage {
         .scrollable(ScrollDirection.Vertical)
         .scrollBarColor(Color.Gray)
         .scrollBarWidth(30)
-        .onWillScroll((xOffset: number, yOffset: number) => {
+        .onWillScroll((_xOffset: number, yOffset: number) => {
           this.scrollSum += yOffset;
         })
 
@@ -144,10 +144,16 @@ export struct MainPage {
       .borderWidth(1.3)
       .id('directVideo')
       .onClick(() => {
-        this.getUIContext().getRouter().pushUrl({ url: 'pages/LivePage' });
+        this.getUIContext().getRouter().pushUrl({ url: 'pages/LivePage' }).catch((err: BusinessError) => {
+          console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+        });
       })
-      .position({ x: '86%', y: '20%' })
-    }.width('100%')
+      .position({
+        x: '86%',
+        y: '20%'
+      })
+    }
+    .width('100%')
     .height('100%')
     .backgroundColor(0xDCDCDC)
   }
