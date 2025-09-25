@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import { BusinessError } from '@kit.BasicServicesKit';
+
 @Component
 export struct VideoPage {
   @State videoSrc: Resource = $rawfile('video1.mp4');
@@ -55,12 +57,25 @@ export struct VideoPage {
                 this.isStart = true;
                 this.firstClick = !this.firstClick;
               } else {
-                this.getUIContext().getRouter().pushUrl({ url: 'pages/FullPage',
-                  params: { videoSrc: this.videoSrc, videoTime: this.updateTime } });
+                this.getUIContext().getRouter().pushUrl({
+                  url: 'pages/FullPage',
+                  params: {
+                    videoSrc: this.videoSrc,
+                    videoTime: this.updateTime } })
+                  .catch((err: BusinessError) => {
+                    console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+                });
               }
             } else {
-              this.getUIContext().getRouter().pushUrl({ url: 'pages/FullPage',
-                params: { videoSrc: this.videoSrc, videoTime: this.updateTime } });
+              this.getUIContext().getRouter().pushUrl({
+                url: 'pages/FullPage',
+                params: {
+                  videoSrc: this.videoSrc,
+                  videoTime: this.updateTime
+                }
+              }).catch((err: BusinessError) => {
+                console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+              });
             }
           })
           .onFinish(() => {

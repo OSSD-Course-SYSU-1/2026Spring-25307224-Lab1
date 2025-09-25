@@ -50,7 +50,10 @@ export struct SmallVideo {
         Image($r('app.media.s_videoclose'))
           .width(16)
           .height(16)
-          .position({ x: '80%', y: '10%' })
+          .position({
+            x: '80%',
+            y: '10%'
+          })
           .id('closeBtn')
           .onClick(() => {
             this.isHidden = false;

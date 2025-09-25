@@ -148,7 +148,7 @@ export struct LivePage {
             .backgroundColor('#D8D8D8')
             .width('100%')
             .height('100%')
-          })
+          }, (item: LiveInfoDataModel) => JSON.stringify(item))
         }
         .width('100%')
         .height('100%')
