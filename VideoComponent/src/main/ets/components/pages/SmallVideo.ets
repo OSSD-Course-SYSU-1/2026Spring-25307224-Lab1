@@ -64,7 +64,9 @@ export struct SmallVideo {
     .backgroundColor('#000000')
     .width(160)
     .height(96)
-    .margin({ right: '2%' })
+    .margin({
+      right: '2%'
+    })
     .visibility(this.isHidden ? Visibility.Visible : Visibility.Hidden)
   }
 }

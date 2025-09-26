@@ -19,6 +19,7 @@ import { LiveInfoDataModel } from '../model/LiveDataModel';
 import { LiveData } from '../mock/LiveData';
 import { Live } from '../net/Utils';
 import { CommentPage } from './CommentPage';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 class LiveInfoResponse {
   code: number = 0;
@@ -38,7 +39,7 @@ export struct LivePage {
   @State mData: LiveInfoResponse = {
     code: 0,
     data: [{ uri: '', name: '', peopleNum: '' }]
-  }
+  };
   @State isPhone: boolean = false;
   portraitFunc: Callback<mediaquery.MediaQueryResult> = (mediaQueryResult: mediaquery.MediaQueryResult): void => {
     this.onPortrait(mediaQueryResult);
@@ -63,7 +64,7 @@ export struct LivePage {
       this.mData = JSON.parse(a.result.toString());
       this.liveInfoList = this.mData.data;
     } catch (err) {
-      console.error(`Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
+      hilog.error(0x0000, 'LivePage', `Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
     }
   }
 
@@ -114,7 +115,10 @@ export struct LivePage {
                     .width(70)
                 }
                 .justifyContent(FlexAlign.SpaceBetween)
-                .padding({ left: this.isPhone ? '2%' : '1%', right: this.isPhone ? '2%' : '1%' })
+                .padding({
+                  left: this.isPhone ? '2%' : '1%',
+                  right: this.isPhone ? '2%' : '1%'
+                })
                 .width(this.isPhone ? '57.2%' : '30%')
                 .aspectRatio(this.isPhone ? 5.15 : 7)
                 .backgroundColor('rgba(0,0,0,0.40)')
@@ -125,7 +129,9 @@ export struct LivePage {
                     .width(42)
                     .height(42)
                 }
-                .margin({ left: this.isPhone ? '12%' : '49%' })
+                .margin({
+                  left: this.isPhone ? '12%' : '49%'
+                })
 
                 Column() {
                   Image($r('app.media.live_close'))
@@ -136,14 +142,22 @@ export struct LivePage {
                       this.getUIContext().getRouter().back();
                     })
                 }
-                .margin({ left: '4%' })
+                .margin({
+                  left: '4%'
+                })
               }
-              .position({ x: '2%', y: '5.1%' })
+              .position({
+                x: '2%',
+                y: '5.1%'
+              })
 
               Column() {
                 CommentPage()
               }
-              .position({ x: '2%', y: this.isPhone ? '72%' : '62%' })
+              .position({
+                x: '2%',
+                y: this.isPhone ? '72%' : '62%'
+              })
             }
             .backgroundColor('#D8D8D8')
             .width('100%')

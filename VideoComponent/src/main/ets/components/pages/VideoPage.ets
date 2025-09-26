@@ -14,6 +14,7 @@
  */
 
 import { BusinessError } from '@kit.BasicServicesKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 @Component
 export struct VideoPage {
@@ -44,7 +45,7 @@ export struct VideoPage {
             this.updateTime = e.time;
           })
           .onPrepared((e) => {
-            console.info('VideoPage_onPrepared:' + e.duration);
+            hilog.info(0x0000, 'VideoPage', 'VideoPage_onPrepared:' + e.duration);
           })
           .onClick(() => {
             // Check whether the play button has been used. If not, go to this layer.
@@ -61,9 +62,11 @@ export struct VideoPage {
                   url: 'pages/FullPage',
                   params: {
                     videoSrc: this.videoSrc,
-                    videoTime: this.updateTime } })
+                    videoTime: this.updateTime
+                  }
+                })
                   .catch((err: BusinessError) => {
-                    console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+                    hilog.error(0x0000, 'VideoPage', `Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
                 });
               }
             } else {
@@ -73,8 +76,9 @@ export struct VideoPage {
                   videoSrc: this.videoSrc,
                   videoTime: this.updateTime
                 }
-              }).catch((err: BusinessError) => {
-                console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+              })
+                .catch((err: BusinessError) => {
+                  hilog.error(0x0000, 'VideoPage', `Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
               });
             }
           })
