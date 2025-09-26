@@ -14,6 +14,7 @@
  */
 
 import { http } from '@kit.NetworkKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 let httpRequest = http.createHttp();
 
@@ -30,7 +31,7 @@ export async function Live() {
         connectTimeout: 60000
       });
   } catch (err) {
-    console.error(`Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
+    hilog.error(0x0000, 'EntryAbility', `Http resquest is fail. Cause code: ${err.code}, message: ${err.message}`);
   }
   return response;
 }

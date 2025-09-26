@@ -14,9 +14,10 @@
  */
 
 import { AbilityStage } from '@kit.AbilityKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 export default class MyAbilityStage extends AbilityStage {
   onCreate() {
-    console.log('[Demo] MyAbilityStage onCreate');
+    hilog.info(0x0000, 'MyAbilityStage','[Demo] MyAbilityStage onCreate');
   }
 }

@@ -15,41 +15,42 @@
 
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { window } from '@kit.ArkUI';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
-    console.log('[Demo] MainAbility onCreate');
+    hilog.info(0x0000, 'EntryAbility','[Demo] MainAbility onCreate');
   }
 
   onDestroy() {
-    console.log("[Demo] MainAbility onDestroy");
+    hilog.info(0x0000, 'EntryAbility','[Demo] MainAbility onDestroy');
   }
 
   onWindowStageCreate(windowStage: window.WindowStage) {
     // Main window is created, set main page for this ability
-    console.log('[Demo] MainAbility onWindowStageCreate');
+    hilog.info(0x0000, 'EntryAbility', '[Demo] MainAbility onWindowStageCreate');
 
-    windowStage.loadContent("pages/Index", (err, data) => {
+    windowStage.loadContent('pages/Index', (err, data) => {
       if (err.code) {
-        console.error('Failed to load the content. Cause:' + JSON.stringify(err));
+        hilog.error(0x0000, 'EntryAbility', 'Failed to load the content. Cause:' + JSON.stringify(err));
         return;
       }
-      console.info('Succeeded in loading the content. Data: ' + JSON.stringify(data));
+      hilog.info(0x0000, 'EntryAbility', 'Succeeded in loading the content. Data: ' + JSON.stringify(data));
     });
   }
 
   onWindowStageDestroy() {
     // Main window is destroyed, release UI related resources
-    console.log('[Demo] MainAbility onWindowStageDestroy');
+    hilog.info(0x0000, 'EntryAbility', '[Demo] MainAbility onWindowStageDestroy');
   }
 
   onForeground() {
     // Ability has brought to foreground
-    console.log('[Demo] MainAbility onForeground');
+    hilog.info(0x0000, 'EntryAbility', '[Demo] MainAbility onForeground');
   }
 
   onBackground() {
     // Ability has back to background
-    console.log('[Demo] MainAbility onBackground');
+    hilog.info(0x0000, 'EntryAbility', '[Demo] MainAbility onBackground');
   }
 }

@@ -15,10 +15,11 @@
 
 import { mediaquery } from '@kit.ArkUI';
 import { Callback } from '@kit.BasicServicesKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 @Component
 export struct FullPage {
-  @State fullParams: routerParams | null = null;
+  @State fullParams: RouterParams | undefined = undefined;
   @State fullSrc: Resource = $rawfile('video1.mp4');
   @State isHidden: boolean = false;
   @State maxValue: number = 0; // Total duration of the bottom time bar.
@@ -36,7 +37,7 @@ export struct FullPage {
   }
 
   aboutToAppear() {
-    this.fullParams = this.getUIContext().getRouter().getParams() as routerParams;
+    this.fullParams = this.getUIContext().getRouter().getParams() as RouterParams;
     this.fullSrc = this.fullParams.videoSrc;
     this.playTime = this.fullParams.videoTime;
     this.listenerIsPhone.on('change', this.portraitFunc);
@@ -98,7 +99,10 @@ export struct FullPage {
                   this.isHidden = !this.isHidden;
                 })
             }
-            .position({ x: this.isPhone ? '42%' : '47%', y: '45%' })
+            .position({
+              x: this.isPhone ? '42%' : '47%',
+              y: '45%'
+            })
           }
         }
         .width('100%')
@@ -120,7 +124,10 @@ export struct FullPage {
             .width(42)
             .height(42)
         }
-        .position({ x: this.isPhone ? '86%' : '95%', y: '5%' })
+        .position({
+          x: this.isPhone ? '86%' : '95%',
+          y: '5%'
+        })
 
         // Bottom Time Bar.
         Row() {
@@ -139,7 +146,7 @@ export struct FullPage {
             .onChange((value: number, mode: SliderChangeMode) => {
               this.nowValue = value;
               this.fullVideoController.setCurrentTime(value);
-              console.info('value:' + value + 'mode:' + mode.toString());
+              hilog.info(0x0000, 'FullPage', 'value:' + value + 'mode:' + mode.toString());
             })
           Text(this.changTime(Number.parseInt(this.maxValue.toFixed(0))))
             .fontSize(18)
@@ -147,7 +154,10 @@ export struct FullPage {
         }
         .padding({ top: 50 })
         .width('100%')
-        .position({ x: this.isPhone ? 0 : '10%', y: '88%' })
+        .position({
+          x: this.isPhone ? 0 : '10%',
+          y: '88%'
+        })
       }
       .width('100%')
       .height('100%')
@@ -156,7 +166,7 @@ export struct FullPage {
   }
 }
 
-interface routerParams {
+interface RouterParams {
   videoSrc: Resource;
   videoTime: number;
 }

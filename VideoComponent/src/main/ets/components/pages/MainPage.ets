@@ -18,6 +18,7 @@ import { BusinessError, Callback } from '@kit.BasicServicesKit';
 import { SmallVideo } from './SmallVideo';
 import { MyDataSource } from '../model/LiveDataModel';
 import { VideoPage } from './VideoPage';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 @Component
 export struct MainPage {
@@ -106,7 +107,9 @@ export struct MainPage {
                 .borderRadius(15)
                 .fontSize(16)
                 .textAlign(TextAlign.Center)
-                .margin({ top: 10 })
+                .margin({
+                  top: 10
+                })
             }, (item: string) => item)
           }
           .width('100%')
@@ -145,7 +148,7 @@ export struct MainPage {
       .id('directVideo')
       .onClick(() => {
         this.getUIContext().getRouter().pushUrl({ url: 'pages/LivePage' }).catch((err: BusinessError) => {
-          console.error(`Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
+          hilog.error(0x0000, 'MainPage', `Failed to push url. Cause code: ${err.code}, message: ${err.message}`);
         });
       })
       .position({
