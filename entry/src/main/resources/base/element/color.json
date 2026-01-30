@@ -3,6 +3,10 @@
     {
       "name": "start_window_background",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "slider_color",
+      "value": "#1AFFFFFF"
     }
   ]
 }
