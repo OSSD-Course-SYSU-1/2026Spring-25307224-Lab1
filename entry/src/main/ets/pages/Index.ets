@@ -4,8 +4,6 @@ import VideoStatus from '../constants/VideoStatus';
 import { WindowUtil } from '../utils/WindowUtil';
 import { FormatTime } from '../utils/FotmatTime';
 import { LengthMetrics, window } from '@kit.ArkUI';
-import { VideoList } from '../view/VideoList';
-import { VideoPlayer } from '../ViewPage/VideoPlayer';
 import { VolumeAndBrightness } from '../view/VolumeAndBrightness';
 import { AVSessionController } from '../controller/AVSessionController';
 import { avSession } from '@kit.AVSessionKit';
@@ -64,26 +62,17 @@ struct Index {
     } catch (e) {
 
     }
-    this.setAVSessionListener();
-  }
-
-  public activeAVSession() {
-
+    setTimeout(() => {
+      this.setAVSessionListener();
+    }, 100);
   }
 
   public async setAVSessionListener() {
-    console.log('----------2222222222')
     if (!this.avSessionController) {
       return;
     }
-    console.log('---------- this.avSessionController.getAVSession():' +
-    JSON.stringify(this.avSessionController.getAVSession()))
-    // console.log('----------this.curSource:1111---' + JSON.stringify(this.curSource))
-
     try {
-      this.avSessionController.getAVSession()?.on('play', () => {
-        this.sessionPlay();
-      });
+      this.avSessionController.getAVSession()?.on('play', () => this.sessionPlay());
       this.avSessionController.getAVSession()?.on('pause', () => {
         this.sessionPause();
       });
@@ -110,10 +99,9 @@ struct Index {
   }
 
   sessionPlay() {
-    // if (!this.isCurAVSession()) {
-    //   return;
-    // }
-    console.log('----------this.curSource:' + JSON.stringify(this.curSource))
+    if (!this.isCurAVSession()) {
+      return;
+    }
     if (this.curSource) {
       this.avSessionController.setAVMetadata(this.curSource, this.durationTime);
     }
@@ -367,6 +355,9 @@ struct Index {
                 this.currentVideoStatus = VideoStatus.PLAY_PREPARED; // 视频准备
                 if (event) {
                   this.durationTime = event.duration; // 视频总时长
+                  if (this.curSource) {
+                    this.avSessionController.setAVMetadata(this.curSource, event.duration * 1000);
+                  }
                 }
               })
               // 播放时触发该事件
@@ -417,7 +408,6 @@ struct Index {
                         curBrightness = this.getValidValue(curBrightness, 0.0, 1.0);
                         this.screenBrightness = curBrightness;
                         this.setScreenBrightness(curBrightness);
-                        console.log('curBrightness--------' + curBrightness)
                       } else {
                         this.visible = false;
                         let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
@@ -444,9 +434,7 @@ struct Index {
             } else {
               this.VideoControllerBuilder(); // 非全屏
             }
-            // VideoPlayer({
-            //   isFullLandscapeScreen: this.isFullLandscapeScreen
-            // }); // 自定义播放条
+
             if (this.currentVideoStatus !== VideoStatus.PLAY_STARTED) {
               Image($r('app.media.play_pause'))
                 .width('36vp')
@@ -481,7 +469,6 @@ struct Index {
                 .onClick(() => {
                   this.videoSrc = item.videoSrc;
                   this.previewUri = this.previewUri;
-                  this.videoController.start();
                   this.isAutoPlay = true;
                   this.currentVideoIndex = index;
                   this.curSource = item;
@@ -495,8 +482,6 @@ struct Index {
               right: 16
             })
           }
-
-          // VideoList()
         }
       }
       .width('100%')

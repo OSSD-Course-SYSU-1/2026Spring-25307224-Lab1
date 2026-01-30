@@ -32,14 +32,15 @@ export class AVSessionController {
     avSession.createAVSession(this.context, 'LONG_VIDEO_SESSION', 'video')
       .then((data: avSession.AVSession) => {
         this.avSession = data;
-        console.log('--------this.avSession data1111111:' + JSON.stringify(data))
         this.setLaunchAbility();
         BackgroundTaskManager.startContinuousTask(this.context);
         // 激活会话
         this.avSession.activate()
           .then(() => {
+            Logger.info(TAG, `AVSession activate successed`);
           })
           .catch((err: BusinessError) => {
+            Logger.warn(TAG, `AVSession activate failed. code: ${err.code}, message: ${err.message}`);
           })
       })
       .catch((err: BusinessError) => {
@@ -48,7 +49,6 @@ export class AVSessionController {
   }
 
   public getAVSession() {
-    console.log('--------this.avSession2222222:' + JSON.stringify(this.avSession))
     return this.avSession;
   }
 
@@ -57,8 +57,6 @@ export class AVSessionController {
   }
 
   public setAVMetadata(curSource: VideoType, duration: number) {
-    console.log('------------curSource: ' + JSON.stringify(curSource));
-    console.log('------------duration: ' + JSON.stringify(duration));
     if (!curSource) {
       return;
     }
