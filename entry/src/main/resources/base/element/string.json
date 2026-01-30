@@ -1,20 +1,16 @@
 {
   "string": [
     {
-      "name": "entry_desc",
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
       "value": "description"
     },
     {
-      "name": "MainAbility_desc",
-      "value": "description"
-    },
-    {
-      "name": "MainAbility_label",
-      "value": "VideoShow"
-    },
-    {
-      "name": "reason_internet",
-      "value": "Used for video playback using the Internet network."
+      "name": "EntryAbility_label",
+      "value": "label"
     }
   ]
 }
