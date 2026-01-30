@@ -2,6 +2,9 @@ import { common, WantAgent, wantAgent } from "@kit.AbilityKit";
 import { avSession } from "@kit.AVSessionKit";
 import { VideoType } from "../module/VideoType";
 import { BackgroundTaskManager } from "../utils/BackgroundTaskManager";
+import Logger from '../utils/Logger';
+
+const TAG = '[AVSessionController]';
 
 export class AVSessionController {
   private static instance: AVSessionController | undefined = undefined;
@@ -35,12 +38,12 @@ export class AVSessionController {
         // 激活会话
         this.avSession.activate()
           .then(() => {
-            this.getAVSession()
           })
           .catch((err: BusinessError) => {
           })
       })
       .catch((err: BusinessError) => {
+        Logger.warn(TAG, `Create AVSession failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
