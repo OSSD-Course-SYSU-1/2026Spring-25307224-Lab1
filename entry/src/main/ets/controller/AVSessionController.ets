@@ -27,7 +27,6 @@ export class AVSessionController {
     if (!this.context) {
       return;
     }
-    // let avSessionData: avSession.AVSession | undefined = undefined;
     // 创建视频类型的会话对象
     avSession.createAVSession(this.context, 'LONG_VIDEO_SESSION', 'video')
       .then((data: avSession.AVSession) => {
@@ -71,8 +70,8 @@ export class AVSessionController {
         .then(() => {
           this.avSessionMetaData = metadata;
         })
-        .catch(() => {
-
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
         })
     }
   }
@@ -98,13 +97,13 @@ export class AVSessionController {
         if (this.avSession) {
           // 设置一个WantAgent用于拉起会话的Ability
           this.avSession.setLaunchAbility(agent)
-            .catch(() => {
-
+            .catch((err: BusinessError) => {
+              Logger.warn(TAG, `SetLaunchAbility failed. code: ${err.code}, message: ${err.message}`);
             })
         }
       })
-      .catch(() => {
-
+      .catch((err: BusinessError) => {
+        Logger.warn(TAG, `Get wantAgent failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -114,7 +113,10 @@ export class AVSessionController {
     }
     // 设置会话播放状态
     this.avSession.setAVPlaybackState(playbackState, (err: BusinessError) => {
-
+      if (err) {
+        Logger.warn(TAG, `SetAVPlaybackState failed. code: ${err.code}, message: ${err.message}`);
+      }
+      Logger.info('SetAVPlaybackState successfully');
     })
   }
 
@@ -130,7 +132,9 @@ export class AVSessionController {
       this.avSession.off('setLoopMode');
       this.avSession.off('seek');
       BackgroundTaskManager.stopContinuousTask(this.context);
-    } catch (err) {
+    } catch (error) {
+      let err = error as BusinessError;
+      Logger.warn(TAG, `Unregister sessionListener failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 }

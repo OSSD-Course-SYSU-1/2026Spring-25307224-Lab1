@@ -73,10 +73,9 @@ struct Index {
     }
     try {
       this.avSessionController.getAVSession()?.on('play', () => this.sessionPlay());
-      this.avSessionController.getAVSession()?.on('pause', () => {
-        this.sessionPause();
-      });
-      this.avSessionController.getAVSession()?.on('seek', () => {
+      this.avSessionController.getAVSession()?.on('pause', () => this.sessionPause());
+      this.avSessionController.getAVSession()?.on('seek', (msTime: number) => {
+        this.sessionSeek(msTime);
       });
       this.avSessionController.getAVSession()?.on('setLoopMode', () => {
       });
@@ -88,57 +87,61 @@ struct Index {
     }
   }
 
-  isCurAVSession(): boolean {
-    let curAVMetadata = this.avSessionController.getAVSessionMetadata();
-    if (curAVMetadata && this.curSource) {
-      if (curAVMetadata.assetId === `${this.curSource?.index}`) {
-        return true;
-      }
-    }
-    return false;
-  }
 
+  // AVSession视频播放
   sessionPlay() {
-    if (!this.isCurAVSession()) {
-      return;
-    }
     if (this.curSource) {
-      this.avSessionController.setAVMetadata(this.curSource, this.durationTime);
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
     }
     this.videoController.start();
     this.isPlaying = true;
+    // 同步当前播放位置和总时长
     this.updateIsPlay();
   }
 
+  // AVSession视频暂停
   sessionPause() {
-    if (!this.isCurAVSession()) {
-      return;
-    }
     if (this.curSource) {
-      this.avSessionController.setAVMetadata(this.curSource, this.durationTime);
+      // 传递正确的总时长（毫秒）
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
     }
     this.videoController.pause();
     this.isPlaying = false;
+    // 同步当前播放位置和总时长
     this.updateIsPlay();
   }
 
+  // AVSession视频跳转播放
+  sessionSeek(msTime: number) {
+    if (this.curSource) {
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+    }
+    this.isPlaying = true;
+    this.updateIsPlay();
+    this.videoController.setCurrentTime(msTime / 1000, SeekMode.Accurate);
+    this.videoController.start();
+  }
+
+  // AVSession视频播放上一个视频
   sessionPlayPrevious() {
 
   }
 
+  // AVSession视频播放下一个视频
   sessionPlayNext() {
 
   }
 
+  // 更新AVSession播放状态
   updateIsPlay() {
     this.avSessionController.setAVSessionPlayState({
       state: this.isPlaying ? avSession.PlaybackState.PLAYBACK_STATE_PLAY :
         avSession.PlaybackState.PLAYBACK_STATE_PAUSE,
       position: {
-        elapsedTime: this.currentTime,
-        updateTime: new Date().getTime()
+        elapsedTime: this.currentTime * 1000,  // 当前播放时间（毫秒）
+        updateTime: new Date().getTime()       // 最后更新时间戳
       },
-      duration: this.currentTime
+      duration: this.durationTime * 1000       // 视频总时长（毫秒）
     })
   }
 
@@ -364,10 +367,12 @@ struct Index {
               .onStart(() => {
                 this.isPlaying = true;
                 this.currentVideoStatus = VideoStatus.PLAY_STARTED; // 开始播放
+                this.updateIsPlay(); // 同步进度到播控中心
               })
               // 暂停时触发该事件
               .onPause(() => {
                 this.currentVideoStatus = VideoStatus.PLAY_PAUSED; // 暂停播放
+                this.updateIsPlay(); // 同步进度到播控中心
               })
               // 播放结束时触发该事件
               .onFinish(() => {
@@ -381,6 +386,7 @@ struct Index {
               .onUpdate((event) => {
                 if (event) {
                   this.currentTime = event.time; // 当前播放时间
+                  this.updateIsPlay(); // 同步进度到播控中心
                 }
               })
             if (this.isFullScreen) {
@@ -443,8 +449,12 @@ struct Index {
           .onClick(() => {
             if (this.currentVideoStatus === VideoStatus.PLAY_STARTED) {
               this.videoController.pause();
+              this.isPlaying = false;
+              this.updateIsPlay(); // 同步进度到播控中心
             } else {
               this.videoController.start();
+              this.isPlaying = true;
+              this.updateIsPlay(); // 同步进度到播控中心
             }
           })
 

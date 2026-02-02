@@ -1,5 +1,8 @@
 import { common, wantAgent } from '@kit.AbilityKit';
 import { backgroundTaskManager } from '@kit.BackgroundTasksKit'
+import Logger from './Logger';
+
+const TAG = '[BackgroundTaskManager]';
 
 export class BackgroundTaskManager {
   public static startContinuousTask(context?: common.UIAbilityContext): void {
@@ -22,14 +25,14 @@ export class BackgroundTaskManager {
         backgroundTaskManager.startBackgroundRunning(context, backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK,
           agentObj)
           .then(() => {
-
+            Logger.info('startBackgroundRunning succeed.');
           })
-          .catch(() => {
-
+          .catch((err: BusinessError) => {
+            Logger.warn(TAG, `startBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
           })
       })
-      .catch(() => {
-
+      .catch((err: BusinessError) => {
+        Logger.warn(TAG, `getWantAgent failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -39,8 +42,8 @@ export class BackgroundTaskManager {
     }
     if (canIUse('SystemCapability.ResourceSchedule.BackgroundTaskManager.Core')) {
       backgroundTaskManager.stopBackgroundRunning(context)
-        .catch(() => {
-
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
         })
     }
   }

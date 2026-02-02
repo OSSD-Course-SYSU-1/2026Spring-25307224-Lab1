@@ -22,9 +22,9 @@ export class PipWindowController {
 
     })
 
-    this.pipController?.on('controlPanelActionEvent', (event: PiPWindow.PiPActionEventType, status: number) => {
-
-    })
+    // this.pipController?.on('controlPanelActionEvent', (event: PiPWindow.PiPActionEventType, status: number) => {
+    //
+    // })
 
     this.pipController?.setAutoStartEnabled(true);
   }

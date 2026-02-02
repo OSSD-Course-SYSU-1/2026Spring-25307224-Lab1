@@ -1,4 +1,7 @@
 import window from "@ohos.window";
+import Logger from "./Logger";
+
+const TAG = '[WindowUtil]';
 
 export class WindowUtil {
   private static instance: WindowUtil;
@@ -29,8 +32,10 @@ export class WindowUtil {
     }
     this.mainWindowClass.setPreferredOrientation(orientation)
       .then(() => {
+        Logger.info('setPreferredOrientation succeed.');
       })
       .catch((err: BusinessError) => {
+        Logger.warn(TAG, `setPreferredOrientation failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -41,8 +46,8 @@ export class WindowUtil {
       return;
     }
     this.mainWindowClass.setWindowSystemBarEnable(['status', 'navigation'])
-      .catch(() => {
-
+      .catch((err: BusinessError) => {
+        Logger.warn(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -52,8 +57,8 @@ export class WindowUtil {
       return;
     }
     this.mainWindowClass.setWindowSystemBarEnable([])
-      .catch(() => {
-
+      .catch((err: BusinessError) => {
+        Logger.warn(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -63,13 +68,13 @@ export class WindowUtil {
     }
     if (enable) {
       this.mainWindowClass.enableLandscapeMultiWindow() // 应用部分界面支持横向布局时，在进入该界面时使能，使能后可支持进入横向多窗
-        .catch(() => {
-
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     } else {
       this.mainWindowClass.disableLandscapeMultiWindow() // 应用部分界面支持横向布局时，在退出该界面时去使能，去使能后不支持进入横向多窗
-        .catch(() => {
-
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     }
   }
@@ -81,16 +86,18 @@ export class WindowUtil {
     if (enable) {
       this.mainWindowClass.enableLandscapeMultiWindow()
         .then(() => {
-
+          Logger.info('enableLandscapeMultiWindow succeed.');
         })
-        .catch(() => {
-
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     } else {
       this.mainWindowClass.disableLandscapeMultiWindow()
         .then(() => {
+          Logger.info('disableLandscapeMultiWindow succeed.');
         })
-        .catch(() => {
+        .catch((err: BusinessError) => {
+          Logger.warn(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     }
   }
