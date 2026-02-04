@@ -54,8 +54,7 @@ export class WindowUtil {
       })
   }
 
-
-  // 显示主窗口状态栏、底部导航（根据用户设置，可表现为导航条或三键导航栏）
+  // Display the status bar of the main window and the bottom navigation.
   public enableWindowSystemBar(): void {
     if (!this.mainWindowClass) {
       return;
@@ -66,7 +65,7 @@ export class WindowUtil {
       })
   }
 
-  // 禁用主窗口状态栏、底部导航
+  // Disable the status bar and bottom navigation of the main window.
   public disableWindowSystemBar(): void {
     if (!this.mainWindowClass) {
       return;
@@ -82,12 +81,12 @@ export class WindowUtil {
       return;
     }
     if (enable) {
-      this.mainWindowClass.enableLandscapeMultiWindow() // 应用部分界面支持横向布局时，在进入该界面时使能，使能后可支持进入横向多窗
+      this.mainWindowClass.enableLandscapeMultiWindow()
         .catch((err: BusinessError) => {
           Logger.warn(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     } else {
-      this.mainWindowClass.disableLandscapeMultiWindow() // 应用部分界面支持横向布局时，在退出该界面时去使能，去使能后不支持进入横向多窗
+      this.mainWindowClass.disableLandscapeMultiWindow()
         .catch((err: BusinessError) => {
           Logger.warn(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
@@ -117,7 +116,7 @@ export class WindowUtil {
     }
   }
 
-  // 注册监听窗口尺寸变化事件
+  // Register for the window size change event.
   registerOnWindowSizeChange(callback?: (size: window.Size) => void) {
     if (!this.mainWindowClass) {
       return;
@@ -128,7 +127,7 @@ export class WindowUtil {
     })
   }
 
-  // 取消监听窗口尺寸变化事件
+  // Cancel the event of monitoring window size changes.
   registerOffWindowSizeChange() {
     if (!this.mainWindowClass) {
       return;

@@ -23,7 +23,7 @@
 │  ├──constants
 │  │  └──CommonConstants.ets            // Video状态常量
 │  ├──controller
-│  │  └──AVSessionController.ets        // AVSession类
+│  │  └──AVSessionController.ets        // AVSession控制类
 │  ├──entryability
 │  │  └──EntryAbility.ets               // 程序入口
 │  ├──entrybackupability
@@ -39,6 +39,8 @@
 │  │  ├──Logger.ets                     // 日志打印类
 │  │  └──WindowUtil.ets                 // 窗口类
 │  └──view
+│     ├──SmallVideo.ets                 // 小窗播放视频页面
+│     ├──VideoList.ets                  // 视频列表页面
 │     └──VolumeAndBrightnessView.ets    // 音量亮度调节组件
 └──src/main/resources                   // 应用资源目录
 ```

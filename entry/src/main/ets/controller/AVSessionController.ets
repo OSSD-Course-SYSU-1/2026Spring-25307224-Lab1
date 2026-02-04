@@ -42,13 +42,13 @@ export class AVSessionController {
     if (!this.context) {
       return;
     }
-    // 创建视频类型的会话对象
+    // Create a session object of video type.
     avSession.createAVSession(this.context, 'LONG_VIDEO_SESSION', 'video')
       .then((data: avSession.AVSession) => {
         this.avSession = data;
         this.setLaunchAbility();
         BackgroundTaskManager.startContinuousTask(this.context);
-        // 激活会话
+        // Activate session.
         this.avSession.activate()
           .then(() => {
             Logger.info(TAG, `AVSession activate successed`);
@@ -74,20 +74,25 @@ export class AVSessionController {
     if (!curSource) {
       return;
     }
-    // 设置会话元数据
-    let metadata: avSession.AVMetadata = {
-      assetId: `${curSource.index}`, // 媒体ID
-      title: curSource.name.id.toString(), // 标题
-      duration: duration, // 媒体时长
-    }
-    if (this.avSession) {
-      this.avSession.setAVMetadata(metadata)
-        .then(() => {
-          this.avSessionMetaData = metadata;
-        })
-        .catch((err: BusinessError) => {
-          Logger.warn(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
-        })
+    try {
+      // Set session metadata.
+      let metadata: avSession.AVMetadata = {
+        assetId: `${curSource.index}`, // Media ID
+        title: this.context?.resourceManager.getStringSync(curSource.name.id), // Title.
+        duration: duration, // Media duration.
+      }
+      if (this.avSession) {
+        this.avSession.setAVMetadata(metadata)
+          .then(() => {
+            this.avSessionMetaData = metadata;
+          })
+          .catch((err: BusinessError) => {
+            Logger.warn(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
+          })
+      }
+    } catch (error) {
+      let err = error as BusinessError;
+      Logger.warn(TAG, `getStringSync failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 
@@ -102,15 +107,15 @@ export class AVSessionController {
           abilityName: this.context.abilityInfo.name
         }
       ],
-      actionType: wantAgent.OperationType.START_ABILITIES, // 动作类型，开启多个有页面的Ability
-      requestCode: 0, // 自定义的请求码，用于标识将被执行的动作
-      actionFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG] // 动作执行属性
+      actionType: wantAgent.OperationType.START_ABILITIES, // Enable multiple Abilities with pages.
+      requestCode: 0,
+      actionFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
     }
-    // 创建WantAgent
+    // Create WantAgent.
     wantAgent.getWantAgent(wantAgentInfo)
       .then((agent: WantAgent) => {
         if (this.avSession) {
-          // 设置一个WantAgent用于拉起会话的Ability
+          // Set up a WantAgent to initiate the Ability of the session.
           this.avSession.setLaunchAbility(agent)
             .catch((err: BusinessError) => {
               Logger.warn(TAG, `SetLaunchAbility failed. code: ${err.code}, message: ${err.message}`);
@@ -122,11 +127,11 @@ export class AVSessionController {
       })
   }
 
+  // Set session playback status.
   public setAVSessionPlayState(playbackState: avSession.AVPlaybackState) {
     if (!this.avSession) {
       return;
     }
-    // 设置会话播放状态
     this.avSession.setAVPlaybackState(playbackState, (err: BusinessError) => {
       if (err) {
         Logger.warn(TAG, `SetAVPlaybackState failed. code: ${err.code}, message: ${err.message}`);

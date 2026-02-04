@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-// 当前视频状态
+// Video status.
 export default class VideoStatus {
-  static readonly PLAY_PREPARED: string = 'prepared'; // 视频准备
-  static readonly PLAY_STARTED: string = 'started'; // 开始播放
-  static readonly PLAY_PAUSED: string = 'paused'; // 暂停播放
-  static readonly PLAY_FINISH: string = 'finished'; // 播放完成
-  static readonly PLAY_STOPPED: string = 'stopped'; // 停止播放
+  static readonly PLAY_PREPARED: string = 'prepared';
+  static readonly PLAY_STARTED: string = 'started';
+  static readonly PLAY_PAUSED: string = 'paused';
+  static readonly PLAY_FINISH: string = 'finished';
+  static readonly PLAY_STOPPED: string = 'stopped';
 }

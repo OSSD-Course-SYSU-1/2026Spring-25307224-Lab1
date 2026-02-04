@@ -23,7 +23,7 @@ export struct VolumeAndBrightness {
 
   build() {
     Row() {
-      // 音量调节
+      // Volume adjustment.
       Column() {
         AVVolumePanel({
           volumeLevel: this.volume,
@@ -39,7 +39,7 @@ export struct VolumeAndBrightness {
       .justifyContent(FlexAlign.Start)
       .alignItems(HorizontalAlign.Start)
 
-      // 亮度调节
+      // Brightness adjustment.
       Column() {
         Stack() {
           Slider({
