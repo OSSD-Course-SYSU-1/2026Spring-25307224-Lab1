@@ -21,7 +21,6 @@ import { WindowUtil } from '../utils/WindowUtil';
 import { FormatTime } from '../utils/FotmatTime';
 import { VolumeAndBrightness } from '../view/VolumeAndBrightness';
 import { AVSessionController } from '../controller/AVSessionController';
-import { PipWindowController } from '../controller/PipWindowController';
 import VideoStatus from '../constants/VideoStatus';
 import Logger from '../utils/Logger';
 
@@ -36,7 +35,6 @@ struct Index {
   private windowUtil: WindowUtil = WindowUtil.getInstance();
   private videoController: VideoController = new VideoController();
   private avSessionController: AVSessionController = AVSessionController.getInstance();
-  private pipWindowController: PipWindowController = new PipWindowController();
   @State currentVideoStatus: string = 'init';
   @State videoSrc: Resource = $rawfile('mountaineer.mp4');
   @State previewUri: Resource = $r('app.media.mountaineer');
@@ -175,17 +173,12 @@ struct Index {
 
     // 更新元数据
     this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
-
     // 开始播放新视频
     // 重置播放状态并获取新视频时长
-    // this.videoController.start();
-    // this.isPlaying = true;
     this.currentVideoStatus = VideoStatus.PLAY_STARTED;
-
-    // 强制更新播放状态
+    // 更新播放状态
     this.updateIsPlay();
-
-    // 自动播放新视频
+    // 播放新视频
     this.videoController.start();
     this.isAutoPlay = true;
   }
@@ -328,7 +321,7 @@ struct Index {
       .bindMenu(this.SpeedMenu)
 
       // 静音
-      Image(this.isMute || this.volume === 0 ? $r('app.media.mute') : $r('app.media.with_audio'))
+      Image(this.isMute || this.volume === 0.0 ? $r('app.media.mute') : $r('app.media.with_audio'))
         .width('24vp')
         .height('24vp')
         .onClick(() => {
@@ -391,14 +384,12 @@ struct Index {
                 controller: this.videoController,
                 currentProgressRate: this.curRate, //设置播放速度
               })
-              // .width(this.isFullScreen ? '90%' : '100%')
-                .width('100%')
-                .height(this.isFullScreen ? '100%' : 200)
+                .width(this.isFullScreen ? '80%' : '100%')
+                .height(this.isFullScreen ? '90%' : 200)
                 .muted(this.isMute) // 设置是否静音
                 .autoPlay(this.isAutoPlay) // 设置是否自动播放
                 .loop(true) // 设置是否循环播放
                 .controls(false) // 设置控制视频播放的控制栏是否显示
-                // this.videoController.requestFullscreen(true) // 设置是否全屏播放
                 // 视频准备完成时触发该事件
                 .onPrepared((event) => {
                   this.currentVideoStatus = VideoStatus.PLAY_PREPARED; // 视频准备
@@ -507,7 +498,7 @@ struct Index {
             if (!this.isFullScreen) {
               Column({ space: 12 }) {
                 Column() {
-                  Text('视频列表')
+                  Text($r('app.string.video_list'))
                     .fontSize(16)
                     .fontWeight(FontWeight.Bold)
                 }
@@ -519,8 +510,17 @@ struct Index {
                     Image(item.previewUri)
                       .width(100)
                       .height(100)
-                    Text(item.description)
+                    Row() {
+                      Text() {
+                        if (this.currentVideoIndex === index) {
+                          SymbolSpan($r('sys.symbol.play_round_rectangle_fill'))
+                            .width('20vp')
+                            .height('20vp')
+                        }
+                        Span(item.description)
+                      }
                       .fontColor(this.currentVideoIndex === index ? Color.Blue : Color.Black)
+                    }
                   }
                   .onClick(() => {
                     this.videoSrc = item.videoSrc;
@@ -545,7 +545,7 @@ struct Index {
       .height('100%')
       .scrollBar(BarState.Off)
       .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
-      .onWillScroll((xOffset: number, yOffset: number) => {
+      .onWillScroll((_xOffset: number, yOffset: number) => {
         this.scrollVal += yOffset;
       })
 
@@ -596,5 +596,6 @@ struct Index {
     }
     .width('100%')
     .height('100%')
+    .backgroundColor(this.isFullScreen ? Color.Black : Color.White)
   }
 }

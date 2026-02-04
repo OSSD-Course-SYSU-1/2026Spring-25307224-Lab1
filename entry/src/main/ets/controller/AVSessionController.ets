@@ -77,7 +77,7 @@ export class AVSessionController {
     // 设置会话元数据
     let metadata: avSession.AVMetadata = {
       assetId: `${curSource.index}`, // 媒体ID
-      title: curSource.name, // 标题
+      title: curSource.name.id.toString(), // 标题
       duration: duration, // 媒体时长
     }
     if (this.avSession) {

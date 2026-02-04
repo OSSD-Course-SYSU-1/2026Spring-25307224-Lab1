@@ -14,9 +14,9 @@
  */
 
 export interface VideoType {
-  name:string,
+  name:Resource,
   index: number,
   videoSrc: Resource,
   previewUri: Resource,
-  description: string,
+  description: Resource,
 }

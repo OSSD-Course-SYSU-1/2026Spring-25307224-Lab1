@@ -9,36 +9,36 @@
       "value": "description"
     },
     {
+      "name": "video_list",
+      "value": "视频列表"
+    },
+    {
       "name": "EntryAbility_label",
       "value": "Video长视频"
     },
     {
-      "name": "video_list",
-      "value": "video list"
-    },
-    {
       "name": "mountaineer",
-      "value": "Mountaineer"
+      "value": "登山者"
     },
     {
       "name": "mountaineer_desc",
-      "value": "Mountaineer local video."
+      "value": "Mountaineer本地视频。"
     },
     {
       "name": "rain",
-      "value": "Rain"
+      "value": "雨"
     },
     {
       "name": "rain_desc",
-      "value": "Rain local video."
+      "value": "Rain本地视频。"
     },
     {
       "name": "sunrise",
-      "value": "Sunrise"
+      "value": "日出"
     },
     {
       "name": "sunrise_desc",
-      "value": "Sunrise local video."
+      "value": "Sunrise本地视频。"
     }
   ]
 }

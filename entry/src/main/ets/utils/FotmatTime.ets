@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-const SECOND_BUFFER_WALK = 48000 * 2 * 2;
-
 export class FormatTime {
   // Format time
   static getTimesBySecond(t: number) {
