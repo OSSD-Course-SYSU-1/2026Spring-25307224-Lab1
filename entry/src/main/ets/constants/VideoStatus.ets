@@ -18,6 +18,6 @@ export default class VideoStatus {
   static readonly PLAY_PREPARED: string = 'prepared';
   static readonly PLAY_STARTED: string = 'started';
   static readonly PLAY_PAUSED: string = 'paused';
-  static readonly PLAY_FINISH: string = 'finished';
+  static readonly PLAY_FINISHED: string = 'finished';
   static readonly PLAY_STOPPED: string = 'stopped';
 }

@@ -86,7 +86,16 @@ struct Index {
   }
 
   aboutToDisappear() {
+    this.windowUtil.registerOffWindowSizeChange();
     this.avSessionController.unregisterSessionListener();
+  }
+
+  onPageShow() {
+    this.sessionPlay();
+  }
+
+  onPageHide() {
+    this.sessionPause();
   }
 
   // Set AVSession to listen.
@@ -333,6 +342,9 @@ struct Index {
 
   // Set screen brightness.
   private setScreenBrightness(brightness: number) {
+    if (!AppStorage.has('windowStage')) {
+      return;
+    }
     let windowStage: window.WindowStage = AppStorage.get('windowStage') as window.WindowStage;
     try {
       let mainWin: window.Window = windowStage.getMainWindowSync();
@@ -381,7 +393,7 @@ struct Index {
                 this.updateIsPlay();
               })
               .onFinish(() => {
-                this.currentVideoStatus = VideoStatus.PLAY_FINISH;
+                this.currentVideoStatus = VideoStatus.PLAY_FINISHED;
               })
               .onStop(() => {
                 this.currentVideoStatus = VideoStatus.PLAY_STOPPED;
@@ -410,6 +422,9 @@ struct Index {
                     .onActionStart(() => {
                     })
                     .onActionUpdate((event: GestureEvent) => {
+                      if (event.fingerList.length === 0) {
+                        return;
+                      }
                       if (event.fingerList[0].globalX > (this.screenWidth / 2)) {
                         this.visible = true;
                         let curBrightness = this.screenBrightness -

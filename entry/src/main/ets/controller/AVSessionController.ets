@@ -54,6 +54,7 @@ export class AVSessionController {
             Logger.info(TAG, `AVSession activate successed`);
           })
           .catch((err: BusinessError) => {
+            BackgroundTaskManager.stopContinuousTask(this.context);
             Logger.warn(TAG, `AVSession activate failed. code: ${err.code}, message: ${err.message}`);
           })
       })

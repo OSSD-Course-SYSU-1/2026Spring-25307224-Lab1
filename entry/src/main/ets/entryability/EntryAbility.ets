@@ -54,7 +54,7 @@ export default class EntryAbility extends UIAbility {
         hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
       });
     } catch (err) {
-      console.log('---------err:' + JSON.stringify(err));
+      hilog.info(DOMAIN, 'testTag', 'getMainWindowSync failed.');
     }
   }
 

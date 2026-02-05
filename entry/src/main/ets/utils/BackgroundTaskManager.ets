@@ -61,5 +61,6 @@ export class BackgroundTaskManager {
           Logger.warn(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
         })
     }
+    Logger.warn(TAG, `Current device is not support.`);
   }
 }

@@ -55,19 +55,18 @@ export struct VolumeAndBrightness {
             .trackThickness(40)
             .trackColor(Color.Black)
             .selectedColor(Color.White)
-            .visibility(this.visible ? Visibility.Visible : Visibility.None)
 
           Image($r('app.media.brightness_fill'))
             .width(20)
             .height(20)
             .margin({ top: 120 })
-            .visibility(this.visible ? Visibility.Visible : Visibility.None)
         }
       }
       .width('50%')
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.End)
       .padding({ right: 30, bottom: 20 })
+      .visibility(this.visible ? Visibility.Visible : Visibility.None)
     }
     .width('100%')
     .height('100%')
