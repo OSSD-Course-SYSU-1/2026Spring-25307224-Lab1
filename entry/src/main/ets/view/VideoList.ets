@@ -38,8 +38,8 @@ export struct VideoList {
         ForEach(VideoData, (item: VideoType, index: number) => {
           Row({ space: 12 }) {
             Image(item.previewUri)
-              .width(100)
-              .height(100)
+              .width(120)
+              .height(90)
               .borderRadius(8)
             Row() {
               Text() {
@@ -61,7 +61,6 @@ export struct VideoList {
             this.curSource = item;
           })
           .width('100%')
-          .height(100)
         }, (item: VideoType) => JSON.stringify(item.index))
       }
       .padding({

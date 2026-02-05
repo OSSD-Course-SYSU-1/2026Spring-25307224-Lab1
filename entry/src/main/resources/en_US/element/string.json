@@ -22,7 +22,7 @@
     },
     {
       "name": "mountaineer_desc",
-      "value": "Mountaineer local video."
+      "value": "Mountaineer local video"
     },
     {
       "name": "rain",
@@ -30,7 +30,7 @@
     },
     {
       "name": "rain_desc",
-      "value": "Rain local video."
+      "value": "Rain local video"
     },
     {
       "name": "sunrise",
@@ -38,7 +38,7 @@
     },
     {
       "name": "sunrise_desc",
-      "value": "Sunrise local video."
+      "value": "Sunrise local video"
     }
   ]
 }
