@@ -24,13 +24,20 @@ export struct SmallVideo {
   videoController: VideoController = new VideoController();
 
   build() {
-    Stack() {
+    Column() {
       Video({
         src: this.videoSrc,
         previewUri: this.previewUri,
         controller: this.videoController,
         currentProgressRate: this.curRate, //设置播放速度
       })
+        .borderRadius(8)
+        .shadow({
+          radius: 50,
+          color: '#8000001E',
+          offsetX: 0,
+          offsetY: 10,
+        })
         .muted(this.isMute) // 设置是否静音
         .autoPlay(true) // 设置是否自动播放
         .controls(false) // 设置控制视频播放的控制栏是否显示

@@ -40,6 +40,7 @@ export struct VideoList {
             Image(item.previewUri)
               .width(100)
               .height(100)
+              .borderRadius(8)
             Row() {
               Text() {
                 if (this.currentVideoIndex === index) {
