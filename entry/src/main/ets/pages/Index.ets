@@ -259,7 +259,7 @@ struct Index {
           this.isFullScreen = !this.isFullScreen;
           if (this.isFullScreen) {
             this.windowUtil.disableWindowSystemBar();
-            this.windowUtil.setLandscapeMutiWindow(true);
+            this.windowUtil.setLandscapeMultiWindow(true);
             this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_LANDSCAPE);
           }
         })

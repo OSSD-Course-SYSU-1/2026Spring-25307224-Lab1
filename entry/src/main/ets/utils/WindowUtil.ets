@@ -76,23 +76,6 @@ export class WindowUtil {
       })
   }
 
-  public setLandscapeMutiWindow(enable: boolean) {
-    if (!this.mainWindowClass) {
-      return;
-    }
-    if (enable) {
-      this.mainWindowClass.enableLandscapeMultiWindow()
-        .catch((err: BusinessError) => {
-          Logger.warn(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
-        })
-    } else {
-      this.mainWindowClass.disableLandscapeMultiWindow()
-        .catch((err: BusinessError) => {
-          Logger.warn(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
-        })
-    }
-  }
-
   public setLandscapeMultiWindow(enable: boolean) {
     if (!this.mainWindowClass) {
       return;
