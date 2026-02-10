@@ -50,7 +50,7 @@ export class WindowUtil {
         Logger.info('setPreferredOrientation succeed.');
       })
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `setPreferredOrientation failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `setPreferredOrientation failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -61,7 +61,7 @@ export class WindowUtil {
     }
     this.mainWindowClass.setWindowSystemBarEnable(['status', 'navigation'])
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -72,7 +72,7 @@ export class WindowUtil {
     }
     this.mainWindowClass.setWindowSystemBarEnable([])
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -86,7 +86,7 @@ export class WindowUtil {
           Logger.info('enableLandscapeMultiWindow succeed.');
         })
         .catch((err: BusinessError) => {
-          Logger.warn(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
+          Logger.error(TAG, `enableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     } else {
       this.mainWindowClass.disableLandscapeMultiWindow()
@@ -94,7 +94,7 @@ export class WindowUtil {
           Logger.info('disableLandscapeMultiWindow succeed.');
         })
         .catch((err: BusinessError) => {
-          Logger.warn(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
+          Logger.error(TAG, `disableLandscapeMultiWindow failed. code: ${err.code}, message: ${err.message}`);
         })
     }
   }

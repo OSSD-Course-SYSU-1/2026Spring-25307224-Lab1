@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-export interface VideoType {
+export interface VideoInfo {
   name:Resource,
   index: number,
   videoSrc: Resource,

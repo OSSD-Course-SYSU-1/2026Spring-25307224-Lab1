@@ -43,11 +43,11 @@ export class BackgroundTaskManager {
             Logger.info('startBackgroundRunning succeed.');
           })
           .catch((err: BusinessError) => {
-            Logger.warn(TAG, `startBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
+            Logger.error(TAG, `startBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
           })
       })
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `getWantAgent failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `getWantAgent failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -58,9 +58,9 @@ export class BackgroundTaskManager {
     if (canIUse('SystemCapability.ResourceSchedule.BackgroundTaskManager.Core')) {
       backgroundTaskManager.stopBackgroundRunning(context)
         .catch((err: BusinessError) => {
-          Logger.warn(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
+          Logger.error(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
         })
     }
-    Logger.warn(TAG, `Current device is not support.`);
+    Logger.error(TAG, `Current device is not support.`);
   }
 }

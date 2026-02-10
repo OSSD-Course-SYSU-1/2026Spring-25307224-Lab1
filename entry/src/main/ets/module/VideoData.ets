@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-import { VideoType } from "./VideoType";
+import { VideoInfo } from "./VideoInfo";
 
-export const VideoData: VideoType[] = [
+export const VideoData: VideoInfo[] = [
   {
     name: $r('app.string.mountaineer'),
     index: 0,

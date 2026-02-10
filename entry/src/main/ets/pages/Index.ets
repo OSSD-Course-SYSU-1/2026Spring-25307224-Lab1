@@ -16,14 +16,14 @@
 import { LengthMetrics, window } from '@kit.ArkUI';
 import { avSession } from '@kit.AVSessionKit';
 import { VideoData } from '../module/VideoData';
-import { VideoType } from "../module/VideoType";
+import { VideoInfo } from '../module/VideoInfo';
 import { WindowUtil } from '../utils/WindowUtil';
 import { FormatTime } from '../utils/FotmatTime';
 import { VolumeAndBrightness } from '../view/VolumeAndBrightness';
 import { AVSessionController } from '../controller/AVSessionController';
-import { SmallVideo } from '../view/SmallVideo';
-import { VideoList } from '../view/VideoList';
-import VideoStatus from '../constants/VideoStatus';
+import { SmallWidnowVideo } from '../view/SmallWidnowVideo';
+import { VideoListPage } from '../view/VideoListPage';
+import { VideoStatus } from '../constants/VideoStatus';
 import Logger from '../utils/Logger';
 
 const TAG = '[IndexPage]';
@@ -50,7 +50,7 @@ struct Index {
   @State visible: boolean = false; // Whether to display the brightness adjustment icon and slider.
   @State volume: number = 5;
   @State screenBrightness: number = 0;
-  @State curSource: VideoType | undefined = undefined;
+  @State curSource: VideoInfo | undefined = undefined;
   @State isPlaying: boolean = false;
   @State scrollVal: number = 0;
 
@@ -78,7 +78,7 @@ struct Index {
       })
     } catch (error) {
       let err = error as BusinessError;
-      Logger.warn(TAG, `getWindowProperties failed. code: ${err.code}, message: ${err.message}`);
+      Logger.error(TAG, `getWindowProperties failed. code: ${err.code}, message: ${err.message}`);
     }
     setTimeout(() => {
       this.setAVSessionListener();
@@ -115,7 +115,7 @@ struct Index {
       this.avSessionController.getAVSession()?.on('playNext', () => this.changePlayVideo(false));
     } catch (error) {
       let err = error as BusinessError;
-      Logger.warn(TAG, `Set AVSession listener failed. code: ${err.code}, message: ${err.message}`);
+      Logger.error(TAG, `Set AVSession listener failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 
@@ -161,6 +161,9 @@ struct Index {
       this.currentVideoIndex = (this.currentVideoIndex + 1) % VideoData.length;
     }
     this.curSource = VideoData[this.currentVideoIndex];
+    if(!this.curSource) {
+      return;
+    }
     this.videoSrc = this.curSource.videoSrc;
     this.previewUri = this.curSource.previewUri;
 
@@ -219,7 +222,7 @@ struct Index {
           this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
         })
     }
-    .width('80vp')
+    .width(80)
     .font({
       size: 12
     })
@@ -258,8 +261,8 @@ struct Index {
         .onClick(() => {
           this.isFullScreen = !this.isFullScreen;
           if (this.isFullScreen) {
-            this.windowUtil.disableWindowSystemBar();
             this.windowUtil.setLandscapeMultiWindow(true);
+            this.windowUtil.disableWindowSystemBar();
             this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_LANDSCAPE);
           }
         })
@@ -322,8 +325,8 @@ struct Index {
         .onClick(() => {
           this.isFullScreen = !this.isFullScreen;
           if (!this.isFullScreen) {
-            this.windowUtil.enableWindowSystemBar();
             this.windowUtil.setLandscapeMultiWindow(false);
+            this.windowUtil.enableWindowSystemBar();
             this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
           }
         })
@@ -334,9 +337,12 @@ struct Index {
     .justifyContent(FlexAlign.Center)
   }
 
+  // Range limit for input values.
   private getValidValue(inputVal: number, minVal: number, maxVal: number): number {
-    inputVal = inputVal >= maxVal ? maxVal : inputVal;
-    inputVal = inputVal <= minVal ? minVal : inputVal;
+    // When the input value exceeds the maximum value, take the maximum value.
+    inputVal = Math.min(inputVal, maxVal);
+    // Lower limit limit: When the input value is less than the minimum value, take the minimum value.
+    inputVal = Math.max(inputVal, minVal);
     return inputVal;
   }
 
@@ -349,11 +355,11 @@ struct Index {
     try {
       let mainWin: window.Window = windowStage.getMainWindowSync();
       mainWin.setWindowBrightness(brightness, (err: BusinessError) => {
-        Logger.warn(TAG, `Set window brightness failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `Set window brightness failed. code: ${err.code}, message: ${err.message}`);
       })
     } catch (e) {
       let err = e as BusinessError;
-      Logger.warn(TAG, `Get main window failed. code: ${err.code}, message: ${err.message}`);
+      Logger.error(TAG, `Get main window failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 
@@ -366,7 +372,7 @@ struct Index {
               src: this.videoSrc,
               previewUri: this.previewUri,
               controller: this.videoController,
-              currentProgressRate: this.curRate, //设置播放速度
+              currentProgressRate: this.curRate, // Set playback speed.
             })
               .width(this.isFullScreen ? '80%' : '100%')
               .height(this.isFullScreen ? '90%' : 200)
@@ -478,7 +484,7 @@ struct Index {
 
           // Video list area.
           if (!this.isFullScreen) {
-            VideoList({
+            VideoListPage({
               currentVideoIndex: this.currentVideoIndex,
               videoSrc: this.videoSrc,
               previewUri: this.previewUri,
@@ -498,7 +504,7 @@ struct Index {
 
       // Play in a small window.
       if (this.scrollVal >= 240 && this.isPlaying) {
-        SmallVideo({
+        SmallWidnowVideo({
           videoSrc: this.videoSrc,
           previewUri: this.previewUri,
           curRate: this.curRate,

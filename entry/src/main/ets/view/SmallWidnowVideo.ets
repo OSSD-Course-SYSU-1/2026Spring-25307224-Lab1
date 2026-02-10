@@ -14,7 +14,7 @@
  */
 
 @Component
-export struct SmallVideo {
+export struct SmallWidnowVideo {
   @Prop videoSrc: Resource;
   @Prop previewUri: Resource;
   @Prop curRate: PlaybackSpeed;
@@ -29,7 +29,7 @@ export struct SmallVideo {
         src: this.videoSrc,
         previewUri: this.previewUri,
         controller: this.videoController,
-        currentProgressRate: this.curRate, //设置播放速度
+        currentProgressRate: this.curRate, // Set playback speed.
       })
         .borderRadius(8)
         .shadow({
@@ -38,12 +38,12 @@ export struct SmallVideo {
           offsetX: 0,
           offsetY: 10,
         })
-        .muted(this.isMute) // 设置是否静音
-        .autoPlay(true) // 设置是否自动播放
-        .controls(false) // 设置控制视频播放的控制栏是否显示
-        .loop(true)
+        .muted(this.isMute) // Set whether to mute or not.
+        .autoPlay(true) // Set whether to play automatically.
+        .controls(false) // Set whether the control bar for controlling video playback is displayed.
+        .loop(true) // loop playback
         .onPrepared((event) => {
-          this.videoController.start(); // 准备完成后再播放
+          this.videoController.start();
           if (event) {
             this.videoController.setCurrentTime(this.currentTime, SeekMode.Accurate);
           }

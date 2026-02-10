@@ -45,7 +45,7 @@ export struct VolumeAndBrightness {
           Slider({
             min: 0,
             max: 1,
-            step:0.05,
+            step: 0.05,
             value: this.screenBrightness,
             style: SliderStyle.NONE,
             direction: Axis.Vertical,
@@ -65,7 +65,10 @@ export struct VolumeAndBrightness {
       .width('50%')
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.End)
-      .padding({ right: 30, bottom: 20 })
+      .padding({
+        right: 30,
+        bottom: 20
+      })
       .visibility(this.visible ? Visibility.Visible : Visibility.None)
     }
     .width('100%')

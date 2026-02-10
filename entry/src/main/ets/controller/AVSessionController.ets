@@ -15,7 +15,7 @@
 
 import { common, WantAgent, wantAgent } from "@kit.AbilityKit";
 import { avSession } from "@kit.AVSessionKit";
-import { VideoType } from "../module/VideoType";
+import { VideoInfo } from "../module/VideoInfo";
 import { BackgroundTaskManager } from "../utils/BackgroundTaskManager";
 import Logger from '../utils/Logger';
 
@@ -55,11 +55,11 @@ export class AVSessionController {
           })
           .catch((err: BusinessError) => {
             BackgroundTaskManager.stopContinuousTask(this.context);
-            Logger.warn(TAG, `AVSession activate failed. code: ${err.code}, message: ${err.message}`);
+            Logger.error(TAG, `AVSession activate failed. code: ${err.code}, message: ${err.message}`);
           })
       })
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `Create AVSession failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `Create AVSession failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -71,7 +71,7 @@ export class AVSessionController {
     return this.avSessionMetaData;
   }
 
-  public setAVMetadata(curSource: VideoType, duration: number) {
+  public setAVMetadata(curSource: VideoInfo, duration: number) {
     if (!curSource) {
       return;
     }
@@ -79,8 +79,8 @@ export class AVSessionController {
       // Set session metadata.
       let metadata: avSession.AVMetadata = {
         assetId: `${curSource.index}`, // Media ID
-        title: this.context?.resourceManager.getStringSync(curSource.name.id), // Title.
-        duration: duration, // Media duration.
+        title: this.context?.resourceManager.getStringSync(curSource.name.id), // Title
+        duration: duration // Media duration
       }
       if (this.avSession) {
         this.avSession.setAVMetadata(metadata)
@@ -88,12 +88,12 @@ export class AVSessionController {
             this.avSessionMetaData = metadata;
           })
           .catch((err: BusinessError) => {
-            Logger.warn(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
+            Logger.error(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
           })
       }
     } catch (error) {
       let err = error as BusinessError;
-      Logger.warn(TAG, `getStringSync failed. code: ${err.code}, message: ${err.message}`);
+      Logger.error(TAG, `getStringSync failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 
@@ -112,19 +112,19 @@ export class AVSessionController {
       requestCode: 0,
       actionFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
     }
-    // Create WantAgent.
+    // Create WantAgent
     wantAgent.getWantAgent(wantAgentInfo)
       .then((agent: WantAgent) => {
         if (this.avSession) {
           // Set up a WantAgent to initiate the Ability of the session.
           this.avSession.setLaunchAbility(agent)
             .catch((err: BusinessError) => {
-              Logger.warn(TAG, `SetLaunchAbility failed. code: ${err.code}, message: ${err.message}`);
+              Logger.error(TAG, `SetLaunchAbility failed. code: ${err.code}, message: ${err.message}`);
             })
         }
       })
       .catch((err: BusinessError) => {
-        Logger.warn(TAG, `Get wantAgent failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `Get wantAgent failed. code: ${err.code}, message: ${err.message}`);
       })
   }
 
@@ -135,7 +135,7 @@ export class AVSessionController {
     }
     this.avSession.setAVPlaybackState(playbackState, (err: BusinessError) => {
       if (err) {
-        Logger.warn(TAG, `SetAVPlaybackState failed. code: ${err.code}, message: ${err.message}`);
+        Logger.error(TAG, `SetAVPlaybackState failed. code: ${err.code}, message: ${err.message}`);
       }
       Logger.info('SetAVPlaybackState successfully');
     })
@@ -155,7 +155,7 @@ export class AVSessionController {
       BackgroundTaskManager.stopContinuousTask(this.context);
     } catch (error) {
       let err = error as BusinessError;
-      Logger.warn(TAG, `Unregister sessionListener failed. code: ${err.code}, message: ${err.message}`);
+      Logger.error(TAG, `Unregister sessionListener failed. code: ${err.code}, message: ${err.message}`);
     }
   }
 }

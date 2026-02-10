@@ -14,15 +14,15 @@
  */
 
 import { VideoData } from "../module/VideoData"
-import { VideoType } from "../module/VideoType"
+import { VideoInfo } from "../module/VideoInfo"
 
 @Component
-export struct VideoList {
+export struct VideoListPage {
   @Link currentVideoIndex: number;
   @Link videoSrc: Resource;
   @Link previewUri: Resource;
   @Link isAutoPlay: boolean;
-  @Link curSource: VideoType;
+  @Link curSource: VideoInfo;
 
   build() {
     Column() {
@@ -35,7 +35,7 @@ export struct VideoList {
         .width('100%')
         .alignItems(HorizontalAlign.Start)
 
-        ForEach(VideoData, (item: VideoType, index: number) => {
+        ForEach(VideoData, (item: VideoInfo, index: number) => {
           Row({ space: 12 }) {
             Image(item.previewUri)
               .width(120)
@@ -61,7 +61,7 @@ export struct VideoList {
             this.curSource = item;
           })
           .width('100%')
-        }, (item: VideoType) => JSON.stringify(item.index))
+        }, (item: VideoInfo) => JSON.stringify(item.index))
       }
       .padding({
         left: 16,
