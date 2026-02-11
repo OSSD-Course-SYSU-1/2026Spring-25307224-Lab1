@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import window from "@ohos.window";
-import Logger from "./Logger";
+import { window } from '@kit.ArkUI';
+import Logger from './Logger';
 
 const TAG = '[WindowUtil]';
 
@@ -34,7 +34,7 @@ export class WindowUtil {
     this.windowStage = windowStage;
     this.windowStage?.getMainWindow((err: BusinessError, windowClass: window.Window) => {
       if (err.code) {
-        console.error(`Failed to obtain the main window. Cause code: ${JSON.stringify(err)}, message: ${err.message}`);
+        Logger.error(`Failed to obtain the main window. Cause code: ${err.code}, message: ${err.message}`);
         return;
       }
       this.mainWindowClass = windowClass;

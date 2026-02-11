@@ -64,7 +64,8 @@ export class BackgroundTaskManager {
         .catch((err: BusinessError) => {
           Logger.error(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);
         })
+    } else {
+      Logger.error(TAG, `Current device is not support.`);
     }
-    Logger.error(TAG, `Current device is not support.`);
   }
 }
