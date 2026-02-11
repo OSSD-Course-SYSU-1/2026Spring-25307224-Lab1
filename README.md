@@ -9,9 +9,9 @@
 |---------------------------------------------------------|-----------------------------------------------------------|----------------------------------------------------------|
 | <img src='./screenshots/device/homePage.png' width=320> | <img src='./screenshots/device/smallVideo.png' width=320> | <img src='./screenshots/device/avSession.png' width=320> |
 
-| 横屏-音量调节                                               | 横屏-亮度调节                                                   |
-|-------------------------------------------------------|-----------------------------------------------------------|
-| <img src='./screenshots/device/volume.png' width=320> | <img src='./screenshots/device/brightness.png' width=320> |
+| 横屏-音量调节                                               | 
+|-------------------------------------------------------|
+| <img src='./screenshots/device/volume.png' width=320> |
 
 
 ## 使用说明
