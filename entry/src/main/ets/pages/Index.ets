@@ -71,7 +71,7 @@ struct Index {
     try {
       // Get the width and height of the window.
       window.getLastWindow(this.getUIContext().getHostContext(), (err: BusinessError, data: window.Window) => {
-        if (err) {
+        if (err.code) {
           Logger.error(TAG, `getLastWindow failed. code: ${err.code}, message: ${err.message}`);
           return;
         }

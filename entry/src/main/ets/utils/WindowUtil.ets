@@ -33,7 +33,7 @@ export class WindowUtil {
   public setWindowStage(windowStage: window.WindowStage): void {
     this.windowStage = windowStage;
     this.windowStage?.getMainWindow((err: BusinessError, windowClass: window.Window) => {
-      if (err) {
+      if (err.code) {
         Logger.error(`Failed to obtain the main window. Cause code: ${err.code}, message: ${err.message}`);
         return;
       }
