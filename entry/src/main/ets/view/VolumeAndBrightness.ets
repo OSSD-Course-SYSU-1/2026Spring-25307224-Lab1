@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { AVVolumePanel } from "@kit.AudioKit"
+import { AVVolumePanel } from '@kit.AudioKit';
 
 @Component
 export struct VolumeAndBrightness {

@@ -25,7 +25,6 @@ export class AVSessionController {
   private static instance: AVSessionController | undefined = undefined;
   private context: common.UIAbilityContext | undefined = AppStorage.get('context');
   private avSession: avSession.AVSession | undefined = undefined;
-  private avSessionMetaData: avSession.AVMetadata | undefined = undefined;
 
   constructor() {
     this.initAVSession();
@@ -65,10 +64,6 @@ export class AVSessionController {
 
   public getAVSession() {
     return this.avSession;
-  }
-
-  public getAVSessionMetadata() {
-    return this.avSessionMetaData;
   }
 
   public setAVMetadata(curSource: VideoInfo, duration: number) {
@@ -111,7 +106,7 @@ export class AVSessionController {
       actionType: wantAgent.OperationType.START_ABILITIES, // Enable multiple Abilities with pages.
       requestCode: 0,
       actionFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
-    }
+    };
     // Create WantAgent
     wantAgent.getWantAgent(wantAgentInfo)
       .then((agent: WantAgent) => {

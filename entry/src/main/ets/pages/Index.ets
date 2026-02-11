@@ -467,7 +467,7 @@ struct Index {
 
             if (this.currentVideoStatus !== VideoStatus.PLAY_STARTED) {
               Image($r('app.media.play_pause'))
-                .width('36vp')
+                .width(36)
             }
           }
           .onClick(() => {

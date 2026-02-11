@@ -24,6 +24,7 @@ export class BackgroundTaskManager {
     if (!context) {
       return;
     }
+    // Define WantAgentInfo information.
     let wantAgentInfo: wantAgent.WantAgentInfo = {
       wants: [
         {
@@ -35,8 +36,10 @@ export class BackgroundTaskManager {
       requestCode: 0,
       actionFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
     };
+    // Create WantAgent.
     wantAgent.getWantAgent(wantAgentInfo)
       .then((agentObj) => {
+        // Apply for long-term tasks.
         backgroundTaskManager.startBackgroundRunning(context, backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK,
           agentObj)
           .then(() => {
@@ -56,6 +59,7 @@ export class BackgroundTaskManager {
       return;
     }
     if (canIUse('SystemCapability.ResourceSchedule.BackgroundTaskManager.Core')) {
+      // Cancel all long-term tasks under the current UIAbility.
       backgroundTaskManager.stopBackgroundRunning(context)
         .catch((err: BusinessError) => {
           Logger.error(TAG, `stopBackgroundRunning failed. code: ${err.code}, message: ${err.message}`);

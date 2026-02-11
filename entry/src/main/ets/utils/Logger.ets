@@ -42,4 +42,4 @@ export class Logger {
   }
 }
 
-export default new Logger('[AVPlayerLongVideo]');
+export default new Logger('[PlayLongVideoVasedOnVideoComponent]');

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import { VideoData } from "../module/VideoData"
-import { VideoInfo } from "../module/VideoInfo"
+import { VideoData } from '../module/VideoData';
+import { VideoInfo } from '../module/VideoInfo';
 
 @Component
 export struct VideoListPage {
