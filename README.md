@@ -1,7 +1,7 @@
 # 基于Video组件播放长视频
 
 ## 项目简介
-本示例基于Video组件实现了播放长视频功能，指导开发者如何通过Video组件实现长视频播放，如：基础播控、视频首帧率显示、自定义播放进度条、前台小窗播放、循环播放、视频全屏播放、视频音量设置、静音播放、长按倍速播放、点击选择倍速播放、接入播控中心等功能场景。
+本示例基于Video组件实现了播放长视频功能，指导开发者如何通过Video组件实现长视频播放，如：基础播控、视频首帧显示、自定义播放进度条、前台小窗播放、循环播放、视频全屏播放、视频音量设置、静音播放、长按倍速播放、点击选择倍速播放、接入播控中心等功能场景。
 
 ## 效果预览
 
@@ -30,7 +30,7 @@
 ```
 ├──entry/src/main/ets
 │  ├──constants
-│  │  └──CommonConstants.ets            // Video状态常量
+│  │  └──VideoStatus.ets                // Video状态常量
 │  ├──controller
 │  │  └──AVSessionController.ets        // AVSession控制类
 │  ├──entryability
@@ -69,6 +69,6 @@
 
 本示例仅支持标准系统上运行，支持设备：直板机。
 
-1. HarmonyOS系统：HarmonyOS 6.0.1 Release及以上。
-2. DevEco Studio版本：DevEco Studio 6.0.1 Release及以上。
-3. HarmonyOS SDK版本：HarmonyOS 6.0.1 Release SDK及以上。
+1. HarmonyOS系统：HarmonyOS 6.0.2 Release及以上。
+2. DevEco Studio版本：DevEco Studio 6.0.2 Release及以上。
+3. HarmonyOS SDK版本：HarmonyOS 6.0.2 Release SDK及以上。
