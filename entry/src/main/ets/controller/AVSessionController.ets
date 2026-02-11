@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-import { common, WantAgent, wantAgent } from "@kit.AbilityKit";
-import { avSession } from "@kit.AVSessionKit";
-import { VideoInfo } from "../module/VideoInfo";
-import { BackgroundTaskManager } from "../utils/BackgroundTaskManager";
+import { common, WantAgent, wantAgent } from '@kit.AbilityKit';
+import { avSession } from '@kit.AVSessionKit';
+import { VideoInfo } from '../module/VideoInfo';
+import { BackgroundTaskManager } from '../utils/BackgroundTaskManager';
 import Logger from '../utils/Logger';
 
 const TAG = '[AVSessionController]';
@@ -79,9 +79,6 @@ export class AVSessionController {
       }
       if (this.avSession) {
         this.avSession.setAVMetadata(metadata)
-          .then(() => {
-            this.avSessionMetaData = metadata;
-          })
           .catch((err: BusinessError) => {
             Logger.error(TAG, `Set AVMetadata failed. code: ${err.code}, message: ${err.message}`);
           })
@@ -131,8 +128,9 @@ export class AVSessionController {
     this.avSession.setAVPlaybackState(playbackState, (err: BusinessError) => {
       if (err) {
         Logger.error(TAG, `SetAVPlaybackState failed. code: ${err.code}, message: ${err.message}`);
+      } else {
+        Logger.info('SetAVPlaybackState successfully');
       }
-      Logger.info('SetAVPlaybackState successfully');
     })
   }
 

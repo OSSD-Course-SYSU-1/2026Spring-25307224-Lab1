@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { VideoInfo } from "./VideoInfo";
+import { VideoInfo } from './VideoInfo';
 
 export const VideoData: VideoInfo[] = [
   {

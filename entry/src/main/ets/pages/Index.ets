@@ -36,6 +36,7 @@ struct Index {
   private windowUtil: WindowUtil = WindowUtil.getInstance();
   private videoController: VideoController = new VideoController();
   private avSessionController: AVSessionController = AVSessionController.getInstance();
+  private timeoutID: number = 0;
   @State currentVideoStatus: string = 'init';
   @State videoSrc: Resource = $rawfile('mountaineer.mp4');
   @State previewUri: Resource = $r('app.media.mountaineer');
@@ -70,7 +71,8 @@ struct Index {
     try {
       // Get the width and height of the window.
       window.getLastWindow(this.getUIContext().getHostContext(), (err: BusinessError, data: window.Window) => {
-        if (err.code) {
+        if (err) {
+          Logger.error(TAG, `getLastWindow failed. code: ${err.code}, message: ${err.message}`);
           return;
         }
         this.screenWidth = data.getWindowProperties().windowRect.width;
@@ -80,12 +82,13 @@ struct Index {
       let err = error as BusinessError;
       Logger.error(TAG, `getWindowProperties failed. code: ${err.code}, message: ${err.message}`);
     }
-    setTimeout(() => {
+    this.timeoutID = setTimeout(() => {
       this.setAVSessionListener();
     }, 100);
   }
 
   aboutToDisappear() {
+    clearTimeout(this.timeoutID);
     this.windowUtil.registerOffWindowSizeChange();
     this.avSessionController.unregisterSessionListener();
   }
@@ -161,7 +164,7 @@ struct Index {
       this.currentVideoIndex = (this.currentVideoIndex + 1) % VideoData.length;
     }
     this.curSource = VideoData[this.currentVideoIndex];
-    if(!this.curSource) {
+    if (!this.curSource) {
       return;
     }
     this.videoSrc = this.curSource.videoSrc;
@@ -448,7 +451,7 @@ struct Index {
                     .onActionEnd(() => {
                       setTimeout(() => {
                         this.visible = false;
-                      }, 3000)
+                      }, 1500)
                     }),
                   LongPressGesture({ repeat: true })
                     .onAction(() => {

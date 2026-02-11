@@ -51,7 +51,7 @@
     "requestPermissions": [
       {
         "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
-        "reason": "$string:app_name",
+        "reason": "$string:reason",
         "usedScene": {
           "abilities": [
             "EntryAbility"

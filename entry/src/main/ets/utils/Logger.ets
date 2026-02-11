@@ -42,4 +42,4 @@ export class Logger {
   }
 }
 
-export default new Logger('[PlayLongVideoVasedOnVideoComponent]');
+export default new Logger('[PlayLongVideoBasedOnVideoComponent]');
