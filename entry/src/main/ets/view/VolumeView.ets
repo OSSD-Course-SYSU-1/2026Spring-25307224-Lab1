@@ -16,10 +16,9 @@
 import { AVVolumePanel } from '@kit.AudioKit';
 
 @Component
-export struct VolumeAndBrightness {
+export struct VolumeView {
   @Prop volume: number;
   @Prop visible: boolean;
-  @Prop screenBrightness: number;
 
   build() {
     Row() {
@@ -38,38 +37,6 @@ export struct VolumeAndBrightness {
       .width('50%')
       .justifyContent(FlexAlign.Start)
       .alignItems(HorizontalAlign.Start)
-
-      // Brightness adjustment.
-      Column() {
-        Stack() {
-          Slider({
-            min: 0,
-            max: 1,
-            step: 0.05,
-            value: this.screenBrightness,
-            style: SliderStyle.NONE,
-            direction: Axis.Vertical,
-            reverse: true
-          })
-            .height(160)
-            .trackThickness(40)
-            .trackColor(Color.Black)
-            .selectedColor(Color.White)
-
-          Image($r('app.media.brightness_fill'))
-            .width(20)
-            .height(20)
-            .margin({ top: 120 })
-        }
-      }
-      .width('50%')
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.End)
-      .padding({
-        right: 30,
-        bottom: 20
-      })
-      .visibility(this.visible ? Visibility.Visible : Visibility.None)
     }
     .width('100%')
     .height('100%')

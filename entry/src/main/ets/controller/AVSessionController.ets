@@ -141,10 +141,10 @@ export class AVSessionController {
     try {
       this.avSession.off('play');
       this.avSession.off('pause');
+      this.avSession.off('seek');
       this.avSession.off('playPrevious');
       this.avSession.off('playNext');
       this.avSession.off('setLoopMode');
-      this.avSession.off('seek');
       BackgroundTaskManager.stopContinuousTask(this.context);
     } catch (error) {
       let err = error as BusinessError;

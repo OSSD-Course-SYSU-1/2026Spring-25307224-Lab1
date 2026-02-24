@@ -19,11 +19,12 @@ import { VideoData } from '../module/VideoData';
 import { VideoInfo } from '../module/VideoInfo';
 import { WindowUtil } from '../utils/WindowUtil';
 import { FormatTime } from '../utils/FotmatTime';
-import { VolumeAndBrightness } from '../view/VolumeAndBrightness';
+import { VolumeView } from '../view/VolumeView';
 import { AVSessionController } from '../controller/AVSessionController';
 import { SmallWidnowVideo } from '../view/SmallWidnowVideo';
 import { VideoListPage } from '../view/VideoListPage';
 import { VideoStatus } from '../constants/VideoStatus';
+import CommonConstants from '../constants/CommonConstants';
 import Logger from '../utils/Logger';
 
 const TAG = '[IndexPage]';
@@ -31,7 +32,6 @@ const TAG = '[IndexPage]';
 @Entry
 @Component
 struct Index {
-  private screenWidth: number = 0; // Screen width.
   private screenHeight: number = 0; // Screen height.
   private windowUtil: WindowUtil = WindowUtil.getInstance();
   private videoController: VideoController = new VideoController();
@@ -50,7 +50,6 @@ struct Index {
   @State isMute: boolean = false; // Play with mute or not.
   @State visible: boolean = false; // Whether to display the brightness adjustment icon and slider.
   @State volume: number = 5;
-  @State screenBrightness: number = 0;
   @State curSource: VideoInfo | undefined = undefined;
   @State isPlaying: boolean = false;
   @State scrollVal: number = 0;
@@ -61,6 +60,7 @@ struct Index {
     this.windowUtil.registerOnWindowSizeChange((size) => {
       if (size.width > size.height) {
         this.isFullScreen = true;
+        this.scrollVal = 0;
         this.windowUtil.disableWindowSystemBar();
       } else {
         this.isFullScreen = false;
@@ -75,7 +75,6 @@ struct Index {
           Logger.error(TAG, `getLastWindow failed. code: ${err.code}, message: ${err.message}`);
           return;
         }
-        this.screenWidth = data.getWindowProperties().windowRect.width;
         this.screenHeight = data.getWindowProperties().windowRect.height;
       })
     } catch (error) {
@@ -99,6 +98,18 @@ struct Index {
 
   onPageHide() {
     this.sessionPause();
+  }
+
+  onBackPress() {
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
+      this.windowUtil.setLandscapeMultiWindow(false);
+      this.windowUtil.enableWindowSystemBar();
+      this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Set AVSession to listen.
@@ -200,7 +211,7 @@ struct Index {
   @Builder
   SpeedMenu() {
     Menu() {
-      MenuItem({ content: '2X' })
+      MenuItem({ content: '2.0X' })
         .width('100%')
         .onClick(() => {
           this.playbackSpeed = '2.0X';
@@ -369,7 +380,7 @@ struct Index {
   build() {
     Column() {
       Scroll() {
-        Column({ space: 12 }) {
+        Column({ space: CommonConstants.COMPONENT_SPACE }) {
           Stack() {
             Video({
               src: this.videoSrc,
@@ -378,7 +389,7 @@ struct Index {
               currentProgressRate: this.curRate, // Set playback speed.
             })
               .width(this.isFullScreen ? '80%' : '100%')
-              .height(this.isFullScreen ? '90%' : 200)
+              .height(this.isFullScreen ? '100%' : 200)
               .muted(this.isMute)
               .autoPlay(this.isAutoPlay)
               .loop(true)
@@ -415,10 +426,9 @@ struct Index {
               })
             if (this.isFullScreen) {
               Stack() {
-                VolumeAndBrightness({
+                VolumeView({
                   visible: this.visible,
                   volume: this.volume,
-                  screenBrightness: this.screenBrightness
                 })
                 this.FullScreenVideoControllerBuilder();
               }
@@ -431,22 +441,10 @@ struct Index {
                     .onActionStart(() => {
                     })
                     .onActionUpdate((event: GestureEvent) => {
-                      if (event.fingerList.length === 0) {
-                        return;
-                      }
-                      if (event.fingerList[0].globalX > (this.screenWidth / 2)) {
-                        this.visible = true;
-                        let curBrightness = this.screenBrightness -
-                          this.getUIContext().vp2px(event.offsetY) / this.getUIContext().vp2px(this.screenHeight);
-                        curBrightness = this.getValidValue(curBrightness, 0.0, 1.0);
-                        this.screenBrightness = curBrightness;
-                        this.setScreenBrightness(curBrightness);
-                      } else {
-                        this.visible = false;
-                        let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
-                        curVolume = this.getValidValue(curVolume, 0.0, 15.0);
-                        this.volume = curVolume;
-                      }
+                      this.visible = false;
+                      let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
+                      curVolume = this.getValidValue(curVolume, CommonConstants.MIN_VOLUME, CommonConstants.MAX_VOLUME);
+                      this.volume = curVolume;
                     })
                     .onActionEnd(() => {
                       setTimeout(() => {
@@ -506,7 +504,7 @@ struct Index {
       })
 
       // Play in a small window.
-      if (this.scrollVal >= 240 && this.isPlaying) {
+      if (this.scrollVal >= 240 && this.isPlaying && !this.isFullScreen) {
         SmallWidnowVideo({
           videoSrc: this.videoSrc,
           previewUri: this.previewUri,

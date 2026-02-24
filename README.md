@@ -30,7 +30,8 @@
 ```
 ├──entry/src/main/ets
 │  ├──constants
-│  │  └──VideoStatus.ets                // Video状态常量
+│  │  ├──CommonConstants.ets            // 常量
+│  │  └──VideoStatus.ets                // Video状态
 │  ├──controller
 │  │  └──AVSessionController.ets        // AVSession控制类
 │  ├──entryability
@@ -50,7 +51,7 @@
 │  └──view
 │     ├──SmallVideo.ets                 // 小窗播放视频页面
 │     ├──VideoList.ets                  // 视频列表页面
-│     └──VolumeAndBrightnessView.ets    // 音量亮度调节组件
+│     └──VolumeView.ets                 // 音量调节
 └──src/main/resources                   // 应用资源目录
 ```
 ## 具体实现

@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import CommonConstants from '../constants/CommonConstants';
 import { VideoData } from '../module/VideoData';
 import { VideoInfo } from '../module/VideoInfo';
 
@@ -26,7 +27,7 @@ export struct VideoListPage {
 
   build() {
     Column() {
-      Column({ space: 12 }) {
+      Column({ space: CommonConstants.COMPONENT_SPACE }) {
         Column() {
           Text($r('app.string.video_list'))
             .fontSize(16)
@@ -36,7 +37,7 @@ export struct VideoListPage {
         .alignItems(HorizontalAlign.Start)
 
         ForEach(VideoData, (item: VideoInfo, index: number) => {
-          Row({ space: 12 }) {
+          Row({ space: CommonConstants.COMPONENT_SPACE }) {
             Image(item.previewUri)
               .width(120)
               .height(90)
@@ -64,8 +65,8 @@ export struct VideoListPage {
         }, (item: VideoInfo) => JSON.stringify(item.index))
       }
       .padding({
-        left: 16,
-        right: 16
+        left: CommonConstants.PADDING_VALUE,
+        right: CommonConstants.PADDING_VALUE
       })
     }
   }
