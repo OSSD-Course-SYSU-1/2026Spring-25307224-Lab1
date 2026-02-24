@@ -39,7 +39,9 @@ struct Index {
   private timeoutID: number = 0;
   @State currentVideoStatus: string = 'init';
   @State videoSrc: Resource = $rawfile('mountaineer.mp4');
+  // [Start previewUri_pic1]
   @State previewUri: Resource = $r('app.media.mountaineer');
+  // [End previewUri_pic1]
   @State isAutoPlay: boolean = false; // Whether to play automatically.
   @State currentVideoIndex: number = 0;
   @State isFullScreen: boolean = false; // Whether to play in full screen.
@@ -112,6 +114,7 @@ struct Index {
     }
   }
 
+  // [Start set_AVSession_listener]
   // Set AVSession to listen.
   public async setAVSessionListener() {
     if (!this.avSessionController) {
@@ -132,6 +135,7 @@ struct Index {
       Logger.error(TAG, `Set AVSession listener failed. code: ${err.code}, message: ${err.message}`);
     }
   }
+  // [End set_AVSession_listener]
 
   // AVSession video playback.
   sessionPlay() {
@@ -194,6 +198,7 @@ struct Index {
     this.isAutoPlay = true;
   }
 
+  // [Start update_play_status]
   // Update AVSession playback status.
   updateIsPlay() {
     this.avSessionController.setAVSessionPlayState({
@@ -206,7 +211,9 @@ struct Index {
       duration: this.durationTime * 1000 // The duration of current media resources.
     })
   }
+  // [End update_play_status]
 
+  // [Start speed_menu]
   // Playback speed setting.
   @Builder
   SpeedMenu() {
@@ -236,6 +243,7 @@ struct Index {
           this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
         })
     }
+    // [StartExclude speed_menu]
     .width(80)
     .font({
       size: 12
@@ -247,7 +255,9 @@ struct Index {
       mode: DividerMode.EMBEDDED_IN_MENU
     })
     .backgroundColor('#80000000')
+    // [EndExclude speed_menu]
   }
+  // [End speed_menu]
 
   // Non-full screen playback.
   @Builder
@@ -256,16 +266,20 @@ struct Index {
       Text(FormatTime.getTimesBySecond(this.currentTime))
         .fontSize(12)
         .fontColor(Color.White)
+      // [Start seek_play_video]
       Slider({
         value: this.currentTime,
         max: this.durationTime,
         step: 1
       })
+        // [StartExclude seek_play_video]
         .width('60%')
         .trackColor($r('app.color.slider_color'))
+        // [EndExclude seek_play_video]
         .onChange((value) => {
           this.videoController.setCurrentTime(value, SeekMode.Accurate);
         })
+      // [End seek_play_video]
       Text(FormatTime.getTimesBySecond(this.durationTime))
         .fontSize(12)
         .fontColor(Color.White)
@@ -276,8 +290,10 @@ struct Index {
           this.isFullScreen = !this.isFullScreen;
           if (this.isFullScreen) {
             this.windowUtil.setLandscapeMultiWindow(true);
+            // [Start to_full_screen]
             this.windowUtil.disableWindowSystemBar();
             this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_LANDSCAPE);
+            // [End to_full_screen]
           }
         })
     }
@@ -340,8 +356,10 @@ struct Index {
           this.isFullScreen = !this.isFullScreen;
           if (!this.isFullScreen) {
             this.windowUtil.setLandscapeMultiWindow(false);
+            // [Start disabled_full_screen]
             this.windowUtil.enableWindowSystemBar();
             this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+            // [Start disabled_full_screen]
           }
         })
     }
@@ -379,21 +397,35 @@ struct Index {
 
   build() {
     Column() {
+      // [Start scroll_onWillScroll]
       Scroll() {
+        // [StartExclude scroll_onWillScroll]
         Column({ space: CommonConstants.COMPONENT_SPACE }) {
           Stack() {
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
             Video({
               src: this.videoSrc,
               previewUri: this.previewUri,
               controller: this.videoController,
               currentProgressRate: this.curRate, // Set playback speed.
             })
+            // [End currentProgressRate]
+            // [End previewUri_pic2]
+            // [StartExclude controls]
+            // [StartExclude loop_play_video]
               .width(this.isFullScreen ? '80%' : '100%')
               .height(this.isFullScreen ? '100%' : 200)
               .muted(this.isMute)
               .autoPlay(this.isAutoPlay)
+              // [EndExclude loop_play_video]
               .loop(true)
+              // [End loop_play_video]
+              // [EndExclude controls]
               .controls(false)
+              // [End controls]
               .onPrepared((event) => {
                 this.currentVideoStatus = VideoStatus.PLAY_PREPARED;
                 if (event) {
@@ -436,6 +468,7 @@ struct Index {
               .gesture(
                 GestureGroup(
                   GestureMode.Exclusive,
+                  // [Start set_volume]
                   // Bind the swipe gesture event.
                   PanGesture({ direction: PanDirection.Vertical })
                     .onActionStart(() => {
@@ -451,6 +484,8 @@ struct Index {
                         this.visible = false;
                       }, 1500)
                     }),
+                  // [End set_volume]
+                  // [Start LongPressGesture]
                   LongPressGesture({ repeat: true })
                     .onAction(() => {
                       this.playbackSpeed = '2.0X';
@@ -460,6 +495,7 @@ struct Index {
                       this.playbackSpeed = '1.0X';
                       this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
                     })
+                  // [End LongPressGesture]
                 )
               )
             } else {
@@ -494,15 +530,20 @@ struct Index {
             })
           }
         }
+        // [EndExclude scroll_onWillScroll]
       }
+      // [StartExclude scroll_onWillScroll]
       .width('100%')
       .height('100%')
       .scrollBar(BarState.Off)
       .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+      // [EndExclude scroll_onWillScroll]
       .onWillScroll((_xOffset: number, yOffset: number) => {
         this.scrollVal += yOffset;
       })
+      // [End scroll_onWillScroll]
 
+      // [Start small_window_video]
       // Play in a small window.
       if (this.scrollVal >= 240 && this.isPlaying && !this.isFullScreen) {
         SmallWidnowVideo({
@@ -515,6 +556,7 @@ struct Index {
           videoController: this.videoController,
         })
       }
+      // [End small_window_video]
     }
     .width('100%')
     .height('100%')

@@ -41,6 +41,7 @@ export class WindowUtil {
     })
   }
 
+  // [Start set_main_window_orientation]
   public setMainWindowOrientation(orientation: window.Orientation) {
     if (!this.mainWindowClass) {
       return;
@@ -53,6 +54,7 @@ export class WindowUtil {
         Logger.error(TAG, `setPreferredOrientation failed. code: ${err.code}, message: ${err.message}`);
       })
   }
+  // [End set_main_window_orientation]
 
   // Display the status bar of the main window and the bottom navigation.
   public enableWindowSystemBar(): void {
@@ -65,6 +67,7 @@ export class WindowUtil {
       })
   }
 
+  // [Start disable_window_systemBar]
   // Disable the status bar and bottom navigation of the main window.
   public disableWindowSystemBar(): void {
     if (!this.mainWindowClass) {
@@ -75,6 +78,7 @@ export class WindowUtil {
         Logger.error(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
+  // [End disable_window_systemBar]
 
   public setLandscapeMultiWindow(enable: boolean) {
     if (!this.mainWindowClass) {

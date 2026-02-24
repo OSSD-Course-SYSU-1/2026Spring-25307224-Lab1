@@ -37,6 +37,7 @@ export class AVSessionController {
     return AVSessionController.instance;
   }
 
+  // [Start init_AVSession]
   public initAVSession() {
     if (!this.context) {
       return;
@@ -61,11 +62,13 @@ export class AVSessionController {
         Logger.error(TAG, `Create AVSession failed. code: ${err.code}, message: ${err.message}`);
       })
   }
+  // [End init_AVSession]
 
   public getAVSession() {
     return this.avSession;
   }
 
+  // [Start set_AVMetadata]
   public setAVMetadata(curSource: VideoInfo, duration: number) {
     if (!curSource) {
       return;
@@ -88,7 +91,9 @@ export class AVSessionController {
       Logger.error(TAG, `getStringSync failed. code: ${err.code}, message: ${err.message}`);
     }
   }
+  // [End set_AVMetadata]
 
+  // [Start set_launch_Ability]
   public setLaunchAbility() {
     if (!this.context) {
       return;
@@ -119,7 +124,9 @@ export class AVSessionController {
         Logger.error(TAG, `Get wantAgent failed. code: ${err.code}, message: ${err.message}`);
       })
   }
+  // [End set_launch_Ability]
 
+  // [Start set_AVSession_play_state]
   // Set session playback status.
   public setAVSessionPlayState(playbackState: avSession.AVPlaybackState) {
     if (!this.avSession) {
@@ -133,6 +140,7 @@ export class AVSessionController {
       }
     })
   }
+  // [End set_AVSession_play_state]
 
   public unregisterSessionListener() {
     if (!this.avSession) {

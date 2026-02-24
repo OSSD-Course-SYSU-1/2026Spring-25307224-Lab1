@@ -24,6 +24,7 @@ export struct VolumeView {
     Row() {
       // Volume adjustment.
       Column() {
+        // [Start AVVolumePanel]
         AVVolumePanel({
           volumeLevel: this.volume,
           volumeParameter: {
@@ -33,6 +34,7 @@ export struct VolumeView {
             }
           }
         })
+        // [End AVVolumePanel]
       }
       .width('50%')
       .justifyContent(FlexAlign.Start)

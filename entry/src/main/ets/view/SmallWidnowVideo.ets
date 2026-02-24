@@ -13,8 +13,10 @@
  * limitations under the License.
  */
 
+// [Start small_widnow_video]
 @Component
 export struct SmallWidnowVideo {
+  // [StartExclude small_widnow_video]
   @Prop videoSrc: Resource;
   @Prop previewUri: Resource;
   @Prop curRate: PlaybackSpeed;
@@ -22,6 +24,7 @@ export struct SmallWidnowVideo {
   @Prop currentTime: number;
   @Link isPlaying: boolean;
   videoController: VideoController = new VideoController();
+  // [EndExclude small_widnow_video]
 
   build() {
     Column() {
@@ -31,6 +34,7 @@ export struct SmallWidnowVideo {
         controller: this.videoController,
         currentProgressRate: this.curRate, // Set playback speed.
       })
+        // [StartExclude small_widnow_video]
         .borderRadius(8)
         .shadow({
           radius: 50,
@@ -42,6 +46,7 @@ export struct SmallWidnowVideo {
         .autoPlay(true) // Set whether to play automatically.
         .controls(false) // Set whether the control bar for controlling video playback is displayed.
         .loop(true) // loop playback
+        // [EndExclude small_widnow_video]
         .onPrepared((event) => {
           this.videoController.start();
           if (event) {
@@ -54,6 +59,7 @@ export struct SmallWidnowVideo {
           }
         })
       Image($r('app.media.video_close'))
+        // [StartExclude small_widnow_video]
         .width(16)
         .height(16)
         .position({
@@ -64,12 +70,16 @@ export struct SmallWidnowVideo {
           this.videoController.pause();
           this.isPlaying = false;
         })
+      // [EndExclude small_widnow_video]
     }
+    // [StartExclude small_widnow_video]
     .width(160)
     .height(96)
     .position({
       right: 16,
       top: '50%'
     })
+    // [EndExclude small_widnow_video]
   }
 }
+// [End small_widnow_video]

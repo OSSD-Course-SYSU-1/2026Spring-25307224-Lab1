@@ -21,7 +21,9 @@
         "startWindowBackground": "$color:start_window_background",
         "preferMultiWindowOrientation": "landscape_auto",
         "exported": true,
+        // [Start orientation]
         "orientation": "auto_rotation_restricted",
+        // [End orientation]
         "skills": [
           {
             "entities": [
