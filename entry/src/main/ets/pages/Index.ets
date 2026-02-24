@@ -475,7 +475,9 @@ struct Index {
                     })
                     .onActionUpdate((event: GestureEvent) => {
                       this.visible = false;
+                      // Current Volume value = Volume value - Vertical offset (physical pixels) of the gesture / Screen height.
                       let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
+                      // Limit the volume range between 0 and 15.
                       curVolume = this.getValidValue(curVolume, CommonConstants.MIN_VOLUME, CommonConstants.MAX_VOLUME);
                       this.volume = curVolume;
                     })
