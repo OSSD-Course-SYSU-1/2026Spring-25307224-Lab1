@@ -497,6 +497,11 @@ struct Index {
                       let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
                       // Limit the volume range between 0 and 15.
                       curVolume = this.getValidValue(curVolume, CommonConstants.MIN_VOLUME, CommonConstants.MAX_VOLUME);
+                      if(curVolume === 0) {
+                        this.isMute = true;
+                      } else {
+                        this.isMute = false;
+                      }
                       this.volume = curVolume;
                     })
                     .onActionEnd(() => {
