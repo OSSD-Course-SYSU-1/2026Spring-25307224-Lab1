@@ -38,6 +38,9 @@ export class WindowUtil {
         return;
       }
       this.mainWindowClass = windowClass;
+      const properties = windowClass.getWindowProperties();
+      AppStorage.setOrCreate('deviceWidth', properties.windowRect.width);
+      AppStorage.setOrCreate('deviceHeight', properties.windowRect.height);
     })
   }
 

@@ -55,20 +55,13 @@ struct Index {
   @State curSource: VideoInfo | undefined = undefined;
   @State isPlaying: boolean = false;
   @State scrollVal: number = 0;
+  @StorageLink('deviceWidth') deviceWidth: number = 0;
+  @StorageLink('deviceHeight') deviceHeight: number = 0;
 
   aboutToAppear(): void {
     this.curSource = VideoData[0];
-
-    this.windowUtil.registerOnWindowSizeChange((size) => {
-      if (size.width > size.height) {
-        this.isFullScreen = true;
-        this.scrollVal = 0;
-        this.windowUtil.disableWindowSystemBar();
-      } else {
-        this.isFullScreen = false;
-        this.windowUtil.enableWindowSystemBar();
-      }
-    })
+    this.initializeLandscapeMode();
+    this.WindowSizeChange();
 
     try {
       // Get the width and height of the window.
@@ -112,6 +105,31 @@ struct Index {
     } else {
       return false;
     }
+  }
+
+  // Initialize landscape mode.
+  initializeLandscapeMode() {
+    if (this.deviceWidth > this.deviceHeight) {
+      this.isFullScreen = true;
+      this.windowUtil.disableWindowSystemBar();
+    } else {
+      this.isFullScreen = false;
+      this.windowUtil.enableWindowSystemBar();
+    }
+  }
+
+  // Change in registration window size.
+  WindowSizeChange() {
+    this.windowUtil.registerOnWindowSizeChange((size) => {
+      if (size.width > size.height) {
+        this.isFullScreen = true;
+        this.scrollVal = 0;
+        this.windowUtil.disableWindowSystemBar();
+      } else {
+        this.isFullScreen = false;
+        this.windowUtil.enableWindowSystemBar();
+      }
+    })
   }
 
   // [Start set_AVSession_listener]
@@ -532,6 +550,7 @@ struct Index {
             })
           }
         }
+
         // [EndExclude scroll_onWillScroll]
       }
       // [StartExclude scroll_onWillScroll]
@@ -543,6 +562,7 @@ struct Index {
       .onWillScroll((_xOffset: number, yOffset: number) => {
         this.scrollVal += yOffset;
       })
+
       // [End scroll_onWillScroll]
 
       // [Start small_window_video]
