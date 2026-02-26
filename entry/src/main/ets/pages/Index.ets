@@ -48,7 +48,9 @@ struct Index {
   @State currentTime: number = 0; // Initialize the current time to 0.
   @State durationTime: number = 0; // Initialize the total video duration to 0.
   @State playbackSpeed: string = '1.0X';
+  // [Start playback_speed]
   @State curRate: PlaybackSpeed = PlaybackSpeed.Speed_Forward_1_00_X; // Playback speed.
+  // [End playback_speed]
   @State isMute: boolean = false; // Play with mute or not.
   @State visible: boolean = false; // Whether to display the brightness adjustment icon and slider.
   @State volume: number = 5;
