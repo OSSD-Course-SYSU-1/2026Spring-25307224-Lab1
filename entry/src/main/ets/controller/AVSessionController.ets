@@ -26,7 +26,7 @@ export class AVSessionController {
   private context: common.UIAbilityContext | undefined = AppStorage.get('context');
   private avSession: avSession.AVSession | undefined = undefined;
 
-  constructor() {
+  private constructor() {
     this.initAVSession();
   }
 

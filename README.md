@@ -52,7 +52,7 @@
 │     ├──SmallVideo.ets                 // 小窗播放视频页面
 │     ├──VideoList.ets                  // 视频列表页面
 │     └──VolumeView.ets                 // 音量调节
-└──src/main/resources                   // 应用资源目录
+└──entry/src/main/resources             // 应用资源目录
 ```
 ## 具体实现
 

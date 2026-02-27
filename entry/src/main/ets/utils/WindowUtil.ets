@@ -23,6 +23,9 @@ export class WindowUtil {
   private windowStage: window.WindowStage | undefined = undefined;
   private mainWindowClass: window.Window | undefined = undefined;
 
+  private constructor() {
+  }
+
   public static getInstance(): WindowUtil {
     if (!WindowUtil.instance) {
       WindowUtil.instance = new WindowUtil();
@@ -38,9 +41,14 @@ export class WindowUtil {
         return;
       }
       this.mainWindowClass = windowClass;
-      const properties = windowClass.getWindowProperties();
-      AppStorage.setOrCreate('deviceWidth', properties.windowRect.width);
-      AppStorage.setOrCreate('deviceHeight', properties.windowRect.height);
+      try {
+        const properties = windowClass.getWindowProperties();
+        AppStorage.setOrCreate('deviceWidth', properties.windowRect.width);
+        AppStorage.setOrCreate('deviceHeight', properties.windowRect.height);
+      } catch (error) {
+        let err = error as BusinessError;
+        Logger.error(`Failed to getWindowProperties. Cause code: ${err.code}, message: ${err.message}`);
+      }
     })
   }
 
