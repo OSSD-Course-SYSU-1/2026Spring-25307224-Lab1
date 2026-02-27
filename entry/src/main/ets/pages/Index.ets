@@ -228,7 +228,8 @@ struct Index {
         elapsedTime: this.currentTime * 1000, // Elapsed time.
         updateTime: new Date().getTime() // Update time.
       },
-      duration: this.durationTime * 1000 // The duration of current media resources.
+      duration: this.durationTime * 1000, // The duration of current media resources.
+      speed: this.curRate
     })
   }
   // [End update_play_status]
@@ -274,7 +275,7 @@ struct Index {
       color: '#d5d5d5',
       mode: DividerMode.EMBEDDED_IN_MENU
     })
-    .backgroundColor('#80000000')
+    .backgroundColor('#ff202224')
     // [EndExclude speed_menu]
   }
   // [End speed_menu]
@@ -318,7 +319,7 @@ struct Index {
         })
     }
     .width('100%')
-    .position({ y: 160 })
+    .position({ y: 180 })
     .alignItems(VerticalAlign.Center)
     .justifyContent(FlexAlign.Center)
   }
@@ -398,23 +399,6 @@ struct Index {
     return inputVal;
   }
 
-  // Set screen brightness.
-  private setScreenBrightness(brightness: number) {
-    if (!AppStorage.has('windowStage')) {
-      return;
-    }
-    let windowStage: window.WindowStage = AppStorage.get('windowStage') as window.WindowStage;
-    try {
-      let mainWin: window.Window = windowStage.getMainWindowSync();
-      mainWin.setWindowBrightness(brightness, (err: BusinessError) => {
-        Logger.error(TAG, `Set window brightness failed. code: ${err.code}, message: ${err.message}`);
-      })
-    } catch (e) {
-      let err = e as BusinessError;
-      Logger.error(TAG, `Get main window failed. code: ${err.code}, message: ${err.message}`);
-    }
-  }
-
   build() {
     Column() {
       // [Start scroll_onWillScroll]
@@ -437,7 +421,7 @@ struct Index {
             // [StartExclude controls]
             // [StartExclude loop_play_video]
               .width(this.isFullScreen ? '80%' : '100%')
-              .height(this.isFullScreen ? '100%' : 200)
+              .height(this.isFullScreen ? '100%' : 220)
               .muted(this.isMute)
               .autoPlay(this.isAutoPlay)
               // [EndExclude loop_play_video]
@@ -589,6 +573,6 @@ struct Index {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor(this.isFullScreen ? Color.Black : Color.White)
+    .backgroundColor(Color.Black)
   }
 }

@@ -31,6 +31,7 @@ export struct VideoListPage {
         Column() {
           Text($r('app.string.video_list'))
             .fontSize(16)
+            .fontColor(Color.White)
             .fontWeight(FontWeight.Bold)
         }
         .width('100%')
@@ -51,7 +52,7 @@ export struct VideoListPage {
                 }
                 Span(item.description)
               }
-              .fontColor(this.currentVideoIndex === index ? Color.Blue : Color.Black)
+              .fontColor(this.currentVideoIndex === index ? '#ff317af7' : Color.White)
             }
           }
           .onClick(() => {

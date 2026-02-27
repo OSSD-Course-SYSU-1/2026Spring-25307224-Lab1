@@ -40,6 +40,11 @@ export default class EntryAbility extends UIAbility {
     try {
       AppStorage.setOrCreate('windowStage', windowStage);
       WindowUtil.getInstance().setWindowStage(windowStage);
+      let windowClass: window.Window = windowStage.getMainWindowSync();
+      windowClass.setWindowLayoutFullScreen(true)
+        .catch(() => {
+          hilog.error(DOMAIN, 'testTag', 'setWindowLayoutFullScreen is failed.');
+        });
 
       // Main window is created, set main page for this ability
       hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
