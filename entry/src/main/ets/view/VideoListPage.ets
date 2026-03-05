@@ -21,7 +21,6 @@ import { VideoInfo } from '../module/VideoInfo';
 export struct VideoListPage {
   @Link currentVideoIndex: number;
   @Link videoSrc: Resource;
-  @Link previewUri: Resource;
   @Link isAutoPlay: boolean;
   @Link curSource: VideoInfo;
 
@@ -57,7 +56,6 @@ export struct VideoListPage {
           }
           .onClick(() => {
             this.videoSrc = item.videoSrc;
-            this.previewUri = item.previewUri;
             this.isAutoPlay = true;
             this.currentVideoIndex = index;
             this.curSource = item;

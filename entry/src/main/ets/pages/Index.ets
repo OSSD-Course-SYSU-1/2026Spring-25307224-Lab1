@@ -39,9 +39,6 @@ struct Index {
   private timeoutID: number = 0;
   @State currentVideoStatus: string = 'init';
   @State videoSrc: Resource = $rawfile('mountaineer.mp4');
-  // [Start previewUri_pic1]
-  @State previewUri: Resource = $r('app.media.mountaineer');
-  // [End previewUri_pic1]
   @State isAutoPlay: boolean = false; // Whether to play automatically.
   @State currentVideoIndex: number = 0;
   @State isFullScreen: boolean = false; // Whether to play in full screen.
@@ -203,7 +200,6 @@ struct Index {
       return;
     }
     this.videoSrc = this.curSource.videoSrc;
-    this.previewUri = this.curSource.previewUri;
 
     // Stop the current playback and reset the status.
     this.videoController.stop();
@@ -412,7 +408,6 @@ struct Index {
             // [Start loop_play_video]
             Video({
               src: this.videoSrc,
-              previewUri: this.previewUri,
               controller: this.videoController,
               currentProgressRate: this.curRate, // Set playback speed.
               posterOptions: {
@@ -538,7 +533,6 @@ struct Index {
             VideoListPage({
               currentVideoIndex: this.currentVideoIndex,
               videoSrc: this.videoSrc,
-              previewUri: this.previewUri,
               isAutoPlay: this.isAutoPlay,
               curSource: this.curSource,
             })
@@ -564,7 +558,6 @@ struct Index {
       if (this.scrollVal >= 240 && this.isPlaying && !this.isFullScreen) {
         SmallWidnowVideo({
           videoSrc: this.videoSrc,
-          previewUri: this.previewUri,
           curRate: this.curRate,
           isMute: this.isMute,
           currentTime: this.currentTime,

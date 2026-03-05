@@ -18,7 +18,6 @@
 export struct SmallWidnowVideo {
   // [StartExclude small_widnow_video]
   @Prop videoSrc: Resource;
-  @Prop previewUri: Resource;
   @Prop curRate: PlaybackSpeed;
   @Prop isMute: boolean;
   @Prop currentTime: number;
@@ -30,9 +29,11 @@ export struct SmallWidnowVideo {
     Column() {
       Video({
         src: this.videoSrc,
-        previewUri: this.previewUri,
         controller: this.videoController,
         currentProgressRate: this.curRate, // Set playback speed.
+        posterOptions: {
+          showFirstFrame: true,
+        }
       })
         // [StartExclude small_widnow_video]
         .borderRadius(8)
