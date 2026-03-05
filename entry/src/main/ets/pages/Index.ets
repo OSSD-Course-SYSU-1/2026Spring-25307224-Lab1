@@ -415,6 +415,9 @@ struct Index {
               previewUri: this.previewUri,
               controller: this.videoController,
               currentProgressRate: this.curRate, // Set playback speed.
+              posterOptions: {
+                showFirstFrame: true,
+              }
             })
             // [End currentProgressRate]
             // [End previewUri_pic2]
