@@ -1,25 +1,9 @@
-/*
- * Copyright (c) 2022-2023 Huawei Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 {
   "module": {
     "name": "entry",
     "type": "entry",
-    "srcEntry": "./ets/application/MyAbilityStage.ets",
-    "description": "$string:entry_desc",
-    "mainElement": "MainAbility",
+    "description": "$string:module_desc",
+    "mainElement": "EntryAbility",
     "deviceTypes": [
       "phone"
     ],
@@ -30,28 +14,46 @@
       {
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
-        "description": "$string:MainAbility_desc",
-        "icon": "$media:icon",
-        "label": "$string:MainAbility_label",
-        "startWindowIcon": "$media:icon",
-        "startWindowBackground": "$color:white",
+        "description": "$string:EntryAbility_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:EntryAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        "preferMultiWindowOrientation": "landscape_auto",
         "exported": true,
+        // [Start orientation]
+        "orientation": "auto_rotation_restricted",
+        // [End orientation]
         "skills": [
           {
             "entities": [
               "entity.system.home"
             ],
             "actions": [
-              "action.system.home"
+              "ohos.want.action.home"
             ]
           }
         ]
       }
     ],
+    "extensionAbilities": [
+      {
+        "name": "EntryBackupAbility",
+        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+        "type": "backup",
+        "exported": false,
+        "metadata": [
+          {
+            "name": "ohos.extension.backup",
+            "resource": "$profile:backup_config"
+          }
+        ],
+      }
+    ],
     "requestPermissions": [
       {
-        "name": "ohos.permission.INTERNET",
-        "reason": "$string:reason_internet",
+        "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
+        "reason": "$string:reason",
         "usedScene": {
           "abilities": [
             "EntryAbility"

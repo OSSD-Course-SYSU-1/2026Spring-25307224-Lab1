@@ -1,20 +1,44 @@
 {
   "string": [
     {
-      "name": "entry_desc",
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
       "value": "description"
     },
     {
-      "name": "MainAbility_desc",
-      "value": "description"
+      "name": "EntryAbility_label",
+      "value": "Video长视频"
     },
     {
-      "name": "MainAbility_label",
-      "value": "VideoShow"
+      "name": "video_list",
+      "value": "video list"
     },
     {
-      "name": "reason_internet",
-      "value": "Used for video playback using the Internet network."
+      "name": "mountaineer",
+      "value": "Mountaineer"
+    },
+    {
+      "name": "mountaineer_desc",
+      "value": "Mountaineer local video"
+    },
+    {
+      "name": "rain",
+      "value": "Rain"
+    },
+    {
+      "name": "rain_desc",
+      "value": "Rain local video"
+    },
+    {
+      "name": "sunrise",
+      "value": "Sunrise"
+    },
+    {
+      "name": "sunrise_desc",
+      "value": "Sunrise local video"
     }
   ]
 }
