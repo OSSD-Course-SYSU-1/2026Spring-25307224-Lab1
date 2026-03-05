@@ -67,6 +67,7 @@ export class WindowUtil {
   }
   // [End set_main_window_orientation]
 
+  // [Start enable_window_systemBar]
   // Display the status bar of the main window and the bottom navigation.
   public enableWindowSystemBar(): void {
     if (!this.mainWindowClass) {
@@ -77,6 +78,7 @@ export class WindowUtil {
         Logger.error(TAG, `setWindowSystemBarEnable failed. code: ${err.code}, message: ${err.message}`);
       })
   }
+  // [End enable_window_systemBar]
 
   // [Start disable_window_systemBar]
   // Disable the status bar and bottom navigation of the main window.
