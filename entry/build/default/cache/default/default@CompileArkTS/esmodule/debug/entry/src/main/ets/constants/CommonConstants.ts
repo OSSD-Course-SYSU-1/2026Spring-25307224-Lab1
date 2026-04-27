@@ -12,40 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 export default class CommonConstants {
-  /**
-   * Minimum volume
-   */
-  static readonly MIN_VOLUME: number = 0.0;
-
-  /**
-   * Maximum volume
-   */
-  static readonly MAX_VOLUME: number = 15.0;
-
-  /**
-   * Component spacing
-   */
-  static readonly COMPONENT_SPACE: number = 12;
-
-  /**
-   * Padding value
-   */
-  static readonly PADDING_VALUE: number = 16;
-
-  /**
-   * Minimum brightness
-   */
-  static readonly MIN_BRIGHTNESS: number = 0.0;
-
-  /**
-   * Maximum brightness
-   */
-  static readonly MAX_BRIGHTNESS: number = 1.0;
-
-  /**
-   * Default brightness
-   */
-  static readonly DEFAULT_BRIGHTNESS: number = 0.5;
+    /**
+     * Minimum volume
+     */
+    static readonly MIN_VOLUME: number = 0.0;
+    /**
+     * Maximum volume
+     */
+    static readonly MAX_VOLUME: number = 15.0;
+    /**
+     * Component spacing
+     */
+    static readonly COMPONENT_SPACE: number = 12;
+    /**
+     * Padding value
+     */
+    static readonly PADDING_VALUE: number = 16;
+    /**
+     * Minimum brightness
+     */
+    static readonly MIN_BRIGHTNESS: number = 0.0;
+    /**
+     * Maximum brightness
+     */
+    static readonly MAX_BRIGHTNESS: number = 1.0;
+    /**
+     * Default brightness
+     */
+    static readonly DEFAULT_BRIGHTNESS: number = 0.5;
 }

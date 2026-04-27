@@ -1,0 +1,1800 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚºôif (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+/*
+ * Copyright (c) 2026 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { LengthMetrics } from "@ohos.arkui.node";
+/*
+ * Copyright (c) 2026 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import window from "@ohos.window";
+import avSession from "@ohos.multimedia.avsession";
+import { VideoData } from '../module/VideoData';
+import { WindowUtil } from '../utils/WindowUtil';
+import { FormatTime } from '../utils/FotmatTime';
+import { VolumeView } from '../view/VolumeView';
+import { BrightnessView } from '../view/BrightnessView';
+import { AVSessionController } from '../controller/AVSessionController';
+import { SmallWidnowVideo } from '../view/SmallWidnowVideo';
+import { VideoListPage } from '../view/VideoListPage';
+import { VideoStatus } from '../constants/VideoStatus';
+import CommonConstants from '../constants/CommonConstants';
+import Logger from '../utils/Logger';
+const TAG = '[IndexPage]';
+class Index extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.screenHeight = 0;
+        this.windowUtil = WindowUtil.getInstance();
+        this.videoController = new VideoController();
+        this.avSessionController = AVSessionController.getInstance();
+        this.timeoutID = 0;
+        this.__currentVideoStatus = new ObservedPropertySimplePU('init', this, "currentVideoStatus");
+        this.__videoSrc = new ObservedPropertyObjectPU({ "id": 0, "type": 30000, params: ['mountaineer.mp4'], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" }, this, "videoSrc");
+        this.__isAutoPlay = new ObservedPropertySimplePU(false, this, "isAutoPlay");
+        this.__currentVideoIndex = new ObservedPropertySimplePU(0, this, "currentVideoIndex");
+        this.__isFullScreen = new ObservedPropertySimplePU(false, this, "isFullScreen");
+        this.__currentTime = new ObservedPropertySimplePU(0, this, "currentTime");
+        this.__durationTime = new ObservedPropertySimplePU(0, this, "durationTime");
+        this.__playbackSpeed = new ObservedPropertySimplePU('1.0X', this, "playbackSpeed");
+        this.__curRate = new ObservedPropertySimplePU(PlaybackSpeed.Speed_Forward_1_00_X, this, "curRate");
+        this.__isMute = new ObservedPropertySimplePU(false, this, "isMute");
+        this.__visible = new ObservedPropertySimplePU(false, this, "visible");
+        this.__volume = new ObservedPropertySimplePU(5, this, "volume");
+        this.__currentBrightness = new ObservedPropertySimplePU(CommonConstants.DEFAULT_BRIGHTNESS, this, "currentBrightness");
+        this.__brightnessVisible = new ObservedPropertySimplePU(false, this, "brightnessVisible");
+        this.__curSource = new ObservedPropertyObjectPU(undefined, this, "curSource");
+        this.__isPlaying = new ObservedPropertySimplePU(false, this, "isPlaying");
+        this.__scrollVal = new ObservedPropertySimplePU(0, this, "scrollVal");
+        this.__deviceWidth = this.createStorageLink('deviceWidth', 0, "deviceWidth");
+        this.__deviceHeight = this.createStorageLink('deviceHeight', 0, "deviceHeight");
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.screenHeight !== undefined) {
+            this.screenHeight = params.screenHeight;
+        }
+        if (params.windowUtil !== undefined) {
+            this.windowUtil = params.windowUtil;
+        }
+        if (params.videoController !== undefined) {
+            this.videoController = params.videoController;
+        }
+        if (params.avSessionController !== undefined) {
+            this.avSessionController = params.avSessionController;
+        }
+        if (params.timeoutID !== undefined) {
+            this.timeoutID = params.timeoutID;
+        }
+        if (params.currentVideoStatus !== undefined) {
+            this.currentVideoStatus = params.currentVideoStatus;
+        }
+        if (params.videoSrc !== undefined) {
+            this.videoSrc = params.videoSrc;
+        }
+        if (params.isAutoPlay !== undefined) {
+            this.isAutoPlay = params.isAutoPlay;
+        }
+        if (params.currentVideoIndex !== undefined) {
+            this.currentVideoIndex = params.currentVideoIndex;
+        }
+        if (params.isFullScreen !== undefined) {
+            this.isFullScreen = params.isFullScreen;
+        }
+        if (params.currentTime !== undefined) {
+            this.currentTime = params.currentTime;
+        }
+        if (params.durationTime !== undefined) {
+            this.durationTime = params.durationTime;
+        }
+        if (params.playbackSpeed !== undefined) {
+            this.playbackSpeed = params.playbackSpeed;
+        }
+        if (params.curRate !== undefined) {
+            this.curRate = params.curRate;
+        }
+        if (params.isMute !== undefined) {
+            this.isMute = params.isMute;
+        }
+        if (params.visible !== undefined) {
+            this.visible = params.visible;
+        }
+        if (params.volume !== undefined) {
+            this.volume = params.volume;
+        }
+        if (params.currentBrightness !== undefined) {
+            this.currentBrightness = params.currentBrightness;
+        }
+        if (params.brightnessVisible !== undefined) {
+            this.brightnessVisible = params.brightnessVisible;
+        }
+        if (params.curSource !== undefined) {
+            this.curSource = params.curSource;
+        }
+        if (params.isPlaying !== undefined) {
+            this.isPlaying = params.isPlaying;
+        }
+        if (params.scrollVal !== undefined) {
+            this.scrollVal = params.scrollVal;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__currentVideoStatus.purgeDependencyOnElmtId(rmElmtId);
+        this.__videoSrc.purgeDependencyOnElmtId(rmElmtId);
+        this.__isAutoPlay.purgeDependencyOnElmtId(rmElmtId);
+        this.__currentVideoIndex.purgeDependencyOnElmtId(rmElmtId);
+        this.__isFullScreen.purgeDependencyOnElmtId(rmElmtId);
+        this.__currentTime.purgeDependencyOnElmtId(rmElmtId);
+        this.__durationTime.purgeDependencyOnElmtId(rmElmtId);
+        this.__playbackSpeed.purgeDependencyOnElmtId(rmElmtId);
+        this.__curRate.purgeDependencyOnElmtId(rmElmtId);
+        this.__isMute.purgeDependencyOnElmtId(rmElmtId);
+        this.__visible.purgeDependencyOnElmtId(rmElmtId);
+        this.__volume.purgeDependencyOnElmtId(rmElmtId);
+        this.__currentBrightness.purgeDependencyOnElmtId(rmElmtId);
+        this.__brightnessVisible.purgeDependencyOnElmtId(rmElmtId);
+        this.__curSource.purgeDependencyOnElmtId(rmElmtId);
+        this.__isPlaying.purgeDependencyOnElmtId(rmElmtId);
+        this.__scrollVal.purgeDependencyOnElmtId(rmElmtId);
+        this.__deviceWidth.purgeDependencyOnElmtId(rmElmtId);
+        this.__deviceHeight.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__currentVideoStatus.aboutToBeDeleted();
+        this.__videoSrc.aboutToBeDeleted();
+        this.__isAutoPlay.aboutToBeDeleted();
+        this.__currentVideoIndex.aboutToBeDeleted();
+        this.__isFullScreen.aboutToBeDeleted();
+        this.__currentTime.aboutToBeDeleted();
+        this.__durationTime.aboutToBeDeleted();
+        this.__playbackSpeed.aboutToBeDeleted();
+        this.__curRate.aboutToBeDeleted();
+        this.__isMute.aboutToBeDeleted();
+        this.__visible.aboutToBeDeleted();
+        this.__volume.aboutToBeDeleted();
+        this.__currentBrightness.aboutToBeDeleted();
+        this.__brightnessVisible.aboutToBeDeleted();
+        this.__curSource.aboutToBeDeleted();
+        this.__isPlaying.aboutToBeDeleted();
+        this.__scrollVal.aboutToBeDeleted();
+        this.__deviceWidth.aboutToBeDeleted();
+        this.__deviceHeight.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get currentVideoStatus() {
+        return this.__currentVideoStatus.get();
+    }
+    set currentVideoStatus(newValue) {
+        this.__currentVideoStatus.set(newValue);
+    }
+    get videoSrc() {
+        return this.__videoSrc.get();
+    }
+    set videoSrc(newValue) {
+        this.__videoSrc.set(newValue);
+    }
+    get isAutoPlay() {
+        return this.__isAutoPlay.get();
+    }
+    set isAutoPlay(newValue) {
+        this.__isAutoPlay.set(newValue);
+    }
+    get currentVideoIndex() {
+        return this.__currentVideoIndex.get();
+    }
+    set currentVideoIndex(newValue) {
+        this.__currentVideoIndex.set(newValue);
+    }
+    get isFullScreen() {
+        return this.__isFullScreen.get();
+    }
+    set isFullScreen(newValue) {
+        this.__isFullScreen.set(newValue);
+    }
+    get currentTime() {
+        return this.__currentTime.get();
+    }
+    set currentTime(newValue) {
+        this.__currentTime.set(newValue);
+    }
+    get durationTime() {
+        return this.__durationTime.get();
+    }
+    set durationTime(newValue) {
+        this.__durationTime.set(newValue);
+    }
+    get playbackSpeed() {
+        return this.__playbackSpeed.get();
+    }
+    set playbackSpeed(newValue) {
+        this.__playbackSpeed.set(newValue);
+    }
+    get curRate() {
+        return this.__curRate.get();
+    }
+    set curRate(newValue) {
+        this.__curRate.set(newValue);
+    }
+    get isMute() {
+        return this.__isMute.get();
+    }
+    set isMute(newValue) {
+        this.__isMute.set(newValue);
+    }
+    get visible() {
+        return this.__visible.get();
+    }
+    set visible(newValue) {
+        this.__visible.set(newValue);
+    }
+    get volume() {
+        return this.__volume.get();
+    }
+    set volume(newValue) {
+        this.__volume.set(newValue);
+    }
+    get currentBrightness() {
+        return this.__currentBrightness.get();
+    }
+    set currentBrightness(newValue) {
+        this.__currentBrightness.set(newValue);
+    }
+    get brightnessVisible() {
+        return this.__brightnessVisible.get();
+    }
+    set brightnessVisible(newValue) {
+        this.__brightnessVisible.set(newValue);
+    }
+    get curSource() {
+        return this.__curSource.get();
+    }
+    set curSource(newValue) {
+        this.__curSource.set(newValue);
+    }
+    get isPlaying() {
+        return this.__isPlaying.get();
+    }
+    set isPlaying(newValue) {
+        this.__isPlaying.set(newValue);
+    }
+    get scrollVal() {
+        return this.__scrollVal.get();
+    }
+    set scrollVal(newValue) {
+        this.__scrollVal.set(newValue);
+    }
+    get deviceWidth() {
+        return this.__deviceWidth.get();
+    }
+    set deviceWidth(newValue) {
+        this.__deviceWidth.set(newValue);
+    }
+    get deviceHeight() {
+        return this.__deviceHeight.get();
+    }
+    set deviceHeight(newValue) {
+        this.__deviceHeight.set(newValue);
+    }
+    aboutToAppear() {
+        this.curSource = VideoData[0];
+        this.initializeLandscapeMode();
+        this.WindowSizeChange();
+        try {
+            // Get the width and height of the window.
+            window.getLastWindow(this.getUIContext().getHostContext(), (err, data) => {
+                if (err.code) {
+                    Logger.error(TAG, `getLastWindow failed. code: ${err.code}, message: ${err.message}`);
+                    return;
+                }
+                this.screenHeight = data.getWindowProperties().windowRect.height;
+            });
+        }
+        catch (error) {
+            let err = error;
+            Logger.error(TAG, `getWindowProperties failed. code: ${err.code}, message: ${err.message}`);
+        }
+        this.timeoutID = setTimeout(() => {
+            this.setAVSessionListener();
+        }, 100);
+    }
+    aboutToDisappear() {
+        clearTimeout(this.timeoutID);
+        this.windowUtil.registerOffWindowSizeChange();
+        this.avSessionController.unregisterSessionListener();
+    }
+    onPageShow() {
+        this.sessionPlay();
+    }
+    onPageHide() {
+        this.sessionPause();
+    }
+    onBackPress() {
+        if (this.isFullScreen) {
+            this.isFullScreen = false;
+            this.windowUtil.setLandscapeMultiWindow(false);
+            this.windowUtil.enableWindowSystemBar();
+            this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    // Initialize landscape mode.
+    initializeLandscapeMode() {
+        if (this.deviceWidth > this.deviceHeight) {
+            this.isFullScreen = true;
+            this.windowUtil.disableWindowSystemBar();
+        }
+        else {
+            this.isFullScreen = false;
+            this.windowUtil.enableWindowSystemBar();
+        }
+    }
+    // Change in registration window size.
+    WindowSizeChange() {
+        this.windowUtil.registerOnWindowSizeChange((size) => {
+            if (size.width > size.height) {
+                this.isFullScreen = true;
+                this.scrollVal = 0;
+                this.windowUtil.disableWindowSystemBar();
+            }
+            else {
+                this.isFullScreen = false;
+                this.windowUtil.enableWindowSystemBar();
+            }
+        });
+    }
+    // [Start set_AVSession_listener]
+    // Set AVSession to listen.
+    async setAVSessionListener() {
+        if (!this.avSessionController) {
+            return;
+        }
+        try {
+            this.avSessionController.getAVSession()?.on('play', () => this.sessionPlay());
+            this.avSessionController.getAVSession()?.on('pause', () => this.sessionPause());
+            this.avSessionController.getAVSession()?.on('seek', (msTime) => {
+                this.sessionSeek(msTime);
+            });
+            this.avSessionController.getAVSession()?.on('setLoopMode', () => {
+            });
+            this.avSessionController.getAVSession()?.on('playPrevious', () => this.changePlayVideo(true));
+            this.avSessionController.getAVSession()?.on('playNext', () => this.changePlayVideo(false));
+        }
+        catch (error) {
+            let err = error;
+            Logger.error(TAG, `Set AVSession listener failed. code: ${err.code}, message: ${err.message}`);
+        }
+    }
+    // [End set_AVSession_listener]
+    // AVSession video playback.
+    sessionPlay() {
+        if (this.curSource) {
+            this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+        }
+        this.videoController.start();
+        this.isPlaying = true;
+        this.updateIsPlay();
+    }
+    // AVSession video paused.
+    sessionPause() {
+        if (this.curSource) {
+            this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+        }
+        this.videoController.pause();
+        this.isPlaying = false;
+        this.updateIsPlay();
+    }
+    // AVSession video jump playback.
+    sessionSeek(msTime) {
+        if (this.curSource) {
+            this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+        }
+        this.isPlaying = true;
+        this.updateIsPlay();
+        this.videoController.setCurrentTime(msTime / 1000, SeekMode.Accurate);
+        this.videoController.start();
+    }
+    // AVSession switches to the previous/next video.
+    changePlayVideo(isPrevious) {
+        if (!VideoData.length) {
+            return;
+        }
+        if (isPrevious) {
+            this.currentVideoIndex = (this.currentVideoIndex - 1 + VideoData.length) % VideoData.length;
+        }
+        else {
+            this.currentVideoIndex = (this.currentVideoIndex + 1) % VideoData.length;
+        }
+        this.curSource = VideoData[this.currentVideoIndex];
+        if (!this.curSource) {
+            return;
+        }
+        this.videoSrc = this.curSource.videoSrc;
+        // Stop the current playback and reset the status.
+        this.videoController.stop();
+        this.currentTime = 0;
+        this.isPlaying = false;
+        // Update metadata.
+        this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+        this.currentVideoStatus = VideoStatus.PLAY_STARTED;
+        this.updateIsPlay();
+        this.videoController.start();
+        this.isAutoPlay = true;
+    }
+    // [Start update_play_status]
+    // Update AVSession playback status.
+    updateIsPlay() {
+        this.avSessionController.setAVSessionPlayState({
+            state: this.isPlaying ? avSession.PlaybackState.PLAYBACK_STATE_PLAY :
+                avSession.PlaybackState.PLAYBACK_STATE_PAUSE,
+            position: {
+                elapsedTime: this.currentTime * 1000,
+                updateTime: new Date().getTime() // Update time.
+            },
+            duration: this.durationTime * 1000,
+            speed: this.curRate
+        });
+    }
+    // [End update_play_status]
+    // [Start speed_menu]
+    // Playback speed setting.
+    SpeedMenu(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Menu.create();
+            Menu.width(80);
+            Menu.font({
+                size: 12
+            });
+            Menu.fontColor(Color.White);
+            Menu.menuItemDivider({
+                strokeWidth: LengthMetrics.vp(0.5),
+                color: '#d5d5d5',
+                mode: DividerMode.EMBEDDED_IN_MENU
+            });
+            Menu.backgroundColor('#ff202224');
+        }, Menu);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '2.0X' });
+            MenuItem.width('100%');
+            MenuItem.onClick(() => {
+                this.playbackSpeed = '2.0X';
+                this.curRate = PlaybackSpeed.Speed_Forward_2_00_X;
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '1.75X' });
+            MenuItem.width('100%');
+            MenuItem.onClick(() => {
+                this.playbackSpeed = '1.75X';
+                this.curRate = PlaybackSpeed.Speed_Forward_1_75_X;
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '1.25X' });
+            MenuItem.width('100%');
+            MenuItem.onClick(() => {
+                this.playbackSpeed = '1.25X';
+                this.curRate = PlaybackSpeed.Speed_Forward_1_25_X;
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '1.0X' });
+            MenuItem.width('100%');
+            MenuItem.onClick(() => {
+                this.playbackSpeed = '1.0X';
+                this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        Menu.pop();
+    }
+    // [End speed_menu]
+    // Non-full screen playback.
+    VideoControllerBuilder(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 4 });
+            Row.width('100%');
+            Row.position({ y: 180 });
+            Row.alignItems(VerticalAlign.Center);
+            Row.justifyContent(FlexAlign.Center);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(FormatTime.getTimesBySecond(this.currentTime));
+            Text.fontSize(12);
+            Text.fontColor(Color.White);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // [Start seek_play_video]
+            Slider.create({
+                value: this.currentTime,
+                max: this.durationTime,
+                step: 1
+            });
+            // [Start seek_play_video]
+            Slider.width('60%');
+            // [Start seek_play_video]
+            Slider.trackColor({ "id": 16777232, "type": 10001, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+            // [Start seek_play_video]
+            Slider.onChange((value) => {
+                this.videoController.setCurrentTime(value, SeekMode.Accurate);
+            });
+        }, Slider);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // [End seek_play_video]
+            Text.create(FormatTime.getTimesBySecond(this.durationTime));
+            // [End seek_play_video]
+            Text.fontSize(12);
+            // [End seek_play_video]
+            Text.fontColor(Color.White);
+        }, Text);
+        // [End seek_play_video]
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Image.create({ "id": 16777236, "type": 20000, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+            Image.width('24vp');
+            Image.height('24vp');
+            Image.onClick(() => {
+                this.isFullScreen = !this.isFullScreen;
+                if (this.isFullScreen) {
+                    this.windowUtil.setLandscapeMultiWindow(true);
+                    // [Start to_full_screen]
+                    this.windowUtil.disableWindowSystemBar();
+                    this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_LANDSCAPE);
+                    // [End to_full_screen]
+                }
+            });
+        }, Image);
+        Row.pop();
+    }
+    // Full screen playback.
+    FullScreenVideoControllerBuilder(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.height('40%');
+            Row.position({ y: '73%' });
+            Row.justifyContent(FlexAlign.Center);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(FormatTime.getTimesBySecond(this.currentTime));
+            Text.fontSize(12);
+            Text.fontColor(Color.White);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Slider.create({
+                value: this.currentTime,
+                max: this.durationTime,
+                step: 1
+            });
+            Slider.width('65%');
+            Slider.trackColor({ "id": 16777232, "type": 10001, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+            Slider.onChange((value) => {
+                this.videoController.setCurrentTime(value, SeekMode.Accurate);
+            });
+        }, Slider);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(FormatTime.getTimesBySecond(this.durationTime));
+            Text.fontSize(12);
+            Text.fontColor(Color.White);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width(48);
+            Column.height(24);
+            Column.padding(4);
+            Column.border({
+                width: 2,
+                color: Color.White,
+                radius: 12
+            });
+            Column.bindMenu({ builder: this.SpeedMenu.bind(this) });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.playbackSpeed);
+            Text.fontSize(12);
+            Text.fontColor(Color.White);
+        }, Text);
+        Text.pop();
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Image.create(this.isMute || this.volume === 0.0 ? { "id": 16777239, "type": 20000, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" } : { "id": 16777246, "type": 20000, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+            Image.width('24vp');
+            Image.height('24vp');
+            Image.onClick(() => {
+                this.isMute = !this.isMute;
+                if (this.isMute) {
+                    this.volume = 0.0;
+                }
+                else {
+                    this.volume = 0.5;
+                }
+            });
+        }, Image);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Image.create({ "id": 16777242, "type": 20000, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+            Image.width('24vp');
+            Image.height('24vp');
+            Image.onClick(() => {
+                this.isFullScreen = !this.isFullScreen;
+                if (!this.isFullScreen) {
+                    this.windowUtil.setLandscapeMultiWindow(false);
+                    // [Start disabled_full_screen]
+                    this.windowUtil.enableWindowSystemBar();
+                    this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+                    // [Start disabled_full_screen]
+                }
+            });
+        }, Image);
+        Row.pop();
+    }
+    // Range limit for input values.
+    getValidValue(inputVal, minVal, maxVal) {
+        // When the input value exceeds the maximum value, take the maximum value.
+        inputVal = Math.min(inputVal, maxVal);
+        // Lower limit limit: When the input value is less than the minimum value, take the minimum value.
+        inputVal = Math.max(inputVal, minVal);
+        return inputVal;
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height('100%');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // [Start scroll_onWillScroll]
+            Scroll.create();
+            // [Start scroll_onWillScroll]
+            Scroll.width('100%');
+            // [Start scroll_onWillScroll]
+            Scroll.height('100%');
+            // [Start scroll_onWillScroll]
+            Scroll.scrollBar(BarState.Off);
+            // [Start scroll_onWillScroll]
+            Scroll.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM]);
+            // [Start scroll_onWillScroll]
+            Scroll.onWillScroll((_xOffset, yOffset) => {
+                this.scrollVal += yOffset;
+            });
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // [StartExclude scroll_onWillScroll]
+            Column.create({ space: CommonConstants.COMPONENT_SPACE });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Stack.create();
+            Stack.onClick(() => {
+                if (this.currentVideoStatus === VideoStatus.PLAY_STARTED) {
+                    this.videoController.pause();
+                    this.isPlaying = false;
+                    this.updateIsPlay();
+                }
+                else {
+                    this.videoController.start();
+                    this.isPlaying = true;
+                    this.updateIsPlay();
+                }
+            });
+        }, Stack);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.create({
+                src: this.videoSrc,
+                controller: this.videoController,
+                currentProgressRate: this.curRate,
+                posterOptions: {
+                    showFirstFrame: true,
+                }
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.width(this.isFullScreen ? '80%' : '100%');
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.height(this.isFullScreen ? '100%' : 220);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.muted(this.isMute);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.autoPlay(this.isAutoPlay);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.opacity(0.3 + this.currentBrightness * 0.7);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.loop(true);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.controls(false);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onPrepared((event) => {
+                this.currentVideoStatus = VideoStatus.PLAY_PREPARED;
+                if (event) {
+                    this.durationTime = event.duration;
+                    if (this.curSource) {
+                        this.avSessionController.setAVMetadata(ObservedObject.GetRawObject(this.curSource), event.duration * 1000);
+                    }
+                }
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onStart(() => {
+                this.isPlaying = true;
+                this.currentVideoStatus = VideoStatus.PLAY_STARTED;
+                this.updateIsPlay();
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onPause(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_PAUSED;
+                this.updateIsPlay();
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onFinish(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_FINISHED;
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onStop(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_STOPPED;
+            });
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video.onUpdate((event) => {
+                if (event) {
+                    this.currentTime = event.time;
+                    this.updateIsPlay();
+                }
+            });
+        }, Video);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.isFullScreen) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Stack.create();
+                        Gesture.create(GesturePriority.Low);
+                        GestureGroup.create(GestureMode.Exclusive);
+                        // [Start set_volume]
+                        // Bind the swipe gesture event.
+                        PanGesture.create({ direction: PanDirection.Vertical });
+                        // [Start set_volume]
+                        // Bind the swipe gesture event.
+                        PanGesture.onActionStart(() => {
+                        });
+                        // [Start set_volume]
+                        // Bind the swipe gesture event.
+                        PanGesture.onActionUpdate((event) => {
+                            this.brightnessVisible = false;
+                            this.visible = true;
+                            // Current Volume value = Volume value - Vertical offset (physical pixels) of the gesture / Screen height.
+                            let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
+                            // Limit the volume range between 0 and 15.
+                            curVolume = this.getValidValue(curVolume, CommonConstants.MIN_VOLUME, CommonConstants.MAX_VOLUME);
+                            if (curVolume === 0) {
+                                this.isMute = true;
+                            }
+                            else {
+                                this.isMute = false;
+                            }
+                            this.volume = curVolume;
+                        });
+                        // [Start set_volume]
+                        // Bind the swipe gesture event.
+                        PanGesture.onActionEnd(() => {
+                            setTimeout(() => {
+                                this.visible = false;
+                            }, 1500);
+                        });
+                        // [Start set_volume]
+                        // Bind the swipe gesture event.
+                        PanGesture.pop();
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.create({ direction: PanDirection.Horizontal });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionStart(() => {
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionUpdate((event) => {
+                            this.visible = false;
+                            this.brightnessVisible = true;
+                            // Current Brightness value = Brightness value + Horizontal offset (physical pixels) of the gesture / Screen width.
+                            // Using screenHeight as reference since we don't have screenWidth readily available
+                            let curBrightness = this.currentBrightness + this.getUIContext().vp2px(event.offsetX) / (this.screenHeight * 2);
+                            // Limit the brightness range between 0.0 and 1.0
+                            curBrightness = this.getValidValue(curBrightness, CommonConstants.MIN_BRIGHTNESS, CommonConstants.MAX_BRIGHTNESS);
+                            this.currentBrightness = curBrightness;
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionEnd(() => {
+                            setTimeout(() => {
+                                this.brightnessVisible = false;
+                            }, 1500);
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.pop();
+                        // [Start LongPressGesture]
+                        LongPressGesture.create({ repeat: true });
+                        // [Start LongPressGesture]
+                        LongPressGesture.onAction(() => {
+                            this.playbackSpeed = '2.0X';
+                            this.curRate = PlaybackSpeed.Speed_Forward_2_00_X;
+                        });
+                        // [Start LongPressGesture]
+                        LongPressGesture.onActionEnd(() => {
+                            this.playbackSpeed = '1.0X';
+                            this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
+                        });
+                        // [Start LongPressGesture]
+                        LongPressGesture.pop();
+                        GestureGroup.pop();
+                        Gesture.pop();
+                    }, Stack);
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new VolumeView(this, {
+                                    visible: this.visible,
+                                    volume: this.volume,
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 467, col: 17 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        visible: this.visible,
+                                        volume: this.volume
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    visible: this.visible,
+                                    volume: this.volume
+                                });
+                            }
+                        }, { name: "VolumeView" });
+                    }
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new BrightnessView(this, {
+                                    visible: this.brightnessVisible,
+                                    brightnessValue: this.currentBrightness,
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 471, col: 17 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        visible: this.brightnessVisible,
+                                        brightnessValue: this.currentBrightness
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    visible: this.brightnessVisible,
+                                    brightnessValue: this.currentBrightness
+                                });
+                            }
+                        }, { name: "BrightnessView" });
+                    }
+                    this.FullScreenVideoControllerBuilder.bind(this)();
+                    Stack.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.VideoControllerBuilder.bind(this)();
+                });
+            }
+        }, If);
+        If.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.currentVideoStatus !== VideoStatus.PLAY_STARTED) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Image.create({ "id": 16777240, "type": 20000, params: [], "bundleName": "com.example.PlayLongVideosBasedOnVideo", "moduleName": "entry" });
+                        Image.width(36);
+                    }, Image);
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        Stack.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            // Video list area.
+            if (!this.isFullScreen) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new VideoListPage(this, {
+                                    currentVideoIndex: this.__currentVideoIndex,
+                                    videoSrc: this.__videoSrc,
+                                    isAutoPlay: this.__isAutoPlay,
+                                    curSource: this.__curSource,
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 561, col: 13 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        currentVideoIndex: this.currentVideoIndex,
+                                        videoSrc: this.videoSrc,
+                                        isAutoPlay: this.isAutoPlay,
+                                        curSource: this.curSource
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            }
+                        }, { name: "VideoListPage" });
+                    }
+                });
+            }
+            else // [EndExclude scroll_onWillScroll]
+             {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        // [StartExclude scroll_onWillScroll]
+        Column.pop();
+        // [Start scroll_onWillScroll]
+        Scroll.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            // [End scroll_onWillScroll]
+            // [Start small_window_video]
+            // Play in a small window.
+            if (this.scrollVal >= 240 && this.isPlaying && !this.isFullScreen) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new SmallWidnowVideo(this, {
+                                    videoSrc: this.videoSrc,
+                                    curRate: this.curRate,
+                                    isMute: this.isMute,
+                                    currentTime: this.currentTime,
+                                    isPlaying: this.__isPlaying,
+                                    videoController: this.videoController,
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 587, col: 9 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        videoSrc: this.videoSrc,
+                                        curRate: this.curRate,
+                                        isMute: this.isMute,
+                                        currentTime: this.currentTime,
+                                        isPlaying: this.isPlaying,
+                                        videoController: this.videoController
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    videoSrc: this.videoSrc,
+                                    curRate: this.curRate,
+                                    isMute: this.isMute,
+                                    currentTime: this.currentTime
+                                });
+                            }
+                        }, { name: "SmallWidnowVideo" });
+                    }
+                });
+            }
+            // [End small_window_video]
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        Column.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "Index";
+    }
+}
+registerNamedRoute(() => new Index(undefined, {}), "", { bundleName: "com.example.PlayLongVideosBasedOnVideo", moduleName: "entry", pagePath: "pages/Index", pageFullPath: "entry/src/main/ets/pages/Index", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=Index.js.mapÂžÙj hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.arkui.node.d.tsÙf hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.window.d.tsÙt hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.multimedia.avsession.d.tsÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\module\VideoData.etsÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\WindowUtil.etsÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\FotmatTime.etsÙWC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\VolumeView.etsÙ[C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\BrightnessView.etsÙfC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\controller\AVSessionController.etsÙ]C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\SmallWidnowVideo.etsÙZC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\VideoListPage.etsÙ]C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\constants\VideoStatus.etsÙaC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\constants\CommonConstants.etsÙTC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\Logger.etsÙSC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\pages\Index.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath§checker¬shouldEmitJs¥entryÃÂÙ6C:\Users\xiadie\DevEcoStudioProjects\video-show1\entryÙ0C:\Users\xiadie\DevEcoStudioProjects\video-show1¥entry¥1.0.0Ô  Ù6C:\Users\xiadie\DevEcoStudioProjects\video-show1\entryÔrCÜ ®¬getNodeCount²getIdentifierCount®getSymbolCount¬getTypeCountµgetInstantiationCountµgetRelationCacheSizes±isUndefinedSymbol±isArgumentsSymbol¯isUnknownSymbol¯getMergedSymbol®getDiagnostics´getGlobalDiagnostics´getRecursionIdentity¶getUnmatchedProperties¹getTypeOfSymbolAtLocation¯getTypeOfSymbolÙ(getSymbolsOfParameterPropertyDeclaration·getDeclaredTypeOfSymbol³getPropertiesOfType±getPropertyOfTypeÙ"getPrivateIdentifierPropertyOfType·getTypeOfPropertyOfType²getIndexInfoOfType³getIndexInfosOfTypeºgetIndexInfosOfIndexSymbol³getSignaturesOfType²getIndexTypeOfType¬getIndexType¬getBaseTypes¸getBaseTypeOfLiteralType®getWidenedType³getTypeFromTypeNode°getParameterTypeÙ$getParameterIdentifierNameAtPosition¸getPromisedTypeOfPromise®getAwaitedType¸getReturnTypeOfSignature®isNullableType¯getNullableType²getNonNullableType²getNonOptionalType°getTypeArguments®typeToTypeNodeÙ$indexInfoToIndexSignatureDeclaration¿signatureToSignatureDeclaration²symbolToEntityName²symbolToExpression¬symbolToNodeÙ!symbolToTypeParameterDeclarations¼symbolToParameterDeclarationºtypeParameterToDeclaration±getSymbolsInScope³getSymbolAtLocation·getIndexInfosAtLocationÙ!getShorthandAssignmentValueSymbolÙ#getExportSpecifierLocalTargetSymbol·getExportSymbolOfSymbol±getTypeAtLocationºgetTypeAtLocationForLinterÙ tryGetTypeAtLocationWithoutCheckºgetTypeOfAssignmentPatternÙ*getPropertySymbolOfDestructuringAssignment±signatureToString¬typeToString®symbolToStringµtypePredicateToString®writeSignature©writeType«writeSymbol²writeTypePredicate¼getAugmentedPropertiesOfType®getRootSymbols²getSymbolOfExpando±getContextualTypeÙ(getContextualTypeForObjectLiteralElementÙ#getContextualTypeForArgumentAtIndexÙ getContextualTypeForJsxAttribute²isContextSensitiveÙ!getTypeOfPropertyOfContextualTypeµgetFullyQualifiedNameÙ#tryGetResolvedSignatureWithoutCheck´getResolvedSignatureÙ/getResolvedSignatureForStringLiteralCompletionsÙ$getResolvedSignatureForSignatureHelpµgetExpandedParameters¹hasEffectiveRestParameterºcontainsArgumentsReference°getConstantValueµisValidPropertyAccessÙ#isValidPropertyAccessForCompletions»getSignatureFromDeclarationºisImplementationOfOverload¹getImmediateAliasedSymbol°getAliasedSymbol¯getEmitResolver²getExportsOfModule¿getExportsAndPropertiesOfModuleÙ forEachExportAndPropertyOfModule¯getSymbolWalker±getAmbientModules¹getJsxIntrinsicTagNamesAt³isOptionalParameter»tryGetMemberInModuleExportsÙ(tryGetMemberInModuleExportsAndProperties´tryFindAmbientModuleÙ(tryFindAmbientModuleWithoutAugmentations¯getApparentType¬getUnionType²isTypeAssignableTo³createAnonymousType¯createSignature¬createSymbol¯createIndexInfoªgetAnyType­getStringType­getNumberType±createPromiseType¯createArrayType¹getElementTypeOfArrayType®getBooleanType¬getFalseType«getTrueType«getVoidType°getUndefinedType«getNullType¯getESSymbolType¬getNeverType¯getOptionalType®getPromiseType²getPromiseLikeType´getAsyncIterableType²isSymbolAccessible«isArrayType«isTupleType¯isArrayLikeTypeÙ#isTypeInvalidDueToUnionDiscriminantºgetExactOptionalProperties¿getAllPossiblePropertiesOfTypesÙ(getSuggestedSymbolForNonexistentPropertyÙ#getSuggestionForNonexistentPropertyÙ,getSuggestedSymbolForNonexistentJSXAttributeÙ&getSuggestedSymbolForNonexistentSymbolÙ!getSuggestionForNonexistentSymbolÙ&getSuggestedSymbolForNonexistentModuleÙ!getSuggestionForNonexistentExportÙ+getSuggestedSymbolForNonexistentClassMember·getBaseConstraintOfType»getDefaultFromTypeParameter«resolveName¯getJsxNamespaceµgetJsxFragmentFactory¸getAccessibleSymbolChain»getTypePredicateOfSignature¹resolveExternalModuleName»resolveExternalModuleSymbol°tryGetThisTypeAt¹getTypeArgumentConstraint¸getSuggestionDiagnostics¸runWithCancellationTokenÙ3getLocalTypeParametersOfClassOrInterfaceOrTypeAlias´isDeclarationVisible´isPropertyAccessible»getTypeOnlyAliasDeclaration¿getMemberOverrideModifierStatusÙ!isTypeParameterPossiblyReferenced²getConstEnumRelate´clearConstEnumRelateµdeleteConstEnumRelateÙ$getTypeArgumentsForResolvedSignatureµgetCheckedSourceFilesÙ"collectHaveTsNoCheckFilesForLinter·clearQualifiedNameCache®isStaticRecord²isStaticSourceFileÔ  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  ÃÃÚSB/*
+ * Copyright (c) 2026 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { LengthMetrics, window } from '@kit.ArkUI';
+import { avSession } from '@kit.AVSessionKit';
+import { VideoData } from '../module/VideoData';
+import { VideoInfo } from '../module/VideoInfo';
+import { WindowUtil } from '../utils/WindowUtil';
+import { FormatTime } from '../utils/FotmatTime';
+import { VolumeView } from '../view/VolumeView';
+import { BrightnessView } from '../view/BrightnessView';
+import { AVSessionController } from '../controller/AVSessionController';
+import { SmallWidnowVideo } from '../view/SmallWidnowVideo';
+import { VideoListPage } from '../view/VideoListPage';
+import { VideoStatus } from '../constants/VideoStatus';
+import CommonConstants from '../constants/CommonConstants';
+import Logger from '../utils/Logger';
+
+const TAG = '[IndexPage]';
+
+@Entry
+@Component
+struct Index {
+  private screenHeight: number = 0; // Screen height.
+  private windowUtil: WindowUtil = WindowUtil.getInstance();
+  private videoController: VideoController = new VideoController();
+  private avSessionController: AVSessionController = AVSessionController.getInstance();
+  private timeoutID: number = 0;
+  @State currentVideoStatus: string = 'init';
+  @State videoSrc: Resource = $rawfile('mountaineer.mp4');
+  @State isAutoPlay: boolean = false; // Whether to play automatically.
+  @State currentVideoIndex: number = 0;
+  @State isFullScreen: boolean = false; // Whether to play in full screen.
+  @State currentTime: number = 0; // Initialize the current time to 0.
+  @State durationTime: number = 0; // Initialize the total video duration to 0.
+  @State playbackSpeed: string = '1.0X';
+  // [Start playback_speed]
+  @State curRate: PlaybackSpeed = PlaybackSpeed.Speed_Forward_1_00_X; // Playback speed.
+  // [End playback_speed]
+  @State isMute: boolean = false; // Play with mute or not.
+  @State visible: boolean = false; // Whether to display the brightness adjustment icon and slider.
+  @State volume: number = 5;
+  @State currentBrightness: number = CommonConstants.DEFAULT_BRIGHTNESS; // Brightness value (0.0 to 1.0)
+  @State brightnessVisible: boolean = false; // Whether to display the brightness adjustment panel
+  @State curSource: VideoInfo | undefined = undefined;
+  @State isPlaying: boolean = false;
+  @State scrollVal: number = 0;
+  @StorageLink('deviceWidth') deviceWidth: number = 0;
+  @StorageLink('deviceHeight') deviceHeight: number = 0;
+
+  aboutToAppear(): void {
+    this.curSource = VideoData[0];
+    this.initializeLandscapeMode();
+    this.WindowSizeChange();
+
+    try {
+      // Get the width and height of the window.
+      window.getLastWindow(this.getUIContext().getHostContext(), (err: BusinessError, data: window.Window) => {
+        if (err.code) {
+          Logger.error(TAG, `getLastWindow failed. code: ${err.code}, message: ${err.message}`);
+          return;
+        }
+        this.screenHeight = data.getWindowProperties().windowRect.height;
+      })
+    } catch (error) {
+      let err = error as BusinessError;
+      Logger.error(TAG, `getWindowProperties failed. code: ${err.code}, message: ${err.message}`);
+    }
+    this.timeoutID = setTimeout(() => {
+      this.setAVSessionListener();
+    }, 100);
+  }
+
+  aboutToDisappear() {
+    clearTimeout(this.timeoutID);
+    this.windowUtil.registerOffWindowSizeChange();
+    this.avSessionController.unregisterSessionListener();
+  }
+
+  onPageShow() {
+    this.sessionPlay();
+  }
+
+  onPageHide() {
+    this.sessionPause();
+  }
+
+  onBackPress() {
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
+      this.windowUtil.setLandscapeMultiWindow(false);
+      this.windowUtil.enableWindowSystemBar();
+      this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Initialize landscape mode.
+  initializeLandscapeMode() {
+    if (this.deviceWidth > this.deviceHeight) {
+      this.isFullScreen = true;
+      this.windowUtil.disableWindowSystemBar();
+    } else {
+      this.isFullScreen = false;
+      this.windowUtil.enableWindowSystemBar();
+    }
+  }
+
+  // Change in registration window size.
+  WindowSizeChange() {
+    this.windowUtil.registerOnWindowSizeChange((size) => {
+      if (size.width > size.height) {
+        this.isFullScreen = true;
+        this.scrollVal = 0;
+        this.windowUtil.disableWindowSystemBar();
+      } else {
+        this.isFullScreen = false;
+        this.windowUtil.enableWindowSystemBar();
+      }
+    })
+  }
+
+  // [Start set_AVSession_listener]
+  // Set AVSession to listen.
+  public async setAVSessionListener() {
+    if (!this.avSessionController) {
+      return;
+    }
+    try {
+      this.avSessionController.getAVSession()?.on('play', () => this.sessionPlay());
+      this.avSessionController.getAVSession()?.on('pause', () => this.sessionPause());
+      this.avSessionController.getAVSession()?.on('seek', (msTime: number) => {
+        this.sessionSeek(msTime);
+      });
+      this.avSessionController.getAVSession()?.on('setLoopMode', () => {
+      });
+      this.avSessionController.getAVSession()?.on('playPrevious', () => this.changePlayVideo(true));
+      this.avSessionController.getAVSession()?.on('playNext', () => this.changePlayVideo(false));
+    } catch (error) {
+      let err = error as BusinessError;
+      Logger.error(TAG, `Set AVSession listener failed. code: ${err.code}, message: ${err.message}`);
+    }
+  }
+  // [End set_AVSession_listener]
+
+  // AVSession video playback.
+  sessionPlay() {
+    if (this.curSource) {
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+    }
+    this.videoController.start();
+    this.isPlaying = true;
+    this.updateIsPlay();
+  }
+
+  // AVSession video paused.
+  sessionPause() {
+    if (this.curSource) {
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+    }
+    this.videoController.pause();
+    this.isPlaying = false;
+    this.updateIsPlay();
+  }
+
+  // AVSession video jump playback.
+  sessionSeek(msTime: number) {
+    if (this.curSource) {
+      this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+    }
+    this.isPlaying = true;
+    this.updateIsPlay();
+    this.videoController.setCurrentTime(msTime / 1000, SeekMode.Accurate);
+    this.videoController.start();
+  }
+
+  // AVSession switches to the previous/next video.
+  changePlayVideo(isPrevious: boolean) {
+    if (!VideoData.length) {
+      return;
+    }
+    if (isPrevious) {
+      this.currentVideoIndex = (this.currentVideoIndex - 1 + VideoData.length) % VideoData.length;
+    } else {
+      this.currentVideoIndex = (this.currentVideoIndex + 1) % VideoData.length;
+    }
+    this.curSource = VideoData[this.currentVideoIndex];
+    if (!this.curSource) {
+      return;
+    }
+    this.videoSrc = this.curSource.videoSrc;
+
+    // Stop the current playback and reset the status.
+    this.videoController.stop();
+    this.currentTime = 0;
+    this.isPlaying = false;
+
+    // Update metadata.
+    this.avSessionController.setAVMetadata(this.curSource, this.durationTime * 1000);
+    this.currentVideoStatus = VideoStatus.PLAY_STARTED;
+    this.updateIsPlay();
+    this.videoController.start();
+    this.isAutoPlay = true;
+  }
+
+  // [Start update_play_status]
+  // Update AVSession playback status.
+  updateIsPlay() {
+    this.avSessionController.setAVSessionPlayState({
+      state: this.isPlaying ? avSession.PlaybackState.PLAYBACK_STATE_PLAY :
+        avSession.PlaybackState.PLAYBACK_STATE_PAUSE, // Playback status.
+      position: {
+        elapsedTime: this.currentTime * 1000, // Elapsed time.
+        updateTime: new Date().getTime() // Update time.
+      },
+      duration: this.durationTime * 1000, // The duration of current media resources.
+      speed: this.curRate
+    })
+  }
+  // [End update_play_status]
+
+  // [Start speed_menu]
+  // Playback speed setting.
+  @Builder
+  SpeedMenu() {
+    Menu() {
+      MenuItem({ content: '2.0X' })
+        .width('100%')
+        .onClick(() => {
+          this.playbackSpeed = '2.0X';
+          this.curRate = PlaybackSpeed.Speed_Forward_2_00_X;
+        })
+      MenuItem({ content: '1.75X' })
+        .width('100%')
+        .onClick(() => {
+          this.playbackSpeed = '1.75X';
+          this.curRate = PlaybackSpeed.Speed_Forward_1_75_X;
+        })
+      MenuItem({ content: '1.25X' })
+        .width('100%')
+        .onClick(() => {
+          this.playbackSpeed = '1.25X';
+          this.curRate = PlaybackSpeed.Speed_Forward_1_25_X;
+        })
+      MenuItem({ content: '1.0X' })
+        .width('100%')
+        .onClick(() => {
+          this.playbackSpeed = '1.0X';
+          this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
+        })
+    }
+    // [StartExclude speed_menu]
+    .width(80)
+    .font({
+      size: 12
+    })
+    .fontColor(Color.White)
+    .menuItemDivider({
+      strokeWidth: LengthMetrics.vp(0.5),
+      color: '#d5d5d5',
+      mode: DividerMode.EMBEDDED_IN_MENU
+    })
+    .backgroundColor('#ff202224')
+    // [EndExclude speed_menu]
+  }
+  // [End speed_menu]
+
+  // Non-full screen playback.
+  @Builder
+  VideoControllerBuilder() {
+    Row({ space: 4 }) {
+      Text(FormatTime.getTimesBySecond(this.currentTime))
+        .fontSize(12)
+        .fontColor(Color.White)
+      // [Start seek_play_video]
+      Slider({
+        value: this.currentTime,
+        max: this.durationTime,
+        step: 1
+      })
+        // [StartExclude seek_play_video]
+        .width('60%')
+        .trackColor($r('app.color.slider_color'))
+        // [EndExclude seek_play_video]
+        .onChange((value) => {
+          this.videoController.setCurrentTime(value, SeekMode.Accurate);
+        })
+      // [End seek_play_video]
+      Text(FormatTime.getTimesBySecond(this.durationTime))
+        .fontSize(12)
+        .fontColor(Color.White)
+      Image($r('app.media.fullscreen'))
+        .width('24vp')
+        .height('24vp')
+        .onClick(() => {
+          this.isFullScreen = !this.isFullScreen;
+          if (this.isFullScreen) {
+            this.windowUtil.setLandscapeMultiWindow(true);
+            // [Start to_full_screen]
+            this.windowUtil.disableWindowSystemBar();
+            this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_LANDSCAPE);
+            // [End to_full_screen]
+          }
+        })
+    }
+    .width('100%')
+    .position({ y: 180 })
+    .alignItems(VerticalAlign.Center)
+    .justifyContent(FlexAlign.Center)
+  }
+
+  // Full screen playback.
+  @Builder
+  FullScreenVideoControllerBuilder() {
+    Row({ space: 8 }) {
+      Text(FormatTime.getTimesBySecond(this.currentTime))
+        .fontSize(12)
+        .fontColor(Color.White)
+      Slider({
+        value: this.currentTime,
+        max: this.durationTime,
+        step: 1
+      })
+        .width('65%')
+        .trackColor($r('app.color.slider_color'))
+        .onChange((value) => {
+          this.videoController.setCurrentTime(value, SeekMode.Accurate);
+        })
+      Text(FormatTime.getTimesBySecond(this.durationTime))
+        .fontSize(12)
+        .fontColor(Color.White)
+      Column() {
+        Text(this.playbackSpeed)
+          .fontSize(12)
+          .fontColor(Color.White)
+      }
+      .width(48)
+      .height(24)
+      .padding(4)
+      .border({
+        width: 2,
+        color: Color.White,
+        radius: 12
+      })
+      .bindMenu(this.SpeedMenu)
+
+      Image(this.isMute || this.volume === 0.0 ? $r('app.media.mute') : $r('app.media.with_audio'))
+        .width('24vp')
+        .height('24vp')
+        .onClick(() => {
+          this.isMute = !this.isMute;
+          if (this.isMute) {
+            this.volume = 0.0;
+          } else {
+            this.volume = 0.5;
+          }
+        })
+      Image($r('app.media.reduce_fullscreen'))
+        .width('24vp')
+        .height('24vp')
+        .onClick(() => {
+          this.isFullScreen = !this.isFullScreen;
+          if (!this.isFullScreen) {
+            this.windowUtil.setLandscapeMultiWindow(false);
+            // [Start disabled_full_screen]
+            this.windowUtil.enableWindowSystemBar();
+            this.windowUtil.setMainWindowOrientation(window.Orientation.USER_ROTATION_PORTRAIT);
+            // [Start disabled_full_screen]
+          }
+        })
+    }
+    .width('100%')
+    .height('40%')
+    .position({ y: '73%' })
+    .justifyContent(FlexAlign.Center)
+  }
+
+  // Range limit for input values.
+  private getValidValue(inputVal: number, minVal: number, maxVal: number): number {
+    // When the input value exceeds the maximum value, take the maximum value.
+    inputVal = Math.min(inputVal, maxVal);
+    // Lower limit limit: When the input value is less than the minimum value, take the minimum value.
+    inputVal = Math.max(inputVal, minVal);
+    return inputVal;
+  }
+
+  build() {
+    Column() {
+      // [Start scroll_onWillScroll]
+      Scroll() {
+        // [StartExclude scroll_onWillScroll]
+        Column({ space: CommonConstants.COMPONENT_SPACE }) {
+          Stack() {
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
+            Video({
+              src: this.videoSrc,
+              controller: this.videoController,
+              currentProgressRate: this.curRate, // Set playback speed.
+              posterOptions: {
+                showFirstFrame: true,
+              }
+            })
+            // [End currentProgressRate]
+            // [End previewUri_pic2]
+            // [StartExclude controls]
+            // [StartExclude loop_play_video]
+              .width(this.isFullScreen ? '80%' : '100%')
+              .height(this.isFullScreen ? '100%' : 220)
+              .muted(this.isMute)
+              .autoPlay(this.isAutoPlay)
+              .opacity(0.3 + this.currentBrightness * 0.7) // Apply brightness effect using opacity (range: 0.3 to 1.0)
+              // [EndExclude loop_play_video]
+              .loop(true)
+              // [End loop_play_video]
+              // [EndExclude controls]
+              .controls(false)
+              // [End controls]
+              .onPrepared((event) => {
+                this.currentVideoStatus = VideoStatus.PLAY_PREPARED;
+                if (event) {
+                  this.durationTime = event.duration;
+                  if (this.curSource) {
+                    this.avSessionController.setAVMetadata(this.curSource, event.duration * 1000);
+                  }
+                }
+              })
+              .onStart(() => {
+                this.isPlaying = true;
+                this.currentVideoStatus = VideoStatus.PLAY_STARTED;
+                this.updateIsPlay();
+              })
+              .onPause(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_PAUSED;
+                this.updateIsPlay();
+              })
+              .onFinish(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_FINISHED;
+              })
+              .onStop(() => {
+                this.currentVideoStatus = VideoStatus.PLAY_STOPPED;
+              })
+              .onUpdate((event) => {
+                if (event) {
+                  this.currentTime = event.time;
+                  this.updateIsPlay();
+                }
+              })
+            if (this.isFullScreen) {
+              Stack() {
+                VolumeView({
+                  visible: this.visible,
+                  volume: this.volume,
+                })
+                BrightnessView({
+                  visible: this.brightnessVisible,
+                  brightnessValue: this.currentBrightness,
+                })
+                this.FullScreenVideoControllerBuilder();
+              }
+              // Bind gesture event.
+              .gesture(
+                GestureGroup(
+                  GestureMode.Exclusive,
+                  // [Start set_volume]
+                  // Bind the swipe gesture event.
+                  PanGesture({ direction: PanDirection.Vertical })
+                    .onActionStart(() => {
+                    })
+                    .onActionUpdate((event: GestureEvent) => {
+                      this.brightnessVisible = false;
+                      this.visible = true;
+                      // Current Volume value = Volume value - Vertical offset (physical pixels) of the gesture / Screen height.
+                      let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
+                      // Limit the volume range between 0 and 15.
+                      curVolume = this.getValidValue(curVolume, CommonConstants.MIN_VOLUME, CommonConstants.MAX_VOLUME);
+                      if(curVolume === 0) {
+                        this.isMute = true;
+                      } else {
+                        this.isMute = false;
+                      }
+                      this.volume = curVolume;
+                    })
+                    .onActionEnd(() => {
+                      setTimeout(() => {
+                        this.visible = false;
+                      }, 1500)
+                    }),
+                  // [End set_volume]
+                  // Bind horizontal swipe gesture for brightness adjustment
+                  PanGesture({ direction: PanDirection.Horizontal })
+                    .onActionStart(() => {
+                    })
+                    .onActionUpdate((event: GestureEvent) => {
+                      this.visible = false;
+                      this.brightnessVisible = true;
+                      // Current Brightness value = Brightness value + Horizontal offset (physical pixels) of the gesture / Screen width.
+                      // Using screenHeight as reference since we don't have screenWidth readily available
+                      let curBrightness = this.currentBrightness + this.getUIContext().vp2px(event.offsetX) / (this.screenHeight * 2);
+                      // Limit the brightness range between 0.0 and 1.0
+                      curBrightness = this.getValidValue(curBrightness, CommonConstants.MIN_BRIGHTNESS, CommonConstants.MAX_BRIGHTNESS);
+                      this.currentBrightness = curBrightness;
+                    })
+                    .onActionEnd(() => {
+                      setTimeout(() => {
+                        this.brightnessVisible = false;
+                      }, 1500)
+                    }),
+                  // [Start LongPressGesture]
+                  LongPressGesture({ repeat: true })
+                    .onAction(() => {
+                      this.playbackSpeed = '2.0X';
+                      this.curRate = PlaybackSpeed.Speed_Forward_2_00_X;
+                    })
+                    .onActionEnd(() => {
+                      this.playbackSpeed = '1.0X';
+                      this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
+                    })
+                  // [End LongPressGesture]
+                )
+              )
+            } else {
+              this.VideoControllerBuilder();
+            }
+
+            if (this.currentVideoStatus !== VideoStatus.PLAY_STARTED) {
+              Image($r('app.media.play_pause'))
+                .width(36)
+            }
+          }
+          .onClick(() => {
+            if (this.currentVideoStatus === VideoStatus.PLAY_STARTED) {
+              this.videoController.pause();
+              this.isPlaying = false;
+              this.updateIsPlay();
+            } else {
+              this.videoController.start();
+              this.isPlaying = true;
+              this.updateIsPlay();
+            }
+          })
+
+          // Video list area.
+          if (!this.isFullScreen) {
+            VideoListPage({
+              currentVideoIndex: this.currentVideoIndex,
+              videoSrc: this.videoSrc,
+              isAutoPlay: this.isAutoPlay,
+              curSource: this.curSource,
+            })
+          }
+        }
+
+        // [EndExclude scroll_onWillScroll]
+      }
+      // [StartExclude scroll_onWillScroll]
+      .width('100%')
+      .height('100%')
+      .scrollBar(BarState.Off)
+      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+      // [EndExclude scroll_onWillScroll]
+      .onWillScroll((_xOffset: number, yOffset: number) => {
+        this.scrollVal += yOffset;
+      })
+
+      // [End scroll_onWillScroll]
+
+      // [Start small_window_video]
+      // Play in a small window.
+      if (this.scrollVal >= 240 && this.isPlaying && !this.isFullScreen) {
+        SmallWidnowVideo({
+          videoSrc: this.videoSrc,
+          curRate: this.curRate,
+          isMute: this.isMute,
+          currentTime: this.currentTime,
+          isPlaying: this.isPlaying,
+          videoController: this.videoController,
+        })
+      }
+      // [End small_window_video]
+    }
+    .width('100%')
+    .height('100%')
+  }
+}ÀÔrDž°@ohos.arkui.node¬@ohos.windowº@ohos.multimedia.avsession³../module/VideoData³../utils/WindowUtil³../utils/FotmatTime²../view/VolumeView¸../view/SmallWidnowVideo¶../view/BrightnessViewµ../view/VideoListPageÙ!../controller/AVSessionController¸../constants/VideoStatus¯../utils/Logger¼../constants/CommonConstantsÔrE—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙj hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.arkui.node.d.tsÔrF‘¯hostModulesInfo‘ÔrG’²hostDependencyName®hostModuleName°@ohos.arkui.node¥entryÃªoh-resolveÂEAÃÙf hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.window.d.tsF‘G¬@ohos.window¥entryÃªoh-resolveÂEAÃÙt hvigor_ignore_C:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.multimedia.avsession.d.tsF’Gº@ohos.multimedia.avsession¥entryGº@ohos.multimedia.avsession¥entryÃªoh-resolveÂEAÂÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\module\VideoData.etsAÃªoh-resolveÂEAÂÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\WindowUtil.etsAÃªoh-resolveÂEAÂÙXC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\FotmatTime.etsAÃªoh-resolveÂEAÂÙWC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\VolumeView.etsAÃªoh-resolveÂEAÂÙ]C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\SmallWidnowVideo.etsAÃªoh-resolveÂEAÂÙ[C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\BrightnessView.etsAÃªoh-resolveÂEAÂÙZC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\view\VideoListPage.etsAÃªoh-resolveÂEAÂÙfC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\controller\AVSessionController.etsAÃªoh-resolveÂEAÂÙ]C:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\constants\VideoStatus.etsAÃªoh-resolveÂEAÂÙTC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\utils\Logger.etsAÃªoh-resolveÂEAÂÙaC:\Users\xiadie\DevEcoStudioProjects\video-show1\entry\src\main\ets\constants\CommonConstants.etsAÃªoh-resolveÂ“ÔrH–§version¤fileªsourceRoot§sources¥names¨mappings¨Index.js ‘©Index.etsÜ6‘”    ‘” ˜”   ” 	”	 	” ” ” &”0 2”1 3‘”    ‘” –”   ” ” ” &”! 2”" 3–”   ” 	” ” ”2 -”3 .˜”   ” ”	 	” ” ” ”/ /”0 0˜”   ” ”	 	” ” ” ”0 0”1 1˜”   ” ”	 	” ” ” ”0 0”1 1˜”   ” ”	 	” ” ” ”/ /”0 0˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ”$ $”ÌG ÌG”ÌH ÌH˜”   ” ”	 	” ” ”! !”; ;”< <˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ” ”6 6”7 7–”   ” ” ” ”: :”; ;–”   ” ” ” ”$ $”% %–”   ” ”	 	” ” ” ’” "” "‘”   ’” #!” #"•” $#”$ $-”% $.”0 $9”2 $;”” %-”# %1”2 %Ì@”4 %ÌB•”# &5”6 &ÌH”7 &ÌI”ÌB &ÌT”ÌD &ÌV’” '” '’”ÌA (&”ÌG (,’”ÌZ )'”Ìk )8’”9 *”> *$’”Ì@ +%”ÌA +&’”; ,!”Ì@ ,&’”: -”; - ’”; . ”< .!’”< /!”ÌB /'””6 1"”ÌC 1/”ÌD 10”ÌX 1ÌD’”5 3”: 3 ’”6 4”; 4!’”5 5”6 5””Ì@ 6%”ÌO 64”ÌP 65”Ìb 6ÌG’”Ì@ 7&”ÌE 7+’”8 8,”ÌA 85’”8 9”= 9#’”8 :”9 :””4 ;”ÌA ;”ÌC ;4”ÌD ;5””5 <”ÌC <”ÌE <6”ÌF <7‘” ’” (	” (’” (	” (’” )	” )’” )	” )’” *	” *’” *	” *’” +	” +’” +	” +’” ,	” ,’” ,	” ,’” -	” -’” -	” -’” .	” .’” .	” .’” /	” /’” /	” /’” 1	” 1’” 1	” 1’” 3	” 3’” 3	” 3’” 4	” 4’” 4	” 4’” 5	” 5’” 5	” 5’” 6	” 6’” 6	” 6’” 7	” 7’” 7	” 7’” 8	” 8’” 8	” 8’” 9	” 9’” 9	” 9’” :	” :’” :	” :’” ;” ;)’” ;” ;)’” <” <+’” <” <+’” >” >š” ?” ?” ?	” ?” ?”" ?”# ?”$ ? ”% ?!”& ?"–” Ì@” Ì@” Ì@	”$ Ì@ ”& Ì@"”' Ì@#–” ÌA” ÌA” ÌA	” ÌA” ÌA”  ÌA’” ÌC” ÌC’” ÌD”6 ÌD0Ü ” ÌE” ÌE” ÌE”  ÌE”! ÌE”% ÌE”& ÌE ”2 ÌE,”4 ÌE.”5 ÌE/”ÌC ÌE=”ÌE ÌE?”ÌG ÌEÌA”ÌH ÌEÌB”ÌK ÌEÌT”ÌM ÌEÌV”ÌQ ÌEÌi”ÌS ÌEÌk”ÌU ÌEÌm–” ÌF” ÌF” ÌF” ÌF” ÌF” ÌFÜ ” ÌG
+” ÌG” ÌG”  ÌG”! ÌG”$ ÌG”& ÌG”ÌE ÌG;”ÌH ÌG>”ÌI ÌG?”ÌM ÌGÌC”Ì[ ÌGÌQ”Ì^ ÌGÌT”Ì_ ÌGÌU”Ìf ÌGÌ\”Ìh ÌGÌ^”Ìi ÌGÌ_”Ìj ÌGÌ`’” ÌH
+” ÌH‘” ÌI	ž” ÌJ” ÌJ” ÌJ”! ÌJ”$ ÌJ”( ÌJ ”) ÌJ!”< ÌJ4”> ÌJ6”? ÌJ7”ÌI ÌJÌA”ÌJ ÌJÌB”ÌP ÌJÌH”ÌQ ÌJÌI”” ÌK” ÌK” ÌK” ÌK‘”	 ÌL”” ÌL” ÌL” ÌL” ÌL–” ÌM” ÌM
+” ÌM” ÌM” ÌM&” ÌM'Ü ” ÌN” ÌN” ÌN” ÌN” ÌN” ÌN” ÌN”ÌC ÌN=”ÌF ÌNÌ@”ÌG ÌNÌA”ÌK ÌNÌE”ÌY ÌNÌS”Ì\ ÌNÌV”Ì] ÌNÌW”Ìd ÌNÌ^”Ìf ÌNÌ`”Ìg ÌNÌa”Ìh ÌNÌb‘”	 ÌO™” ÌP” ÌP” ÌP	” ÌP” ÌP”# ÌP”$ ÌP ”' ÌP#”) ÌP%–” ÌQ” ÌQ
+” ÌQ”% ÌQ”' ÌQ!”( ÌQ"–” ÌR”	 ÌR” ÌR” ÌR
+” ÌR” ÌR’” ÌS” ÌS’” ÌU” ÌU˜” ÌV” ÌV” ÌV” ÌV” ÌV”# ÌV”$ ÌV ”% ÌV!˜” ÌW” ÌW” ÌW	” ÌW” ÌW”3 ÌW/”5 ÌW1”6 ÌW2˜” ÌX” ÌX” ÌX	”  ÌX”! ÌX”: ÌX6”< ÌX8”= ÌX9’” ÌY” ÌY’” Ì[” Ì[–” Ì\” Ì\” Ì\	” Ì\” Ì\” Ì\’” Ì]” Ì]’” Ì_” Ì_–” Ì`” Ì`” Ì`	” Ì`” Ì`” Ì`’” Ìa” Ìa’” Ìc” Ìc–” Ìd” Ìd” Ìd” Ìd” Ìd” Ìd—” Ìe” Ìe
+” Ìe” Ìe”  Ìe”% Ìe”& Ìe š” Ìf” Ìf
+” Ìf” Ìf” Ìf”3 Ìf-”4 Ìf.”9 Ìf3”: Ìf4”; Ìf5˜” Ìg” Ìg
+” Ìg” Ìg” Ìg”1 Ìg+”3 Ìg-”4 Ìg.ž” Ìh” Ìh
+” Ìh” Ìh” Ìh”4 Ìh.”5 Ìh/”; Ìh5”< Ìh6”ÌG ÌhÌA”ÌH ÌhÌB”Ì^ ÌhÌX”Ì_ ÌhÌY”Ì` ÌhÌZ”” Ìi” Ìi” Ìi” Ìi‘”	 Ìj‘” Ìj”” Ìk” Ìk” Ìk” Ìk‘”	 Ìl’” Ìm” Ìm’” Ìo”! Ìo’” Ìp” Ìpš” Ìq” Ìq” Ìq” Ìq” Ìq” Ìq”# Ìq”$ Ìq ”0 Ìq,”2 Ìq.—” Ìr” Ìr
+” Ìr” Ìr”  Ìr”$ Ìr”% Ìr˜” Ìs” Ìs
+” Ìs” Ìs” Ìs”2 Ìs,”4 Ìs.”5 Ìs/‘”	 Ìt‘” Ìt—” Ìu” Ìu
+” Ìu” Ìu”  Ìu”% Ìu”& Ìu ˜” Ìv” Ìv
+” Ìv” Ìv” Ìv”1 Ìv+”3 Ìv-”4 Ìv.‘”	 Ìw’” Ìx” Ìx’” Ìz”* Ìz(’” Ì{” Ì{›” Ì|” Ì|” Ì|	” Ì|” Ì|”2 Ì|.”3 Ì|/”4 Ì|0”8 Ì|4”: Ì|6”< Ì|8š” Ì}” Ì}
+” Ì}” Ì}” Ì}” Ì}”! Ì}”" Ì}”( Ì}"”* Ì}$—” Ì~” Ì~” Ì~”! Ì~”$ Ì~”( Ì~ ”) Ì~!—” Ì” Ì” Ì” Ì”! Ì”" Ì”# Ì˜” Ì€” Ì€” Ì€” Ì€”  Ì€”6 Ì€.”8 Ì€0”9 Ì€1‘” Ì‘” Ì—” Ì‚” Ì‚” Ì‚”! Ì‚”$ Ì‚”) Ì‚!”* Ì‚"˜” Ìƒ” Ìƒ” Ìƒ” Ìƒ”  Ìƒ”5 Ìƒ-”7 Ìƒ/”8 Ìƒ0‘” Ì„”” Ì…”	 Ì…”
+ Ì…” Ì…’” Ì†” Ì†’” Ìˆ”% Ìˆ#’” Ì‰” Ì‰”” ÌŠ	”	 ÌŠ”
+ ÌŠ” ÌŠ#—” Ì‹” Ì‹” Ì‹	” Ì‹” Ì‹”% Ì‹!”' Ì‹#’” ÌŒ” ÌŒ‘”	 Ì’” ÌŽ” ÌŽÜ ” Ì” Ì
+” Ì”$ Ì”% Ì”1 Ì+”3 Ì-”5 Ì/”7 Ì1”8 Ì2”> Ì8”Ì@ Ì:”ÌC Ì=”ÌE Ì?”ÌF ÌÌ@”ÌJ ÌÌD”ÌK ÌÌE”ÌV ÌÌP”ÌX ÌÌR”ÌY ÌÌS”ÌZ ÌÌTÜ ” Ì” Ì
+” Ì”$ Ì”% Ì”1 Ì+”3 Ì-”5 Ì/”7 Ì1”8 Ì2”? Ì9”ÌA Ì;”ÌD Ì>”ÌF ÌÌ@”ÌG ÌÌA”ÌK ÌÌE”ÌL ÌÌF”ÌX ÌÌR”ÌZ ÌÌT”Ì[ ÌÌU”Ì\ ÌÌVÜ ” Ì‘” Ì‘
+” Ì‘”$ Ì‘”% Ì‘”1 Ì‘+”3 Ì‘-”5 Ì‘/”7 Ì‘1”8 Ì‘2”> Ì‘8”Ì@ Ì‘:”ÌA Ì‘;”ÌG Ì‘ÌI”ÌI Ì‘ÌK”ÌK Ì‘ÌM˜” Ì’” Ì’” Ì’”  Ì’”! Ì’”' Ì’”( Ì’ ”) Ì’!”” Ì“” Ì“” Ì“” Ì“	ž” Ì”” Ì”
+” Ì””$ Ì””% Ì””1 Ì”+”3 Ì”-”5 Ì”/”7 Ì”1”8 Ì”2”ÌE Ì”?”ÌG Ì”ÌA”ÌJ Ì”ÌD”ÌL Ì”ÌF”” Ì•” Ì•” Ì•” Ì•	Ü ” Ì–” Ì–
+” Ì–”$ Ì–”% Ì–”1 Ì–+”3 Ì–-”5 Ì–/”7 Ì–1”8 Ì–2”ÌF Ì–Ì@”ÌH Ì–ÌB”ÌK Ì–ÌE”ÌM Ì–ÌG”ÌN Ì–ÌH”ÌR Ì–ÌL”ÌS Ì–ÌM”Ìb Ì–Ì\”Ìc Ì–Ì]”Ìg Ì–Ìa”Ìh Ì–Ìb”Ìi Ì–Ìc”Ìj Ì–ÌdÜ ” Ì—” Ì—
+” Ì—”$ Ì—”% Ì—”1 Ì—+”3 Ì—-”5 Ì—/”7 Ì—1”8 Ì—2”ÌB Ì—<”ÌD Ì—>”ÌG Ì—ÌA”ÌI Ì—ÌC”ÌJ Ì—ÌD”ÌN Ì—ÌH”ÌO Ì—ÌI”Ì^ Ì—ÌX”Ì_ Ì—ÌY”Ìd Ì—Ì^”Ìe Ì—Ì_”Ìf Ì—Ì`”Ìg Ì—Ìa‘”	 Ì˜”” Ì˜” Ì˜” Ì˜” Ì˜–” Ì™” Ì™
+” Ì™” Ì™” Ì™&” Ì™'Ü ” Ìš” Ìš” Ìš” Ìš” Ìš” Ìš” Ìš”ÌF ÌšÌ@”ÌI ÌšÌC”ÌJ ÌšÌD”ÌN ÌšÌH”Ì\ ÌšÌV”Ì_ ÌšÌY”Ì` ÌšÌZ”Ìg ÌšÌa”Ìi ÌšÌc”Ìj ÌšÌd”Ìk ÌšÌe‘”	 Ì›’” Ìœ” Ìœ’” Ì”# Ì!’” ÌŸ”  ÌŸ’” Ì ” Ì –” Ì¡” Ì¡” Ì¡” Ì¡” Ì¡” Ì¡Ü ” Ì¢” Ì¢
+” Ì¢”$ Ì¢”% Ì¢”2 Ì¢,”3 Ì¢-”7 Ì¢1”8 Ì¢2”ÌA Ì¢;”ÌC Ì¢=”ÌG Ì¢ÌA”ÌH Ì¢ÌB”ÌT Ì¢ÌN”ÌW Ì¢ÌQ”Ì[ Ì¢ÌU”Ì\ Ì¢ÌV”Ì] Ì¢ÌW‘”	 Ì£˜” Ì¤” Ì¤” Ì¤	” Ì¤” Ì¤”" Ì¤”$ Ì¤ ”% Ì¤!—” Ì¥” Ì¥” Ì¥	” Ì¥” Ì¥” Ì¥” Ì¥–” Ì¦” Ì¦” Ì¦	” Ì¦” Ì¦” Ì¦’” Ì§” Ì§’” Ì©” Ì©’” Ìª” Ìª–” Ì«” Ì«” Ì«” Ì«” Ì«” Ì«Ü ” Ì¬” Ì¬
+” Ì¬”$ Ì¬”% Ì¬”2 Ì¬,”3 Ì¬-”7 Ì¬1”8 Ì¬2”ÌA Ì¬;”ÌC Ì¬=”ÌG Ì¬ÌA”ÌH Ì¬ÌB”ÌT Ì¬ÌN”ÌW Ì¬ÌQ”Ì[ Ì¬ÌU”Ì\ Ì¬ÌV”Ì] Ì¬ÌW‘”	 Ì­˜” Ì®” Ì®” Ì®	” Ì®” Ì®”" Ì®”$ Ì® ”% Ì®!—” Ì¯” Ì¯” Ì¯	” Ì¯” Ì¯” Ì¯” Ì¯–” Ì°” Ì°” Ì°	” Ì°” Ì°” Ì°’” Ì±” Ì±’” Ì³”% Ì³#”” Ì´” Ì´” Ì´” Ì´–” Ìµ” Ìµ” Ìµ” Ìµ” Ìµ” ÌµÜ ” Ì¶” Ì¶
+” Ì¶”$ Ì¶”% Ì¶”2 Ì¶,”3 Ì¶-”7 Ì¶1”8 Ì¶2”ÌA Ì¶;”ÌC Ì¶=”ÌG Ì¶ÌA”ÌH Ì¶ÌB”ÌT Ì¶ÌN”ÌW Ì¶ÌQ”Ì[ Ì¶ÌU”Ì\ Ì¶ÌV”Ì] Ì¶ÌW‘”	 Ì·—” Ì¸” Ì¸” Ì¸	” Ì¸” Ì¸” Ì¸” Ì¸–” Ì¹” Ì¹” Ì¹	” Ì¹” Ì¹” Ì¹Ü ” Ìº” Ìº” Ìº	” Ìº” Ìº”+ Ìº'”, Ìº(”2 Ìº.”5 Ìº1”9 Ìº5”; Ìº7”ÌC Ìº?”ÌD ÌºÌ@”ÌL ÌºÌH”ÌM ÌºÌI”ÌN ÌºÌJ˜” Ì»” Ì»” Ì»	” Ì»” Ì»”" Ì»”$ Ì» ”% Ì»!’” Ì¼” Ì¼’” Ì¾”5 Ì¾3”” Ì¿” Ì¿” Ì¿” Ì¿%—” ÌÀ” ÌÀ” ÌÀ	” ÌÀ” ÌÀ” ÌÀ” ÌÀ’” ÌÁ” ÌÁ‘”	 ÌÂ”” ÌÃ” ÌÃ” ÌÃ” ÌÃÜ ” ÌÄ” ÌÄ
+” ÌÄ”" ÌÄ”% ÌÄ”& ÌÄ ”* ÌÄ$”+ ÌÄ%”< ÌÄ6”? ÌÄ9”Ì@ ÌÄ:”ÌC ÌÄ=”ÌL ÌÄÌF”ÌM ÌÄÌG”ÌS ÌÄÌM”ÌT ÌÄÌN”ÌW ÌÄÌQ”Ì` ÌÄÌZ”Ìa ÌÄÌ[”Ìg ÌÄÌa”Ìh ÌÄÌb‘”	 ÌÅ‘” ÌÅÜ ” ÌÆ” ÌÆ
+” ÌÆ”" ÌÆ”% ÌÆ”& ÌÆ ”* ÌÆ$”+ ÌÆ%”< ÌÆ6”? ÌÆ9”Ì@ ÌÆ:”ÌA ÌÆ;”ÌD ÌÆ>”ÌM ÌÆÌG”ÌN ÌÆÌH”ÌT ÌÆÌN”ÌU ÌÆÌO‘”	 ÌÇœ” ÌÈ” ÌÈ” ÌÈ	” ÌÈ” ÌÈ”" ÌÈ”# ÌÈ”' ÌÈ#”( ÌÈ$”9 ÌÈ5”: ÌÈ6”; ÌÈ7—” ÌÉ” ÌÉ” ÌÉ	” ÌÉ” ÌÉ” ÌÉ” ÌÉ’” ÌÊ” ÌÊ‘”	 ÌË›” ÌÌ” ÌÌ” ÌÌ	” ÌÌ” ÌÌ” ÌÌ” ÌÌ”& ÌÌ"”' ÌÌ#”/ ÌÌ+”0 ÌÌ,’” ÌÎ”: ÌÎ6˜” ÌÏ” ÌÏ” ÌÏ	” ÌÏ” ÌÏ”! ÌÏ”# ÌÏ”$ ÌÏ —” ÌÐ” ÌÐ” ÌÐ	” ÌÐ” ÌÐ” ÌÐ” ÌÐ—” ÌÑ” ÌÑ” ÌÑ	” ÌÑ” ÌÑ” ÌÑ” ÌÑ’” ÌÓ” ÌÓÜ ” ÌÔ” ÌÔ” ÌÔ	”  ÌÔ”! ÌÔ”. ÌÔ*”/ ÌÔ+”3 ÌÔ/”4 ÌÔ0”= ÌÔ9”? ÌÔ;”ÌC ÌÔ?”ÌD ÌÔÌ@”ÌP ÌÔÌL”ÌS ÌÔÌO”ÌW ÌÔÌS”ÌX ÌÔÌT”ÌY ÌÔÌU™” ÌÕ” ÌÕ” ÌÕ	” ÌÕ”" ÌÕ”- ÌÕ)”. ÌÕ*”: ÌÕ6”; ÌÕ7–” ÌÖ” ÌÖ” ÌÖ	” ÌÖ” ÌÖ” ÌÖ˜” Ì×” Ì×” Ì×	” Ì×” Ì×”" Ì×”$ Ì× ”% Ì×!—” ÌØ” ÌØ” ÌØ	” ÌØ” ÌØ” ÌØ” ÌØ’” ÌÙ” ÌÙ’” ÌÛ”! ÌÛ’” ÌÜ”( ÌÜ&’” ÌÝ” ÌÝ—” ÌÞ” ÌÞ” ÌÞ	”  ÌÞ”! ÌÞ”6 ÌÞ2”7 ÌÞ3Ü ” Ìß” Ìß” Ìß” Ìß” Ìß”! Ìß”" Ìß”# Ìß”$ Ìß”- Ìß'”. Ìß(”; Ìß5”< Ìß6”ÌO ÌßÌI”ÌP ÌßÌJ”ÌQ ÌßÌK–” Ìà” Ìà” Ìà”' Ìà”( Ìà ”< Ìà4“” Ìá” Ìá” Ìá˜” Ìâ” Ìâ” Ìâ”! Ìâ”" Ìâ”- Ìâ%”0 Ìâ(”4 Ìâ,›” Ìã” Ìã” Ìã”  Ìã”$ Ìã”& Ìã”' Ìã”. Ìã&”0 Ìã(”1 Ìã)”Ì@ Ìã8‘” Ìä˜” Ìå” Ìå” Ìå” Ìå” Ìå”' Ìå!”* Ìå$”. Ìå(–” Ìæ” Ìæ” Ìæ” Ìæ” Ìæ” Ìæ“”	 Ìç”
+ Ìç” Ìç’” Ìè” Ìè’” Ìé” Ìé’” Ìë” Ìë’” Ìì” Ìì’” Ìî” Ìî’” Ìï” Ìï–” Ìï” Ìï” Í
+” Í
+
+” Í
+” Í
+•” Ìï” Ìï” Í” Í	” Í
+”” Í” Í
+” Í” Í‘” Í˜” Ìï” Ìï” Í” Í” Í”  Í”! Í”& Í•” Ìï” Ìï” Í”  Í”! Í™” Í” Í” Í”* Í ”+ Í!”- Í#”. Í$”1 Í'”2 Í(”” Í” Í” Í”  Í–” Í” Í
+” Í”! Í”" Í”2 Í(‘” Í–” Ìï” Ìï” Í”  Í”! Í”, Í ˜” Ìð” Ìð” Ìð” Ìð”% Ìð”' Ìð”- Ìð ”/ Ìð"–” Ìð” Ìð” Ìñ	” Ìñ” Ìñ”! Ìñ—” Ìð” Ìð” Ìò	” Ìò” Ìò”  Ìò”" Ìò—” Ìó
+” Ìó” Ìó”" Ìó”% Ìó”+ Ìó%”, Ìó&™” Ìô
+” Ìô” Ìô” Ìô” Ìô”, Ìô&”- Ìô'”ÌA Ìô;”ÌB Ìô<’” Ìõ” Ìõ	’” Ìð” Ìð˜” Ìö” Ìö” Ìö” Ìö”% Ìö”' Ìö”. Ìö!”0 Ìö#–” Ìö” Ìö” Ì÷	” Ì÷” Ì÷”! Ì÷—” Ìö” Ìö” Ìø	” Ìø” Ìø”  Ìø”" Ìø—” Ìù
+” Ìù” Ìù”" Ìù”% Ìù”, Ìù&”- Ìù'™” Ìú
+” Ìú” Ìú” Ìú” Ìú”, Ìú&”- Ìú'”ÌA Ìú;”ÌB Ìú<’” Ìû” Ìû	’” Ìö” Ìö˜” Ìü” Ìü” Ìü” Ìü”% Ìü”' Ìü”. Ìü!”0 Ìü#–” Ìü” Ìü” Ìý	” Ìý” Ìý”! Ìý—” Ìü” Ìü” Ìþ	” Ìþ” Ìþ”  Ìþ”" Ìþ—” Ìÿ
+” Ìÿ” Ìÿ”" Ìÿ”% Ìÿ”, Ìÿ&”- Ìÿ'™” Í 
+” Í ” Í ” Í ” Í ”, Í &”- Í '”ÌA Í ;”ÌB Í <’” Í” Í	’” Ìü” Ìü˜” Í” Í” Í” Í”% Í”' Í”- Í ”/ Í"–” Í” Í” Í	” Í” Í”! Í—” Í” Í” Í	” Í” Í”  Í”" Í—” Í
+” Í” Í”" Í”% Í”+ Í%”, Í&™” Í
+” Í” Í” Í” Í”, Í&”- Í'”ÌA Í;”ÌB Í<’” Í” Í	’” Í” Í’” Ìï” Ìï‘” Í’” Í” Í’” Í”  Í’” Í” Í˜” Í” Í” Í” Í
+” Í”  Í”! Í”# Í–” Í” Í” Í?” Í?
+” Í?” Í?š” Í” Í” Í@” Í@” Í@” Í@” Í@” Í@”! Í@”# Í@˜” Í” Í” ÍA” ÍA” ÍA”( ÍA”) ÍA”/ ÍA$˜” Í” Í” ÍB” ÍB” ÍB”( ÍB”) ÍB”/ ÍB$›” Í” Í
+” Í”" Í”# Í”3 Í&”4 Í'”8 Í+”9 Í,”ÌD Í7”ÌE Í8–” Í” Í
+” Í	” Í” Í” Í˜” Í” Í
+” Í	” Í” Í”  Í”! Í”& Í’” Í” Í
+’” Í ”& Í  “” Í!” Í!” Í!–” Í"” Í"” Í"” Í"” Í"”' Í"–” Í#” Í#” Í#” Í#” Í#”& Í#”” Í$” Í$” Í$” Í$‘” Í%’” Í ”& Í  –” Í!” Í!” Í'	” Í'” Í'” Í'’” Í ”& Í  ”” Í!” Í!” Í(	” Í(’” Í ”& Í  ™” Í!” Í!” Í*	” Í*” Í*” Í*”" Í*”$ Í*”& Í*ž” Í+
+” Í+” Í+”$ Í+”% Í+”3 Í+-”4 Í+.”9 Í+3”; Í+5”ÌC Í+=”ÌD Í+>”ÌL Í+ÌF”ÌM Í+ÌG”ÌN Í+ÌH’” Í,” Í,	’” Í-”$ Í-›” Í.” Í.
+” Í.”" Í.”# Í.”3 Í.&”4 Í.'”8 Í.+”9 Í.,”ÌE Í.8”ÌF Í.9’” Í-”$ Í-–” Í.” Í.
+” Í/	” Í/” Í/” Í/’” Í-”$ Í-˜” Í.” Í.
+” Í0	” Í0” Í0”  Í0”! Í0”& Í0’” Í-”  Í-’” Í.” Í.
+’” Í1” Í1–” Í1” Í1” Í2	” Í2” Í2” Í2–” Í1” Í1” Í3	” Í3” Í3” Í3—” Í1” Í1” Í4	” Í4” Í4” Í4” Í4š” Í5
+” Í5” Í5”! Í5”$ Í5”% Í5”) Í5#”* Í5$”6 Í50”7 Í51–” Í6
+” Í6” Í6” Í6”% Í6”' Í6!š” Í7” Í7” Í7”# Í7”$ Í7”; Í73”< Í74”Ì@ Í78”ÌA Í79”ÌB Í7:’” Í8”- Í8%˜” Í9” Í9” Í9”# Í9”$ Í9”: Í92”< Í94”= Í95ž” Í:” Í:” Í:”# Í:”$ Í:”< Í:4”= Í:5”ÌC Í:;”ÌD Í:<”ÌO Í:ÌG”ÌP Í:ÌH”Ìg Í:Ì_”Ìh Í:Ì`”Ìi Í:Ìa’” Í;”+ Í;#‘” Í<’” Í=” Í=	’” Í” Í‘” ÍC’” ÍE” ÍE’” ÍG”$ ÍG"˜” ÍH” ÍH” ÍH” ÍH
+” ÍH”  ÍH”! ÍH”# ÍH–” ÍH” ÍH” Í” Í
+” Í” Í–” ÍH” ÍH” Í‚” Í‚” Í‚” Í‚š” ÍH” ÍH” Íƒ” Íƒ” Íƒ” Íƒ” Íƒ” Íƒ”# Íƒ”% Íƒ˜” ÍH” ÍH” Í„” Í„” Í„”( Í„”) Í„”/ Í„$›” ÍI” ÍI
+” ÍI”" ÍI”# ÍI”3 ÍI&”4 ÍI'”8 ÍI+”9 ÍI,”ÌD ÍI7”ÌE ÍI8–” ÍI” ÍI
+” ÍJ	” ÍJ” ÍJ” ÍJ˜” ÍI” ÍI
+” ÍK	” ÍK” ÍK”  ÍK”! ÍK”& ÍK’” ÍI” ÍI
+“” ÍL” ÍL” ÍL–” ÍM” ÍM” ÍM” ÍM” ÍM”' ÍM–” ÍN” ÍN” ÍN” ÍN” ÍN”& ÍN”” ÍO” ÍO” ÍO” ÍO‘” ÍP–” ÍL” ÍL” ÍQ	” ÍQ” ÍQ” ÍQ”” ÍL” ÍL” ÍR	” ÍR™” ÍL” ÍL” ÍS	” ÍS” ÍS” ÍS”" ÍS”$ ÍS”& ÍSž” ÍT
+” ÍT” ÍT”$ ÍT”% ÍT”3 ÍT-”4 ÍT.”9 ÍT3”; ÍT5”ÌC ÍT=”ÌD ÍT>”ÌL ÍTÌF”ÌM ÍTÌG”ÌN ÍTÌH’” ÍU” ÍU	›” ÍV” ÍV
+” ÍV”" ÍV”# ÍV”3 ÍV&”4 ÍV'”8 ÍV+”9 ÍV,”ÌE ÍV8”ÌF ÍV9–” ÍV” ÍV
+” ÍW	” ÍW” ÍW” ÍW˜” ÍV” ÍV
+” ÍX	” ÍX” ÍX”  ÍX”! ÍX”& ÍX’” ÍV” ÍV
+’” ÍY” ÍY–” ÍY” ÍY” Í^” Í^” Í^” Í^–” ÍY” ÍY” Í_” Í_” Í_” Í_–” ÍY” ÍY” Í`” Í`” Í`” Í`•” ÍY” ÍY” Ía” Ía” Ía”” Íb” Íb” Íb” Íb–” Íc” Íc” Íc” Íc” Íc”" Íc”” Íd” Íd” Íd” Íd‘” Íe˜” ÍY” ÍY” Íf” Íf”' Íf”+ Íf”, Íf”5 Íf–” ÍZ” ÍZ” ÍZ” ÍZ” ÍZ”* ÍZ–” ÍZ” ÍZ” Í[” Í[” Í[” Í[˜” ÍZ” ÍZ” Í\” Í\” Í\”  Í\”! Í\”& Í\ ’” ÍZ” ÍZ’” ÍY” ÍYÜ ” Íh” Íh” Íh” Íh” Íh”$ Íh”( Íh”, Íh”- Íh ”3 Íh&”8 Íh+”; Íh.”< Íh/”= Íh0”Ì» ÍhÌF”Ì¼ ÍhÌG”Í9 ÍhÌb–” Íh” Íh” Íi	” Íi” Íi” Íi–” Íh” Íh” Íj	” Íj” Íj” Íj—” Íh” Íh” Ík	” Ík” Ík” Ík” Íkš” Íl
+” Íl” Íl” Íl” Íl” Íl”# Íl”$ Íl”* Íl$”+ Íl%–” Ím
+” Ím” Ím” Ím” Ím”! Ím—” Ín” Ín” Ín” Ín”" Ín”% Ín”& Ín‘” Ío‘” Ío—” Íp” Íp” Íp” Íp”" Íp”% Íp”& Íp‘” Íq’” Ír” Ír	’” Ís” Ís–” Ís” Ís” Ít	” Ít” Ít” Ít–” Ís” Ís” Íu	” Íu” Íu” Íu—” Ís” Ís” Ív	” Ív” Ív” Ív” Ívš” Íw
+” Íw” Íw”! Íw”$ Íw”% Íw”) Íw#”* Íw$”6 Íw0”7 Íw1—” Íx
+” Íx” Íx” Íx” Íx”& Íx ”( Íx"š” Íy” Íy” Íy”# Íy”$ Íy”; Íy3”< Íy4”ÌA Íy9”ÌB Íy:”ÌC Íy;’” Íz”3 Íz+˜” Í{” Í{” Í{”# Í{”$ Í{”9 Í{1”; Í{3”< Í{4ž” Í|” Í|” Í|”# Í|”$ Í|”< Í|4”= Í|5”ÌC Í|;”ÌD Í|<”ÌO Í|ÌG”ÌP Í|ÌH”Ìf Í|Ì^”Ìg Í|Ì_”Ìh Í|Ì`’” Í}”3 Í}+‘” Í~’” Í” Í	’” ÍH” ÍH‘” Í…’” Í‡”$ Í‡"˜” Íˆ
+” Íˆ” Íˆ” Íˆ(” Íˆ*”" Íˆ8”$ Íˆ:”* ÍˆÌH’” Í‰”ÌR Í‰ÌNœ” ÍŠ” ÍŠ” ÍŠ” ÍŠ” ÍŠ” ÍŠ” ÍŠ”$ ÍŠ ”& ÍŠ"”, ÍŠ(”- ÍŠ)”. ÍŠ*’” Í‹”Ìj Í‹Ìfœ” ÍŒ” ÍŒ” ÍŒ” ÍŒ” ÍŒ” ÍŒ” ÍŒ”$ ÍŒ ”& ÍŒ"”, ÍŒ(”- ÍŒ)”. ÍŒ*”” Í” Í” Í” Í’” ÍŽ” ÍŽ‘” Í’” Í‘” Í‘
+–” Í‘” Í‘
+” ÍU” ÍU
+” ÍU” ÍU–” Í‘” Í‘
+” ÍV” ÍV” ÍV”  ÍV’” Í’”* Í’$’” Í“” Í“’” Í’”* Í’$–” Í“” Í“” Í<” Í<” Í<” Í<’” Í’”* Í’$–” Í“” Í“” Í=” Í=” Í=”  Í=’” Í’”* Í’$˜” Í“” Í“” Í>” Í>” Í>”% Í>”& Í>”) Í>’” Í’”* Í’$Ü ” Í“” Í“” Í?”! Í?”" Í?”# Í?”/ Í?#”0 Í?$”6 Í?*”7 Í?+”9 Í?-”: Í?.”ÌF Í?:”ÌG Í?;”ÌJ Í?>”ÌL Í?Ì@”ÌX Í?ÌL”ÌY Í?ÌM”Ì_ Í?ÌS”Ì` Í?ÌT’” Í’”* Í’$›” Í“” Í“” ÍA” ÍA”  ÍA”! ÍA”) ÍA%”+ ÍA'”2 ÍA6”4 ÍA8”6 ÍA:—” ÍB” ÍB” ÍB” ÍB”" ÍB”) ÍB!”* ÍB"’” ÍC” ÍC’” Í””1 Í”-š” Í•” Í•” Í•” Í•”! Í•”# Í•”2 Í•'”3 Í•(”ÌB Í•7”ÌD Í•9’” Í–
+” Í–—” Í–
+” Í–” Í"” Í"” Í"” Í"” Í"š” Í#” Í#” Í#” Í#”+ Í#'”0 Í#,”; Í#7”< Í#8”ÌH Í#ÌD”ÌJ Í#ÌF˜” Í$” Í$” Í$”( Í$"”) Í$#”. Í$(”0 Í$*”1 Í$+—” Í%” Í%” Í%”" Í%”% Í%”* Í%$”+ Í%%–” Í&” Í&” Í&”% Í&”' Í&!”( Í&"‘” Í'‘” Í'˜” Í(” Í(” Í(”( Í("”) Í(#”. Í((”0 Í(*”1 Í(+—” Í)” Í)” Í)”" Í)”% Í)”) Í)#”* Í)$–” Í*” Í*” Í*”% Í*”' Í*!”( Í*"‘” Í+’” Í,
+” Í,’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&“” Í›” Í›” Í›–” Íœ” Íœ” Íœ” Íœ” Íœ”" Íœ –” Í” Í” Í”  Í”! Í”0 Í.–” Íž”# Íž!”% Íž#”) Íž'”* Íž(”1 Íž/“” ÍŸ” ÍŸ” ÍŸ”” Í ”" Í ”$ Í  ”( Í $‘” Í¡‘” Í¢’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&Ü ” Í›” Í›” Í§” Í§” Í§” Í§” Í§”) Í§&”* Í§'”+ Í§(”, Í§)”1 Í§.”2 Í§/”3 Í§0”4 Í§1”: Í§7’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&Ü ” Í›” Í›” Í¨” Í¨” Í¨” Í¨” Í¨”* Í¨'”+ Í¨(”, Í¨)”- Í¨*”3 Í¨0”4 Í¨1”5 Í¨2”6 Í¨3”9 Í¨6’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&˜” Í›” Í›” Í©” Í©” Í©” Í©” Í©”# Í© ’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&˜” Í›” Í›” Íª” Íª” Íª” Íª”  Íª”* Íª'’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&œ” Í›” Í›” Í«” Í«” Í«” Í«”  Í«”$ Í«!”% Í«"”6 Í«3”9 Í«6”< Í«9’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&–” Í›” Í›” Í­” Í­” Í­” Í­’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&–” Í›” Í›” Í°” Í°” Í°”  Í°’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&™” Í›” Í›” Í²” Í²” Í²” Í²”# Í² ”% Í²"”' Í²$™” Í³” Í³” Í³”' Í³'”* Í³*”5 Í³5”6 Í³6”ÌC Í³ÌC”ÌD Í³ÌD”” Í´” Í´” Í´” Í´™” Íµ” Íµ” Íµ”% Íµ#”( Íµ&”- Íµ+”. Íµ,”6 Íµ4”7 Íµ5–” Í¶” Í¶” Í¶” Í¶”& Í¶$”( Í¶&Ü ” Í·” Í·” Í·”0 Í·,”1 Í·-”> Í·:”Ì[ Í·;”Ì_ Í·?”Ì` Í·Ì@”Ìi Í·ÌI”Ìl Í·ÌK”Ìq Í·ÌP”Ìr Í·ÌQ”Ìz Í·ÌY”Ì} Í·Ì\”Ì Í·Ì`”Ì‚ Í·Ìa”Ìƒ Í·Ìb‘” Í¸‘” Í¹’” Íº” Íº’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&—” Í›” Í›” Í»” Í»” Í»” Í»” Í»—” Í¼” Í¼” Í¼” Í¼”! Í¼!”% Í¼%”& Í¼&™” Í½” Í½” Í½”' Í½'”* Í½*”5 Í½5”6 Í½6”ÌB Í½ÌB”ÌC Í½ÌC–” Í¾” Í¾” Í¾”! Í¾!”# Í¾#”$ Í¾$’” Í¿” Í¿’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&—” Í›” Í›” ÍÀ” ÍÀ” ÍÀ” ÍÀ” ÍÀ™” ÍÁ” ÍÁ” ÍÁ”' ÍÁ'”* ÍÁ*”5 ÍÁ5”6 ÍÁ6”ÌA ÍÁÌA”ÌB ÍÁÌB–” ÍÂ” ÍÂ” ÍÂ”! ÍÂ!”# ÍÂ#”$ ÍÂ$’” ÍÃ” ÍÃ’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&—” Í›” Í›” ÍÄ” ÍÄ” ÍÄ” ÍÄ”  ÍÄ™” ÍÅ” ÍÅ” ÍÅ”' ÍÅ'”* ÍÅ*”5 ÍÅ5”6 ÍÅ6”ÌC ÍÅÌC”ÌD ÍÅÌD’” ÍÆ” ÍÆ’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&—” Í›” Í›” ÍÇ” ÍÇ” ÍÇ” ÍÇ” ÍÇ™” ÍÈ” ÍÈ” ÍÈ”' ÍÈ'”* ÍÈ*”5 ÍÈ5”6 ÍÈ6”ÌB ÍÈÌB”ÌC ÍÈÌC’” ÍÉ” ÍÉ’” Í—”& Í—&’” Í˜” Í˜’” Í™”* Í™*’” Íš”& Íš&™” Í›” Í›” ÍÊ” ÍÊ” ÍÊ” ÍÊ”! ÍÊ”# ÍÊ ”% ÍÊ"”” ÍË” ÍË” ÍË” ÍË™” ÍÌ” ÍÌ” ÍÌ”$ ÍÌ"”' ÍÌ%”, ÍÌ*”- ÍÌ+”1 ÍÌ/”2 ÍÌ0–” ÍÍ” ÍÍ” ÍÍ”% ÍÍ#”' ÍÍ%”( ÍÍ&‘” ÍÎ’” ÍÏ” ÍÏ–” ÍÐ” ÍÐ” ÍÐ” ÍÐ”! ÍÐ!”# ÍÐ#’” ÍÑ” ÍÑ–” ÍÞ”$ ÍÞ”, Íß”7 Íß”8 Íß”ÌA Íß'’” Íà”- Íà'’” Íá”8 Íá2š” Íâ”" Íâ”* Íâ”, Íâ”5 Íâ(”7 Íâ*”ÌC Íâ6”ÌD Íâ7”ÌL Íâ?”ÌN ÍâÌA’” Íà”- Íà'’” Íá”8 Íá2—” Íâ”" Íâ”# Íã”0 Íã"”1 Íã#”4 Íã&”6 Íã(’” Íä” Íä’” Íà”- Íà'’” Íá”8 Íá2™” Íâ”" Íâ”# Íå”1 Íå#”2 Íå$”3 Íå%”8 Íå8”: Íå:”< Íå<—” Íæ”  Íæ”! Íæ”2 Íæ,”5 Íæ/”: Íæ4”; Íæ5—” Íç”  Íç”! Íç”( Íç"”+ Íç%”/ Íç)”0 Íç*’” Íè”Ì† ÍèÌ€Ü ” Íé”  Íé”) Íé#”, Íé&”0 Íé*”1 Íé+”7 Íé1”: Íé4”> Íé8”? Íé9”ÌK ÍéÌE”ÌM ÍéÌG”ÌN ÍéÌH”ÌS ÍéÌM”ÌT ÍéÌN”ÌY ÍéÌS”ÌZ ÍéÌT”Ìa ÍéÌ[”Ìb ÍéÌ\”Ìe ÍéÌ_”Ìi ÍéÌc”Ìj ÍéÌd”Ìv ÍéÌp”Ìw ÍéÌq’” Íê”ÌG ÍêÌAÜ ” Íë”% Íë”( Íë"”, Íë&”- Íë'”: Íë4”; Íë5”ÌD Íë>”ÌF ÍëÌ@”ÌU ÍëÌO”ÌV ÍëÌP”Ì` ÍëÌZ”Ìb ÍëÌ\”Ìq ÍëÌk”Ìr ÍëÌl”Ì| ÍëÌv”Ì} ÍëÌw”Ì~ ÍëÌx–” Íì”  Íì”) Íì"”. Íì'”/ Íì(”1 Íì*—”  Íí”$ Íí”% Íí”+ Íí#”. Íí&”2 Íí*”3 Íí+‘” Íî‘”! Íî—”  Íï”$ Íï”% Íï”+ Íï#”. Íï&”3 Íï+”4 Íï,‘” Íð—” Íñ”  Íñ”! Íñ”' Íñ!”* Íñ$”3 Íñ-”4 Íñ.’” Íò” Íò’” Íà”- Íà'’” Íá”8 Íá2—” Íâ”" Íâ”# Íó”. Íó ”/ Íó!”2 Íó$”4 Íó&•” Íô”& Íô ”' Íô!”* Íô$”, Íô&—”  Íõ”$ Íõ”% Íõ”, Íõ$”/ Íõ'”4 Íõ,”5 Íõ-–” Íö” Íö” Íö”# Íö”$ Íö”% Íö’” Í÷” Í÷’” Íà”- Íà'’” Íá”8 Íá2’” Íâ”" Íâ’” Íø”+ Íø%’” Íù”ÌR ÍùÌLš” Íú”" Íú”* Íú”, Íú”5 Íú(”7 Íú*”ÌC Íú6”ÌD Íú7”ÌN ÍúÌA”ÌP ÍúÌC’” Íø”+ Íø%’” Íù”ÌR ÍùÌL—” Íú”" Íú”# Íû”0 Íû"”1 Íû#”4 Íû&”6 Íû(’” Íü” Íü’” Íø”+ Íø%’” Íù”ÌR ÍùÌL™” Íú”" Íú”# Íý”1 Íý#”2 Íý$”3 Íý%”8 Íý8”: Íý:”< Íý<—” Íþ”  Íþ”! Íþ”( Íþ"”+ Íþ%”0 Íþ*”1 Íþ+—” Íÿ”  Íÿ”! Íÿ”2 Íÿ,”5 Íÿ/”9 Íÿ3”: Íÿ4’” Í ”Ì Í Ì‰’” Í”Ìp ÍÌjÜ ” Í”  Í”- Í'”0 Í*”4 Í.”5 Í/”ÌF ÍÌ@”ÌI ÍÌC”ÌM ÍÌG”ÌN ÍÌH”ÌZ ÍÌT”Ì\ ÍÌV”Ì] ÍÌW”Ìb ÍÌ\”Ìc ÍÌ]”Ìh ÍÌb”Ìi ÍÌc”Ìp ÍÌj”Ìq ÍÌk”Ìt ÍÌn”Ìu ÍÌo”Ìy ÍÌs”Ìz ÍÌt”Ì† ÍÌ€”Ì‰ ÍÌƒ”ÌŠ ÍÌ„”Ì‹ ÍÌ…”ÌŒ ÍÌ†’” Í”ÌM ÍÌGÜ ” Í”) Í#”, Í&”0 Í*”1 Í+”> Í8”? Í9”ÌL ÍÌF”ÌN ÍÌH”Ì] ÍÌW”Ì^ ÍÌX”Ìl ÍÌf”Ìn ÍÌh”Ì} ÍÌw”Ì~ ÍÌx”ÌŒ ÍÌ†”Ì ÍÌ‡”ÌŽ ÍÌˆ—” Í”  Í”! Í”2 Í,”5 Í/”ÌB Í<”ÌC Í=’” Í” Í’” Íø”+ Íø%’” Íù”ÌR ÍùÌL—” Íú”" Íú”# Í”. Í ”/ Í!”2 Í$”4 Í&•” Í”& Í ”' Í!”* Í$”, Í&—”  Í	”$ Í	”% Í	”6 Í	.”9 Í	1”> Í	6”? Í	7–” Í
+” Í
+” Í
+”# Í
+”$ Í
+”% Í
+’” Í” Í’” Íø”+ Íø%’” Íù”ÌR ÍùÌL’” Íú”" Íú’” Í”3 Í-˜” Í”( Í"”0 Í#”2 Í%”8 Í+”: Í-”> Í1”Ì@ Í3’” Í”3 Í-—” Í”( Í"”) Í”1 Í”2 Í”5 Í!”7 Í#—” Í”  Í”! Í”. Í(”1 Í+”7 Í1”8 Í2™” Í”  Í”! Í”( Í"”+ Í%”8 Í2”9 Í3”ÌM ÍÌG”ÌN ÍÌH’” Í” Í’” Í”3 Í-—” Í”( Í"”) Í”4 Í ”5 Í!”8 Í$”: Í&—” Í”  Í”! Í”. Í(”1 Í+”7 Í1”8 Í2™” Í”  Í”! Í”( Í"”+ Í%”8 Í2”9 Í3”ÌM ÍÌG”ÌN ÍÌH’” Í” Í’” Í”3 Í-’” Í”( Í"’” ÍÞ”$ ÍÞ“”8 ÍÒ”ÌB ÍÒ”ÌI ÍÒ–”$ ÍÓ”+ ÍÓ”- ÍÓ”1 ÍÓ”2 ÍÓ ”9 ÍÓ'–”$ ÍÔ”* ÍÔ”, ÍÔ”0 ÍÔ”1 ÍÔ”7 ÍÔ%‘”! ÍÕ–”( ÍÓ”/ ÍÓ”1 ÍÓ”5 ÍÓ”6 ÍÓ ”= ÍÓ'–”( ÍÔ”. ÍÔ”0 ÍÔ”4 ÍÔ”5 ÍÔ”; ÍÔ%–”$ ÍÓ”+ ÍÓ”- ÍÓ”1 ÍÓ”2 ÍÓ ”9 ÍÓ'–”$ ÍÔ”* ÍÔ”, ÍÔ”0 ÍÔ”1 ÍÔ”7 ÍÔ%“”8 ÍÖ”ÌF ÍÖ”ÌM ÍÖ–”$ Í×”+ Í×”- Í×”1 Í×”2 Í× ”ÌC Í×1–”$ ÍØ”3 ÍØ!”5 ÍØ#”9 ÍØ'”: ÍØ(”ÌK ÍØ9‘”! ÍÙ–”( Í×”/ Í×”1 Í×”5 Í×”6 Í× ”ÌG Í×1–”( ÍØ”7 ÍØ!”9 ÍØ#”= ÍØ'”> ÍØ(”ÌO ÍØ9–”$ Í×”+ Í×”- Í×”1 Í×”2 Í× ”ÌC Í×1–”$ ÍØ”3 ÍØ!”5 ÍØ#”9 ÍØ'”: ÍØ(”ÌK ÍØ9•” ÍÚ” ÍÚ” ÍÚ”9 ÍÚ5”ÌF ÍÚ7’” ÍÑ” ÍÑ‘” Í‘” Í•” Í” Í” Í”/ Í)”< Í+‘” Íš” Í” Í” Í” Í”' Í'”, Í,”7 Í7”8 Í8”ÌD ÍÌD”ÌF ÍÌF’” Í” Í–” Í” Í” Í”# Í”$ Í”& Í‘” Í ‘” Í ’” Í–
+” Í–’” Í.
+” Í.—” Í/
+” Í/” Í/” Í/” Í/”" Í/ ”$ Í/"“”8 Í0”ÌE Í0”ÌL Í0“”$ Í1”5 Í1”ÌO Í17“”$ Í2”, Í2”= Í2%“”$ Í3”. Í3”ÌA Í3)“”$ Í4”- Í4”? Í4'‘”! Í5’”( Í1”9 Í1’”( Í2”0 Í2’”( Í3”2 Í3’”( Í4”1 Í4‘” Í6’” Í9”4 Í9+‘” Í6’” Í””- Í”-’” Í•” Í•’” Í’”& Í’$’” Í“” Í“’” ÍE”( ÍE"’” ÍG”) ÍG#’” ÍH”& ÍH Ü ” ÍI” ÍI
+” ÍI” ÍI” ÍI”" ÍI”% ÍI”) ÍI#”- ÍI'”. ÍI(”7 ÍI1”; ÍI5”< ÍI6”Ì@ ÍI:”ÌA ÍI;”ÌM ÍIÌG”ÌO ÍIÌI“”8 ÍJ”ÌH ÍJ”ÌO ÍJ–”$ ÍK
+”, ÍK”. ÍK”2 ÍK”3 ÍK”; ÍK!–”$ ÍL
+”+ ÍL”- ÍL”1 ÍL”2 ÍL”9 ÍL–”$ ÍM
+”* ÍM”, ÍM”0 ÍM”1 ÍM”7 ÍM–”$ ÍN
+”/ ÍN”1 ÍN”5 ÍN”6 ÍN”ÌA ÍN'“”$ ÍO
+”- ÍO”? ÍO#–”$ ÍP
+”3 ÍP”5 ÍP”9 ÍP”: ÍP ”ÌI ÍP/‘”! ÍQ	–”( ÍK
+”0 ÍK”2 ÍK”6 ÍK”7 ÍK”? ÍK!–”( ÍL
+”/ ÍL”1 ÍL”5 ÍL”6 ÍL”= ÍL–”( ÍM
+”. ÍM”0 ÍM”4 ÍM”5 ÍM”; ÍM–”( ÍN
+”3 ÍN”5 ÍN”9 ÍN”: ÍN”ÌE ÍN'’”( ÍO
+”1 ÍO–”( ÍP
+”7 ÍP”9 ÍP”= ÍP”> ÍP ”ÌM ÍP/–”$ ÍK
+”, ÍK”. ÍK”2 ÍK”3 ÍK”; ÍK!–”$ ÍL
+”+ ÍL”- ÍL”1 ÍL”2 ÍL”9 ÍL–”$ ÍM
+”* ÍM”, ÍM”0 ÍM”1 ÍM”7 ÍM–”$ ÍN
+”/ ÍN”1 ÍN”5 ÍN”6 ÍN”ÌA ÍN'‘” ÍR’” ÍS”' ÍS!‘” ÍR’” Í‘” Í‘
+‘” ÍWÔrI–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ?‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  ÌŽ ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ìž ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌÐ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ‘”  ÌÝ ‘”  ÌÞ ‘”  Ìß ‘”  Ìà ‘”  Ìá ‘”  Ìâ ‘”  Ìã ‘”  Ìä ‘”  Ìå ‘”  Ìæ ‘”  Ìç ‘”  Ìè ‘”  Ìé ‘”  Ìê ‘”  Ìë ‘”  Ìì ‘”  Ìí ‘”  Ìî ‘”  Ìï ‘”  Ìð ‘”  Ìñ ‘”  Ìò ‘”  Ìó ‘”  Ìô ‘”  Ìõ ‘”  Ìö ‘”  Ì÷ ‘”  Ìø ‘”  Ìù ‘”  Ìú ‘”  Ìû ‘”  Ìü ‘”  Ìý ‘”  Ìþ ‘”  Ìÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  ÍŽ ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Íž ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ‘”  Í¤ ‘”  Í¥ ‘”  Í¦ ‘”  Í§ ‘”  Í¨ ‘”  Í© ‘”  Íª ‘”  Í« ‘”  Í¬ ‘”  Í­ ‘”  Í® ‘”  Í¯ ‘”  Í° ‘”  Í± ‘”  Í² ‘”  Í³ ‘”  Í´ ‘”  Íµ ‘”  Í¶ ‘”  Í· ‘”  Í¸ ‘”  Í¹ ‘”  Íº ‘”  Í» ‘”  Í¼ ‘”  Í½ ‘”  Í¾ ‘”  Í¿ ‘”  ÍÀ ‘”  ÍÁ ‘”  ÍÂ ‘”  ÍÃ ‘”  ÍÄ ‘”  ÍÅ ‘”  ÍÆ ‘”  ÍÇ ‘”  ÍÈ ‘”  ÍÉ ‘”  ÍÊ ‘”  ÍË ‘”  ÍÌ ‘”  ÍÍ ‘”  ÍÎ ‘”  ÍÏ ‘”  ÍÐ ‘”  ÍÑ ‘”  ÍÒ ‘”  ÍÓ ‘”  ÍÔ ‘”  ÍÕ ‘”  ÍÖ ‘”  Í× ‘”  ÍØ ‘”  ÍÙ ‘”  ÍÚ ‘”  ÍÛ ‘”  ÍÜ ‘”  ÍÝ ‘”  ÍÞ ‘”  Íß ‘”  Íà ‘”  Íá ‘”  Íâ ‘”  Íã ‘”  Íä ‘”  Íå ‘”  Íæ ‘”  Íç ‘”  Íè ‘”  Íé ‘”  Íê ‘”  Íë ‘”  Íì ‘”  Íí ‘”  Íî ‘”  Íï ‘”  Íð ‘”  Íñ ‘”  Íò ‘”  Íó ‘”  Íô ‘”  Íõ ‘”  Íö ‘”  Í÷ ‘”  Íø ‘”  Íù ‘”  Íú ‘”  Íû ‘”  Íü ‘”  Íý ‘”  Íþ ‘”  Íÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  ÍŽ ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Íž ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ‘”  Í¤ ‘”  Í¥ ‘”  Í¦ ‘”  Í§ ‘”  Í¨ ‘”  Í© ‘”  Íª ‘”  Í« ‘”  Í¬ ‘”  Í­ ‘”  Í® ‘”  Í¯ ‘”  Í° ‘”  Í± ‘”  Í² ‘”  Í³ ‘”  Í´ ‘”  Íµ ‘”  Í¶ ‘”  Í· ‘”  Í¸ ‘”  Í¹ ‘”  Íº ‘”  Í» ‘”  Í¼ ‘”  Í½ ‘”  Í¾ ‘”  Í¿ ‘”  ÍÀ ‘”  ÍÁ ‘”  ÍÂ ‘”  ÍÃ ‘”  ÍÄ ‘”  ÍÅ ‘”  ÍÆ ‘”  ÍÇ ‘”  ÍÈ ‘”  ÍÉ ‘”  ÍÊ ‘”  ÍË ‘”  ÍÌ ‘”  ÍÍ ‘”  ÍÎ ‘”  ÍÏ ‘”  ÍÐ ‘”  ÍÑ ‘”  ÍÒ ‘”  ÍÓ ‘”  ÍÔ ‘”  ÍÕ ‘”  ÍÖ ‘”  Í× ‘”  ÍØ ‘”  ÍÙ ‘”  ÍÚ ‘”  ÍÛ ‘”  ÍÜ ‘”  ÍÝ ‘”  ÍÞ ‘”  Íß ‘”  Íà ‘”  Íá ‘”  Íâ ‘”  Íã ‘”  Íä ‘”  Íå ‘”  Íæ ‘”  Íç ‘”  Íè ‘”  Íé ‘”  Íê ‘”  Íë ‘”  Íì ‘”  Íí ‘”  Íî ‘”  Íï ‘”  Íð ‘”  Íñ ‘”  Íò ‘”  Íó ‘”  Íô ‘”  Íõ ‘”  Íö ‘”  Í÷ ‘”  Íø ‘”  Íù ‘”  Íú ‘”  Íû ‘”  Íü ‘”  Íý ‘”  Íþ ‘”  Íÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  ÍŽ ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Íž ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ‘”  Í¤ ‘”  Í¥ ‘”  Í¦ ‘”  Í§ ‘”  Í¨ ‘”  Í© ‘”  Íª ‘”  Í« ‘”  Í¬ ‘”  Í­ ‘”  Í® ‘”  Í¯ ‘”  Í° ‘”  Í± ‘”  Í² ‘”  Í³ ‘”  Í´ ‘”  Íµ ‘”  Í¶ ‘”  Í· ‘”  Í¸ ‘”  Í¹ ‘”  Íº ‘”  Í» ‘”  Í¼ ‘”  Í½ ‘”  Í¾ ‘”  Í¿ ‘”  ÍÀ ‘”  ÍÁ ‘”  ÍÂ ‘”  ÍÃ ‘”  ÍÄ ‘”  ÍÅ ‘”  ÍÆ ‘”  ÍÇ ‘”  ÍÈ ‘”  ÍÉ ‘”  ÍÊ ‘”  ÍË ‘”  ÍÌ ‘”  ÍÍ ‘”  ÍÎ ‘”  ÍÏ ‘”  ÍÐ ‘”  ÍÑ ‘”  ÍÒ ‘”  ÍÓ ‘”  ÍÔ ‘”  ÍÕ ‘”  ÍÖ ‘”  Í× ‘”  ÍØ ‘”  ÍÙ ‘”  ÍÚ ‘”  ÍÛ ‘”  ÍÜ ‘”  ÍÝ ‘”  ÍÞ ‘”  Íß ‘”  Íà ‘”  Íá ‘”  Íâ ‘”  Íã ‘”  Íä ‘”  Íå ‘”  Íæ ‘”  Íç ‘”  Íè ‘”  Íé ‘”  Íê ‘”  Íë ‘”  Íì ‘”  Íí ‘”  Íî ‘”  Íï ‘”  Íð ‘”  Íñ ‘”  Íò ‘”  Íó ‘”  Íô ‘”  Íõ ‘”  Íö ‘”  Í÷ ‘”  Íø ‘”  Íù ‘”  Íú ‘”  Íû ‘”  Íü ‘”  Íý ‘”  Íþ ‘”  Íÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ÔrJ’§missing¦pluginÃ¦genAbcÂÔ  ÔrK”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCachežÔrL•¤type¥start£endªspecifiers¦source±ImportDeclarationÍîÍ‘ÔrM•¤type¥start£end¨imported¥local¯ImportSpecifierÍ÷ÍÔrN”¤type¥start£end¤nameªIdentifierÍ÷Í­LengthMetricsNªIdentifierÍ÷Í­LengthMetricsÔrO•¤type¥start£end¥value£raw§LiteralÍÍ°@ohos.arkui.node²"@ohos.arkui.node"L±ImportDeclarationÍÍ±‘ÔrP”¤type¥start£end¥local¶ImportDefaultSpecifierÍ–ÍœNªIdentifierÍ–Íœ¦windowO§LiteralÍ¢Í°¬@ohos.window®"@ohos.window"L±ImportDeclarationÍ³Íæ‘P¶ImportDefaultSpecifierÍºÍÃNªIdentifierÍºÍÃ©avSessionO§LiteralÍÉÍåº@ohos.multimedia.avsession¼"@ohos.multimedia.avsession"L±ImportDeclarationÍèÍ‘M¯ImportSpecifierÍñÍúNªIdentifierÍñÍú©VideoDataNªIdentifierÍñÍú©VideoDataO§LiteralÍÍ³../module/VideoDataµ'../module/VideoData'L±ImportDeclarationÍÍK‘M¯ImportSpecifierÍ#Í-NªIdentifierÍ#Í-ªWindowUtilNªIdentifierÍ#Í-ªWindowUtilO§LiteralÍ5ÍJ³../utils/WindowUtilµ'../utils/WindowUtil'L±ImportDeclarationÍMÍ~‘M¯ImportSpecifierÍVÍ`NªIdentifierÍVÍ`ªFormatTimeNªIdentifierÍVÍ`ªFormatTimeO§LiteralÍhÍ}³../utils/FotmatTimeµ'../utils/FotmatTime'L±ImportDeclarationÍ€Í°‘M¯ImportSpecifierÍ‰Í“NªIdentifierÍ‰Í“ªVolumeViewNªIdentifierÍ‰Í“ªVolumeViewO§LiteralÍ›Í¯²../view/VolumeView´'../view/VolumeView'L±ImportDeclarationÍ²Íê‘M¯ImportSpecifierÍ»ÍÉNªIdentifierÍ»ÍÉ®BrightnessViewNªIdentifierÍ»ÍÉ®BrightnessViewO§LiteralÍÑÍé¶../view/BrightnessView¸'../view/BrightnessView'L±ImportDeclarationÍìÍ4‘M¯ImportSpecifierÍõÍNªIdentifierÍõÍ³AVSessionControllerNªIdentifierÍõÍ³AVSessionControllerO§LiteralÍÍ3Ù!../controller/AVSessionControllerÙ#'../controller/AVSessionController'L±ImportDeclarationÍ6Ír‘M¯ImportSpecifierÍ?ÍONªIdentifierÍ?ÍO°SmallWidnowVideoNªIdentifierÍ?ÍO°SmallWidnowVideoO§LiteralÍWÍq¸../view/SmallWidnowVideoº'../view/SmallWidnowVideo'L±ImportDeclarationÍtÍª‘M¯ImportSpecifierÍ}ÍŠNªIdentifierÍ}ÍŠ­VideoListPageNªIdentifierÍ}ÍŠ­VideoListPageO§LiteralÍ’Í©µ../view/VideoListPage·'../view/VideoListPage'L±ImportDeclarationÍ¬Íã‘M¯ImportSpecifierÍµÍÀNªIdentifierÍµÍÀ«VideoStatusNªIdentifierÍµÍÀ«VideoStatusO§LiteralÍÈÍâ¸../constants/VideoStatusº'../constants/VideoStatus'L±ImportDeclarationÍåÍ ‘P¶ImportDefaultSpecifierÍìÍûNªIdentifierÍìÍû¯CommonConstantsO§LiteralÍÍ¼../constants/CommonConstants¾'../constants/CommonConstants'L±ImportDeclarationÍ"ÍG‘P¶ImportDefaultSpecifierÍ)Í/NªIdentifierÍ)Í/¦LoggerO§LiteralÍ5ÍF¯../utils/Logger±'../utils/Logger'

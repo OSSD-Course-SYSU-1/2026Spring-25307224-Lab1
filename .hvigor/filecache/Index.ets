@@ -425,7 +425,7 @@ struct Index {
               .height(this.isFullScreen ? '100%' : 220)
               .muted(this.isMute)
               .autoPlay(this.isAutoPlay)
-              .opacity(0.3 + this.currentBrightness * 0.7) // Apply brightness effect using opacity (range: 0.3 to 1.0)
+              .opacity(0.3 + this.brightness * 0.7) // Apply brightness effect using opacity (range: 0.3 to 1.0)
               // [EndExclude loop_play_video]
               .loop(true)
               // [End loop_play_video]
@@ -470,7 +470,7 @@ struct Index {
                 })
                 BrightnessView({
                   visible: this.brightnessVisible,
-                  brightnessValue: this.currentBrightness,
+                  brightness: this.brightness,
                 })
                 this.FullScreenVideoControllerBuilder();
               }
@@ -512,10 +512,10 @@ struct Index {
                       this.brightnessVisible = true;
                       // Current Brightness value = Brightness value + Horizontal offset (physical pixels) of the gesture / Screen width.
                       // Using screenHeight as reference since we don't have screenWidth readily available
-                      let curBrightness = this.currentBrightness + this.getUIContext().vp2px(event.offsetX) / (this.screenHeight * 2);
+                      let curBrightness = this.brightness + this.getUIContext().vp2px(event.offsetX) / (this.screenHeight * 2);
                       // Limit the brightness range between 0.0 and 1.0
                       curBrightness = this.getValidValue(curBrightness, CommonConstants.MIN_BRIGHTNESS, CommonConstants.MAX_BRIGHTNESS);
-                      this.currentBrightness = curBrightness;
+                      this.brightness = curBrightness;
                     })
                     .onActionEnd(() => {
                       setTimeout(() => {
