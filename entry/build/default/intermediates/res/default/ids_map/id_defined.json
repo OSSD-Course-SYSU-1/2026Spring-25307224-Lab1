@@ -131,5 +131,9 @@
 			"type":	"profile",
 			"name":	"main_pages",
 			"id":	"0x01000020"
+		}, {
+			"type":	"string",
+			"name":	"distributed_reason",
+			"id":	"0x01000021"
 		}]
 }

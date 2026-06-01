@@ -29,4 +29,16 @@ export default class CommonConstants {
      * Padding value
      */
     static readonly PADDING_VALUE: number = 16;
+    /**
+     * Minimum brightness
+     */
+    static readonly MIN_BRIGHTNESS: number = 0.0;
+    /**
+     * Maximum brightness
+     */
+    static readonly MAX_BRIGHTNESS: number = 1.0;
+    /**
+     * Default brightness
+     */
+    static readonly DEFAULT_BRIGHTNESS: number = 0.5;
 }

@@ -1,6 +1,7 @@
 string EntryAbility_desc 0x01000006
 string EntryAbility_label 0x01000007
 string app_name 0x01000000
+string distributed_reason 0x01000021
 string module_desc 0x01000008
 string mountaineer 0x01000009
 string mountaineer_desc 0x0100000a

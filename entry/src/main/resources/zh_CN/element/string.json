@@ -39,6 +39,14 @@
     {
       "name": "sunrise_desc",
       "value": "Sunrise本地视频"
+    },
+    {
+      "name": "reason",
+      "value": "用于后台视频播放"
+    },
+    {
+      "name": "distributed_reason",
+      "value": "用于跨设备视频播放续播和多设备协同"
     }
   ]
 }

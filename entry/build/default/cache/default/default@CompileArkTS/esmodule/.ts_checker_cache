@@ -12,7 +12,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.UIAbility.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.Ability.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\UIAbilityContext.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.EnvironmentCallback.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.EnvironmentCallback.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -25,7 +26,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\UIAbilityContext.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\ApplicationContext.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\UIExtensionContext.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\UIExtensionContext.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -42,7 +44,8 @@
       "parent": [
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\UIAbilityContext.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.AbilityLifecycleCallback.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.AbilityLifecycleCallback.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -69,7 +72,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\wantAgent\\wantAgentInfo.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.wantAgent.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\wantAgent\\triggerInfo.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\embedded_component.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\embedded_component.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -79,7 +83,10 @@
       "parent": [
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\Logger.ets",
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
       ],
       "error": false
     },
@@ -106,7 +113,10 @@
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\pages\\Index.ets",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\folder_stack.d.ts",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\nav_destination.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\navigation.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\navigation.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\WindowUtil.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
       ],
       "error": false
     },
@@ -114,7 +124,8 @@
       "mtimeMs": 1774582692000,
       "children": [],
       "parent": [
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -582,7 +593,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.UIContext.d.ts",
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\pages\\Index.ets",
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\content_slot.d.ts",
-        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\node_container.d.ts"
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\node_container.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
       ],
       "error": false
     },
@@ -769,7 +781,9 @@
       "parent": [
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.UIContext.d.ts",
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
       ],
       "error": false
     },
@@ -1568,7 +1582,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.file.BackupExtensionContext.d.ts"
       ],
       "parent": [
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
       ],
       "error": false
     },
@@ -1607,7 +1622,9 @@
       ],
       "parent": [
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\pages\\Index.ets",
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\controller\\AVSessionController.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets"
       ],
       "error": false
     },
@@ -1832,7 +1849,9 @@
       "parent": [
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\wantAgent\\wantAgentInfo.d.ts",
         "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
       ],
       "error": false
     },
@@ -1906,7 +1925,8 @@
       "mtimeMs": 1774582692000,
       "children": [],
       "parent": [
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\view\\VolumeView.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\view\\VolumeView.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VolumeView.ets"
       ],
       "error": false
     },
@@ -1935,7 +1955,8 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.notificationManager.d.ts"
       ],
       "parent": [
-        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show2\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
       ],
       "error": false
     },
@@ -2539,6 +2560,198 @@
         "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.security.cert.d.ts"
       ],
       "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\WindowUtil.ets": {
+      "mtimeMs": 1776764943760.9453,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets": {
+      "mtimeMs": 1780306518084.2214,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.AbilityConstant.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.ConfigurationConstant.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.UIAbility.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.Want.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.hilog.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.util.json.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\WindowUtil.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets": {
+      "mtimeMs": 1776764943759.9365,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.hilog.d.ts"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\WindowUtil.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets": {
+      "mtimeMs": 1776764943756.6377,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.hilog.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.application.BackupExtensionAbility.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.application.BackupExtensionAbility.d.ts"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoData.ets": {
+      "mtimeMs": 1776764943757.6375,
+      "children": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoInfo.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VideoListPage.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoInfo.ets": {
+      "mtimeMs": 1776764943757.6375,
+      "children": [],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoData.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VideoListPage.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\FotmatTime.ets": {
+      "mtimeMs": 1776764943759.9365,
+      "children": [],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VolumeView.ets": {
+      "mtimeMs": 1776764943763.4397,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.multimedia.avVolumePanel.d.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\BrightnessView.ets": {
+      "mtimeMs": 1777269843465.0764,
+      "children": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\CommonConstants.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets": {
+      "mtimeMs": 1776764943755.648,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.common.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.wantAgent.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.wantAgent.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.multimedia.avsession.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoInfo.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\SmallWidnowVideo.ets": {
+      "mtimeMs": 1776764943761.943,
+      "children": [],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VideoListPage.ets": {
+      "mtimeMs": 1776764943761.943,
+      "children": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\CommonConstants.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoData.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoInfo.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\VideoStatus.ets": {
+      "mtimeMs": 1776764943754.6477,
+      "children": [],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\CommonConstants.ets": {
+      "mtimeMs": 1776765225615.0493,
+      "children": [],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\BrightnessView.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VideoListPage.ets"
+      ],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\pages\\Index.ets": {
+      "mtimeMs": 1777269903528.1208,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.node.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.multimedia.avsession.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoData.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\module\\VideoInfo.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\WindowUtil.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\FotmatTime.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VolumeView.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\BrightnessView.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\SmallWidnowVideo.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\view\\VideoListPage.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\VideoStatus.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\constants\\CommonConstants.ets",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\BackgroundTaskManager.ets": {
+      "mtimeMs": 1776764943758.927,
+      "children": [
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.common.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.wantAgent.d.ts",
+        "C:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.resourceschedule.backgroundTaskManager.d.ts",
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\utils\\Logger.ets"
+      ],
+      "parent": [
+        "C:\\Users\\xiadie\\DevEcoStudioProjects\\video-show1\\entry\\src\\main\\ets\\controller\\AVSessionController.ets"
+      ],
+      "error": true,
+      "errorCodes": [
+        28005
+      ]
     }
   }
 }

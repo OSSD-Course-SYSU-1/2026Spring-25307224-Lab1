@@ -39,6 +39,14 @@
     {
       "name": "sunrise_desc",
       "value": "Sunrise local video"
+    },
+    {
+      "name": "reason",
+      "value": "Used for background video playback"
+    },
+    {
+      "name": "distributed_reason",
+      "value": "Used for cross-device video playback continuation and multi-device collaboration"
     }
   ]
 }

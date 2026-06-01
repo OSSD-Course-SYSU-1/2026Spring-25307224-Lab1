@@ -19,6 +19,8 @@ interface Index_Params {
     isMute?: boolean;
     visible?: boolean;
     volume?: number;
+    currentBrightness?: number;
+    brightnessVisible?: boolean;
     curSource?: VideoInfo | undefined;
     isPlaying?: boolean;
     scrollVal?: number;
@@ -33,6 +35,7 @@ import type { VideoInfo } from '../module/VideoInfo';
 import { WindowUtil } from "@normalized:N&&&entry/src/main/ets/utils/WindowUtil&";
 import { FormatTime } from "@normalized:N&&&entry/src/main/ets/utils/FotmatTime&";
 import { VolumeView } from "@normalized:N&&&entry/src/main/ets/view/VolumeView&";
+import { BrightnessView } from "@normalized:N&&&entry/src/main/ets/view/BrightnessView&";
 import { AVSessionController } from "@normalized:N&&&entry/src/main/ets/controller/AVSessionController&";
 import { SmallWidnowVideo } from "@normalized:N&&&entry/src/main/ets/view/SmallWidnowVideo&";
 import { VideoListPage } from "@normalized:N&&&entry/src/main/ets/view/VideoListPage&";
@@ -63,6 +66,8 @@ class Index extends ViewPU {
         this.__isMute = new ObservedPropertySimplePU(false, this, "isMute");
         this.__visible = new ObservedPropertySimplePU(false, this, "visible");
         this.__volume = new ObservedPropertySimplePU(5, this, "volume");
+        this.__currentBrightness = new ObservedPropertySimplePU(CommonConstants.DEFAULT_BRIGHTNESS, this, "currentBrightness");
+        this.__brightnessVisible = new ObservedPropertySimplePU(false, this, "brightnessVisible");
         this.__curSource = new ObservedPropertyObjectPU(undefined, this, "curSource");
         this.__isPlaying = new ObservedPropertySimplePU(false, this, "isPlaying");
         this.__scrollVal = new ObservedPropertySimplePU(0, this, "scrollVal");
@@ -123,6 +128,12 @@ class Index extends ViewPU {
         if (params.volume !== undefined) {
             this.volume = params.volume;
         }
+        if (params.currentBrightness !== undefined) {
+            this.currentBrightness = params.currentBrightness;
+        }
+        if (params.brightnessVisible !== undefined) {
+            this.brightnessVisible = params.brightnessVisible;
+        }
         if (params.curSource !== undefined) {
             this.curSource = params.curSource;
         }
@@ -148,6 +159,8 @@ class Index extends ViewPU {
         this.__isMute.purgeDependencyOnElmtId(rmElmtId);
         this.__visible.purgeDependencyOnElmtId(rmElmtId);
         this.__volume.purgeDependencyOnElmtId(rmElmtId);
+        this.__currentBrightness.purgeDependencyOnElmtId(rmElmtId);
+        this.__brightnessVisible.purgeDependencyOnElmtId(rmElmtId);
         this.__curSource.purgeDependencyOnElmtId(rmElmtId);
         this.__isPlaying.purgeDependencyOnElmtId(rmElmtId);
         this.__scrollVal.purgeDependencyOnElmtId(rmElmtId);
@@ -167,6 +180,8 @@ class Index extends ViewPU {
         this.__isMute.aboutToBeDeleted();
         this.__visible.aboutToBeDeleted();
         this.__volume.aboutToBeDeleted();
+        this.__currentBrightness.aboutToBeDeleted();
+        this.__brightnessVisible.aboutToBeDeleted();
         this.__curSource.aboutToBeDeleted();
         this.__isPlaying.aboutToBeDeleted();
         this.__scrollVal.aboutToBeDeleted();
@@ -265,6 +280,20 @@ class Index extends ViewPU {
     }
     set volume(newValue: number) {
         this.__volume.set(newValue);
+    }
+    private __currentBrightness: ObservedPropertySimplePU<number>; // Brightness value (0.0 to 1.0)
+    get currentBrightness() {
+        return this.__currentBrightness.get();
+    }
+    set currentBrightness(newValue: number) {
+        this.__currentBrightness.set(newValue);
+    }
+    private __brightnessVisible: ObservedPropertySimplePU<boolean>; // Whether to display the brightness adjustment panel
+    get brightnessVisible() {
+        return this.__brightnessVisible.get();
+    }
+    set brightnessVisible(newValue: boolean) {
+        this.__brightnessVisible.set(newValue);
     }
     private __curSource: ObservedPropertyObjectPU<VideoInfo | undefined>;
     get curSource() {
@@ -747,6 +776,11 @@ class Index extends ViewPU {
             // [Start controls]
             // [Start currentProgressRate]
             // [Start loop_play_video]
+            Video.opacity(0.3 + this.currentBrightness * 0.7);
+            // [Start previewUri_pic2]
+            // [Start controls]
+            // [Start currentProgressRate]
+            // [Start loop_play_video]
             Video.loop(true);
             // [Start previewUri_pic2]
             // [Start controls]
@@ -826,7 +860,8 @@ class Index extends ViewPU {
                         // [Start set_volume]
                         // Bind the swipe gesture event.
                         PanGesture.onActionUpdate((event: GestureEvent) => {
-                            this.visible = false;
+                            this.brightnessVisible = false;
+                            this.visible = true;
                             // Current Volume value = Volume value - Vertical offset (physical pixels) of the gesture / Screen height.
                             let curVolume = this.volume - this.getUIContext().vp2px(event.offsetY) / this.screenHeight;
                             // Limit the volume range between 0 and 15.
@@ -850,21 +885,46 @@ class Index extends ViewPU {
                         // Bind the swipe gesture event.
                         PanGesture.pop();
                         // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.create({ direction: PanDirection.Horizontal });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionStart(() => {
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionUpdate((event: GestureEvent) => {
+                            this.visible = false;
+                            this.brightnessVisible = true;
+                            // Current Brightness value = Brightness value + Horizontal offset (physical pixels) of the gesture / Screen width.
+                            // Using screenHeight as reference since we don't have screenWidth readily available
+                            let curBrightness = this.currentBrightness + this.getUIContext().vp2px(event.offsetX) / (this.screenHeight * 2);
+                            // Limit the brightness range between 0.0 and 1.0
+                            curBrightness = this.getValidValue(curBrightness, CommonConstants.MIN_BRIGHTNESS, CommonConstants.MAX_BRIGHTNESS);
+                            this.currentBrightness = curBrightness;
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.onActionEnd(() => {
+                            setTimeout(() => {
+                                this.brightnessVisible = false;
+                            }, 1500);
+                        });
+                        // [End set_volume]
+                        // Bind horizontal swipe gesture for brightness adjustment
+                        PanGesture.pop();
                         // [Start LongPressGesture]
                         LongPressGesture.create({ repeat: true });
-                        // [End set_volume]
                         // [Start LongPressGesture]
                         LongPressGesture.onAction(() => {
                             this.playbackSpeed = '2.0X';
                             this.curRate = PlaybackSpeed.Speed_Forward_2_00_X;
                         });
-                        // [End set_volume]
                         // [Start LongPressGesture]
                         LongPressGesture.onActionEnd(() => {
                             this.playbackSpeed = '1.0X';
                             this.curRate = PlaybackSpeed.Speed_Forward_1_00_X;
                         });
-                        // [End set_volume]
                         // [Start LongPressGesture]
                         LongPressGesture.pop();
                         GestureGroup.pop();
@@ -876,7 +936,7 @@ class Index extends ViewPU {
                                 let componentCall = new VolumeView(this, {
                                     visible: this.visible,
                                     volume: this.volume,
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 463, col: 17 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 467, col: 17 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -893,6 +953,30 @@ class Index extends ViewPU {
                                 });
                             }
                         }, { name: "VolumeView" });
+                    }
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new BrightnessView(this, {
+                                    visible: this.brightnessVisible,
+                                    brightnessValue: this.currentBrightness,
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 471, col: 17 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        visible: this.brightnessVisible,
+                                        brightnessValue: this.currentBrightness
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    visible: this.brightnessVisible,
+                                    brightnessValue: this.currentBrightness
+                                });
+                            }
+                        }, { name: "BrightnessView" });
                     }
                     this.FullScreenVideoControllerBuilder.bind(this)();
                     Stack.pop();
@@ -935,7 +1019,7 @@ class Index extends ViewPU {
                                     videoSrc: this.__videoSrc,
                                     isAutoPlay: this.__isAutoPlay,
                                     curSource: this.__curSource,
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 533, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 561, col: 13 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -954,7 +1038,8 @@ class Index extends ViewPU {
                     }
                 });
             }
-            else {
+            else // [EndExclude scroll_onWillScroll]
+             {
                 this.ifElseBranchUpdateFunction(1, () => {
                 });
             }
@@ -981,7 +1066,7 @@ class Index extends ViewPU {
                                     currentTime: this.currentTime,
                                     isPlaying: this.__isPlaying,
                                     videoController: this.videoController,
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 559, col: 9 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 587, col: 9 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
