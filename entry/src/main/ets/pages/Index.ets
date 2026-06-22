@@ -27,6 +27,9 @@ import { VideoListPage } from '../view/VideoListPage';
 import { VideoStatus } from '../constants/VideoStatus';
 import CommonConstants from '../constants/CommonConstants';
 import Logger from '../utils/Logger';
+import { DeviceMigrationPanel } from '../view/DeviceMigrationPanel';
+import { ResponsiveVideoLayout } from '../view/ResponsiveVideoLayout';
+import { BreakpointSystem, BreakpointType } from '../utils/BreakpointSystem';
 
 const TAG = '[IndexPage]';
 
@@ -59,11 +62,31 @@ struct Index {
   @State scrollVal: number = 0;
   @StorageLink('deviceWidth') deviceWidth: number = 0;
   @StorageLink('deviceHeight') deviceHeight: number = 0;
+  private responsiveLayout: ResponsiveVideoLayout = new ResponsiveVideoLayout();
+  private breakpointSystem: BreakpointSystem = BreakpointSystem.getInstance();
+  private migrationDialogController: CustomDialogController = new CustomDialogController({
+    builder: DeviceMigrationPanel(),
+    autoCancel: true,
+    alignment: DialogAlignment.Center,
+    customStyle: true
+  });
 
   aboutToAppear(): void {
     this.curSource = VideoData[0];
     this.initializeLandscapeMode();
     this.WindowSizeChange();
+    
+    // 初始化响应式布局系统
+    this.breakpointSystem.initialize();
+    
+    // 注册断点变化监听
+    this.breakpointSystem.registerListener((breakpoint: BreakpointType) => {
+      Logger.info(TAG, `Breakpoint changed to: ${breakpoint}`);
+      // 这里可以添加布局更新逻辑
+    });
+    
+    // 恢复迁移状态
+    this.restoreMigrationState();
 
     try {
       // Get the width and height of the window.
@@ -83,10 +106,98 @@ struct Index {
     }, 100);
   }
 
+  // 获取响应式视频宽度
+  private getResponsiveVideoWidth(): string {
+    if (this.isFullScreen) {
+      return '80%';
+    }
+    const breakpoint = this.breakpointSystem.getCurrentBreakpoint();
+    switch (breakpoint) {
+      case BreakpointType.SM:
+        return '100%';
+      case BreakpointType.MD:
+        return '100%';
+      case BreakpointType.LG:
+        return '70%';
+      case BreakpointType.XL:
+        return '75%';
+      default:
+        return '100%';
+    }
+  }
+
+  // 获取响应式视频高度
+  private getResponsiveVideoHeight(): number | string {
+    if (this.isFullScreen) {
+      return '100%';
+    }
+    const breakpoint = this.breakpointSystem.getCurrentBreakpoint();
+    switch (breakpoint) {
+      case BreakpointType.SM:
+        return 220;
+      case BreakpointType.MD:
+        return 240;
+      case BreakpointType.LG:
+        return 260;
+      case BreakpointType.XL:
+        return 280;
+      default:
+        return 220;
+    }
+  }
+
+  // 检查是否是大屏设备
+  private isLargeScreen(): boolean {
+    const breakpoint = this.breakpointSystem.getCurrentBreakpoint();
+    return breakpoint === BreakpointType.LG || breakpoint === BreakpointType.XL;
+  }
+
+  // 恢复迁移状态
+  private restoreMigrationState(): void {
+    try {
+      // 从AppStorage恢复迁移状态
+      const savedVideoIndex = AppStorage.get<number>('currentVideoIndex');
+      const savedPlaybackPosition = AppStorage.get<number>('playbackPosition');
+      const savedIsPlaying = AppStorage.get<boolean>('isPlaying');
+      
+      if (savedVideoIndex !== undefined && savedVideoIndex !== null) {
+        this.currentVideoIndex = savedVideoIndex;
+        this.curSource = VideoData[this.currentVideoIndex];
+        if (this.curSource) {
+          this.videoSrc = this.curSource.videoSrc;
+        }
+      }
+      
+      if (savedPlaybackPosition !== undefined && savedPlaybackPosition !== null) {
+        this.currentTime = savedPlaybackPosition;
+      }
+      
+      if (savedIsPlaying !== undefined && savedIsPlaying !== null) {
+        this.isPlaying = savedIsPlaying;
+        if (this.isPlaying) {
+          this.videoController.start();
+        } else {
+          this.videoController.pause();
+        }
+      }
+      
+      // 清除迁移状态，避免重复恢复
+      AppStorage.setOrCreate('currentVideoIndex', undefined);
+      AppStorage.setOrCreate('playbackPosition', undefined);
+      AppStorage.setOrCreate('isPlaying', undefined);
+      
+      Logger.info(TAG, `Migration state restored: index=${this.currentVideoIndex}, position=${this.currentTime}, playing=${this.isPlaying}`);
+    } catch (error) {
+      let err = error as BusinessError;
+      Logger.error(TAG, `Failed to restore migration state: code=${err.code}, message=${err.message}`);
+    }
+  }
+
   aboutToDisappear() {
     clearTimeout(this.timeoutID);
     this.windowUtil.registerOffWindowSizeChange();
     this.avSessionController.unregisterSessionListener();
+    this.breakpointSystem.destroy();
   }
 
   onPageShow() {
@@ -369,6 +480,21 @@ struct Index {
             this.volume = 0.5;
           }
         })
+      // 迁移按钮
+      Text('⇄')
+        .fontSize('20vp')
+        .fontColor(Color.White)
+        .onClick(() => {
+          // 保存当前播放状态到 AppStorage
+          AppStorage.setOrCreate('currentVideoIndex', this.currentVideoIndex);
+          AppStorage.setOrCreate('playbackPosition', this.currentTime);
+          AppStorage.setOrCreate('isPlaying', this.isPlaying);
+          AppStorage.setOrCreate('playbackSpeed', this.playbackSpeed);
+          AppStorage.setOrCreate('volume', this.volume);
+          AppStorage.setOrCreate('currentBrightness', this.currentBrightness);
+          AppStorage.setOrCreate('isMute', this.isMute);
+          this.migrationDialogController.open();
+        })
       Image($r('app.media.reduce_fullscreen'))
         .width('24vp')
         .height('24vp')
@@ -421,8 +547,8 @@ struct Index {
             // [End previewUri_pic2]
             // [StartExclude controls]
             // [StartExclude loop_play_video]
-              .width(this.isFullScreen ? '80%' : '100%')
-              .height(this.isFullScreen ? '100%' : 220)
+              .width(this.getResponsiveVideoWidth())
+              .height(this.getResponsiveVideoHeight())
               .muted(this.isMute)
               .autoPlay(this.isAutoPlay)
               .opacity(0.3 + this.currentBrightness * 0.7) // Apply brightness effect using opacity (range: 0.3 to 1.0)

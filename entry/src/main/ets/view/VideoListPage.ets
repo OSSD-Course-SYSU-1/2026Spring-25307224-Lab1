@@ -16,6 +16,7 @@
 import CommonConstants from '../constants/CommonConstants';
 import { VideoData } from '../module/VideoData';
 import { VideoInfo } from '../module/VideoInfo';
+import { BreakpointSystem, BreakpointType } from '../utils/BreakpointSystem';
 
 @Component
 export struct VideoListPage {
@@ -23,13 +24,56 @@ export struct VideoListPage {
   @Link videoSrc: Resource;
   @Link isAutoPlay: boolean;
   @Link curSource: VideoInfo;
+  
+  private breakpointSystem: BreakpointSystem = BreakpointSystem.getInstance();
+  @State currentBreakpoint: BreakpointType = BreakpointType.SM;
+
+  aboutToAppear(): void {
+    this.breakpointSystem.initialize();
+    this.breakpointSystem.registerListener((breakpoint: BreakpointType) => {
+      this.currentBreakpoint = breakpoint;
+    });
+  }
+
+  aboutToDisappear(): void {
+    this.breakpointSystem.destroy();
+  }
+
+  // 检查是否是大屏设备
+  private isLargeScreen(): boolean {
+    return this.currentBreakpoint === BreakpointType.LG || this.currentBreakpoint === BreakpointType.XL;
+  }
+
+  // 获取响应式图片宽度
+  private getResponsiveImageWidth(): number {
+    if (this.isLargeScreen()) {
+      return 160; // 大屏设备上图片更大
+    }
+    return 120; // 小屏设备保持原大小
+  }
+
+  // 获取响应式图片高度
+  private getResponsiveImageHeight(): number {
+    if (this.isLargeScreen()) {
+      return 120; // 大屏设备上图片更高
+    }
+    return 90; // 小屏设备保持原大小
+  }
+
+  // 获取响应式字体大小
+  private getResponsiveFontSize(): number {
+    if (this.isLargeScreen()) {
+      return 18; // 大屏设备上字体更大
+    }
+    return 16; // 小屏设备保持原大小
+  }
 
   build() {
     Column() {
       Column({ space: CommonConstants.COMPONENT_SPACE }) {
         Column() {
           Text($r('app.string.video_list'))
-            .fontSize(16)
+            .fontSize(this.getResponsiveFontSize())
             .fontColor(Color.White)
             .fontWeight(FontWeight.Bold)
         }
@@ -39,8 +83,8 @@ export struct VideoListPage {
         ForEach(VideoData, (item: VideoInfo, index: number) => {
           Row({ space: CommonConstants.COMPONENT_SPACE }) {
             Image(item.previewUri)
-              .width(120)
-              .height(90)
+              .width(this.getResponsiveImageWidth())
+              .height(this.getResponsiveImageHeight())
               .borderRadius(8)
             Row() {
               Text() {
@@ -51,6 +95,7 @@ export struct VideoListPage {
                 }
                 Span(item.description)
               }
+              .fontSize(14)
               .fontColor(this.currentVideoIndex === index ? '#ff317af7' : Color.White)
             }
           }

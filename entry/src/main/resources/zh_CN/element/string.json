@@ -47,6 +47,22 @@
     {
       "name": "distributed_reason",
       "value": "用于跨设备视频播放续播和多设备协同"
+    },
+    {
+      "name": "dm_reason",
+      "value": "用于发现和连接分布式设备"
+    },
+    {
+      "name": "device_migration",
+      "value": "迁移到其他设备"
+    },
+    {
+      "name": "select_device",
+      "value": "选择目标设备"
+    },
+    {
+      "name": "no_device_found",
+      "value": "未发现可用设备"
     }
   ]
 }

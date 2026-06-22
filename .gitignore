@@ -1,6 +1,7 @@
 # HarmonyOS build outputs
 .hvigor/cache/
 .hvigor/outputs/
+.hvigor/report/
 entry/build/
 build/
 

@@ -24,6 +24,7 @@
         "startWindowBackground": "$color:start_window_background",
         "preferMultiWindowOrientation": "landscape_auto",
         "exported": true,
+        "continuable": true,
         // [Start orientation]
         "orientation": "auto_rotation_restricted",
         // [End orientation]
@@ -57,6 +58,26 @@
       {
         "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
         "reason": "$string:reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.DISTRIBUTED_DATASYNC",
+        "reason": "$string:distributed_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.ACCESS_SERVICE_DM",
+        "reason": "$string:dm_reason",
         "usedScene": {
           "abilities": [
             "EntryAbility"

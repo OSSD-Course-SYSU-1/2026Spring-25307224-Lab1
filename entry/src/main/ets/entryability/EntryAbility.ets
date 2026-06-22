@@ -18,6 +18,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { JSON } from '@kit.ArkTS';
 import { WindowUtil } from '../utils/WindowUtil';
+import CommonConstants from '../constants/CommonConstants';
 
 const DOMAIN = 0x0000;
 
@@ -86,11 +87,19 @@ export default class EntryAbility extends UIAbility {
       const currentVideoIndex = AppStorage.get<number>('currentVideoIndex') || 0;
       const playbackPosition = AppStorage.get<number>('playbackPosition') || 0;
       const isPlaying = AppStorage.get<boolean>('isPlaying') || false;
+      const playbackSpeed = AppStorage.get<string>('playbackSpeed') || '1.0X';
+      const volume = AppStorage.get<number>('volume') ?? 5;
+      const currentBrightness = AppStorage.get<number>('currentBrightness') ?? CommonConstants.DEFAULT_BRIGHTNESS;
+      const isMute = AppStorage.get<boolean>('isMute') || false;
       
       // 将状态数据保存到wantParam中
       wantParam['currentVideoIndex'] = currentVideoIndex;
       wantParam['playbackPosition'] = playbackPosition;
       wantParam['isPlaying'] = isPlaying;
+      wantParam['playbackSpeed'] = playbackSpeed;
+      wantParam['volume'] = volume;
+      wantParam['currentBrightness'] = currentBrightness;
+      wantParam['isMute'] = isMute;
       
       hilog.info(DOMAIN, 'testTag', 'Migration data saved: index=%{public}d, position=%{public}d', 
         currentVideoIndex, playbackPosition);
@@ -112,6 +121,10 @@ export default class EntryAbility extends UIAbility {
         const currentVideoIndex = want.parameters['currentVideoIndex'] as number;
         const playbackPosition = want.parameters['playbackPosition'] as number;
         const isPlaying = want.parameters['isPlaying'] as boolean;
+        const playbackSpeed = want.parameters['playbackSpeed'] as string;
+        const volume = want.parameters['volume'] as number;
+        const currentBrightness = want.parameters['currentBrightness'] as number;
+        const isMute = want.parameters['isMute'] as boolean;
         
         // 恢复状态到AppStorage
         if (currentVideoIndex !== undefined) {
@@ -123,9 +136,21 @@ export default class EntryAbility extends UIAbility {
         if (isPlaying !== undefined) {
           AppStorage.setOrCreate('isPlaying', isPlaying);
         }
+        if (playbackSpeed !== undefined) {
+          AppStorage.setOrCreate('playbackSpeed', playbackSpeed);
+        }
+        if (volume !== undefined) {
+          AppStorage.setOrCreate('volume', volume);
+        }
+        if (currentBrightness !== undefined) {
+          AppStorage.setOrCreate('currentBrightness', currentBrightness);
+        }
+        if (isMute !== undefined) {
+          AppStorage.setOrCreate('isMute', isMute);
+        }
         
-        hilog.info(DOMAIN, 'testTag', 'Migration data restored: index=%{public}d, position=%{public}d', 
-          currentVideoIndex, playbackPosition);
+        hilog.info(DOMAIN, 'testTag', 'Migration data restored: index=%{public}d, position=%{public}d, speed=%{public}s, volume=%{public}f', 
+          currentVideoIndex, playbackPosition, playbackSpeed, volume);
       }
     } catch (err) {
       hilog.error(DOMAIN, 'testTag', 'Failed to restore migration data: %{public}s', JSON.stringify(err));

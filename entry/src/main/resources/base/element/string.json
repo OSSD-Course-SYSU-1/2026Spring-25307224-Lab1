@@ -47,6 +47,22 @@
     {
       "name": "distributed_reason",
       "value": "Used for cross-device video playback continuation and multi-device collaboration"
+    },
+    {
+      "name": "dm_reason",
+      "value": "Used for discovering and connecting to distributed devices"
+    },
+    {
+      "name": "device_migration",
+      "value": "Migrate to other device"
+    },
+    {
+      "name": "select_device",
+      "value": "Select target device"
+    },
+    {
+      "name": "no_device_found",
+      "value": "No available device found"
     }
   ]
 }
